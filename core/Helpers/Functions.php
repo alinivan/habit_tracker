@@ -6,3 +6,8 @@ function pre($data): void
     var_dump($data);
     echo '</pre>';
 }
+
+function redirect($string): void
+{
+    header("Location: $string");
+}

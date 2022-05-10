@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Core\Templating;
 
 use App\Interfaces\ViewInterface;
 use eftec\bladeone\BladeOne;

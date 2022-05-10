@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Core\Routing;
 
 class Router {
     public static function parseUrl($uri, $controller_method) {

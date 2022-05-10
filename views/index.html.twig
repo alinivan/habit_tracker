@@ -8,6 +8,10 @@
 <body>
 <h1 class="text-3xl font-bold underline bg-amber-400">
     Hello world!
+
+    {% if user_logged_in %}
+        <div>User logged in</div>
+    {% endif %}
 </h1>
 </body>
 </html>

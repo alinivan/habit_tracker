@@ -1,30 +1,18 @@
 <?php
 
-
-use Core\Route;
+use Core\Routing\Route;
 
 Route::get('/', 'DashboardController:test');
 
+// Login
+Route::get('/login', 'UserController:loginPage');
+Route::post('/login', 'UserController:login');
 
-//Route::get('/login', 'DashboardController:test');
+// Register
+Route::get('/register', 'UserController:registerPage');
+Route::post('/register', 'UserController:register');
 
-/*
+// Logout
+Route::get('/logout', 'UserController:logout');
 
-/
--- daca este logat, va fi pagina cu dashboard-ul DashboardController:index
--- daca nu este logat, redirect catre /login
-
-/login
--- daca este logat, redirect catre "/"
--- daca nu este logat, formular de login UserController:login
-
-/logout
--- daca este logat, delogarea va fi dintr-un serviciu(?), dupa care redirect catre /login
--- daca nu este logat, redirect catre /login
-
-/habits
--- lista cu habit-uri, si butoane de Add, Edit, Delete
-
-/
-
- */
+//Route::broken();
