@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/main2.css" rel="stylesheet">
+</head>
+<body>
+
+    <div>
+        {% include "app/sidebar_mobile.html.twig" %}
+
+        {% include "app/sidebar_desktop.html.twig" %}
+
+        <div class="md:pl-64 flex flex-col">
+            {% include "app/header.html.twig" %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>
+
+
+

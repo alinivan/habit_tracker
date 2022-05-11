@@ -14,7 +14,7 @@ class UserController extends AbstractController
             redirect('/');
         }
 
-        echo $this->renderView('login.html.twig');
+        echo $this->renderView('web/pages/login.html.twig');
     }
 
     public function registerPage()
@@ -23,7 +23,7 @@ class UserController extends AbstractController
             redirect('/');
         }
 
-        echo $this->renderView('register.html.twig');
+        echo $this->renderView('web/pages/register.html.twig');
     }
 
     public function register() {

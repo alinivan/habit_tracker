@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30andBeyond {% block title %}{% endblock %}</title>
     <link href="/css/main2.css" rel="stylesheet">
 </head>
 <body>
-<h1 class="text-3xl font-bold underline bg-amber-400">
-    Hello world!
 
-    {% if user_logged_in %}
-        <div>User logged in</div>
-    {% endif %}
-</h1>
+{% include "web/header.html.twig" %}
+
+{% block content %}{% endblock %}
+
 </body>
 </html>
+
+
+
