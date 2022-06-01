@@ -1,0 +1,61 @@
+{% extends "app/layout.html.twig" %}
+
+{% block content %}
+    <main class="flex-1">
+        <div class="py-6">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                <h1 class="text-2xl font-semibold text-gray-900">Tracker</h1>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+                <span class="relative z-0 inline-flex shadow-sm rounded-md">
+                    {% for habit in habits %}
+                        <button type="button" data-id="{{ habit.id }}"
+                                class="track-habit relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">{{ habit.name }}</button>
+                    {% endfor %}
+                </span>
+            </div>
+
+            <ul>
+                {% for item in tracker %}
+                    <li>{{ item.habit_name }} - {{ item.value }}</li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </main>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $('.track-habit').click(function () {
+            let habit_id = $(this).data('id');
+
+            $.ajax({
+                url: '/tracker/new',
+                data: {
+                    'habit_id': habit_id
+                },
+                type: 'GET',
+                success: function (result) {
+                    $('#modal').html(result);
+                }
+            });
+        });
+
+        $(document).on("click", "#tracker-save", function () {
+            $.ajax({
+                url: '/tracker/create',
+                data: {
+                    'min': $('#min').val(),
+                    'date': $('#date').val(),
+                    'habit_id': $('#habit_id').val()
+                },
+                type: 'POST',
+                success: function (result) {
+                    console.log(result);
+                }
+            });
+        });
+    </script>
+{% endblock %}

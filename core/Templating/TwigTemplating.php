@@ -3,6 +3,7 @@
 namespace Core\Templating;
 
 use App\Interfaces\ViewInterface;
+use Core\Twig\AppExtension;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -15,12 +16,14 @@ class TwigTemplating implements ViewInterface {
     {
         $this->loader = new FilesystemLoader(PATH_VIEWS);
         $this->twig = new Environment($this->loader);
+
+        $this->twig->addExtension(new AppExtension());
     }
 
     public function renderView(string $view, array $data = []): string
     {
         if (!file_exists(PATH_VIEWS.'/'.$view)) {
-            return 404;
+            return 'view not found';
         }
         $template = $this->twig->load($view);
         return $template->render($data);
