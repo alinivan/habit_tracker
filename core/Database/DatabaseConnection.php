@@ -8,10 +8,18 @@ class DatabaseConnection
 {
     public static ?PDO $instance = null;
 
-    private function __construct() {}
-
-    public static function getInstance($db = DB_NAME, $username = DB_USER, $password = DB_PASS, $host = DB_HOST, $port = DB_PORT, $options = []): PDO
+    private function __construct()
     {
+    }
+
+    public static function getInstance($options = []): PDO
+    {
+        $db = $_ENV['DB_NAME'];
+        $username = $_ENV['DB_USER'];
+        $password = $_ENV['DB_PASS'];
+        $host = $_ENV['DB_HOST'];
+        $port = $_ENV['DB_PORT'];
+
         if (self::$instance === null) {
             $default_options = [
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

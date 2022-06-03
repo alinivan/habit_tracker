@@ -6,7 +6,8 @@ class Request extends Validation
 {
     protected array $request;
 
-    public function __construct(array $request = []) {
+    public function __construct(array $request = [])
+    {
         if (!empty($request)) {
             $this->request = $request;
         } else {
@@ -19,7 +20,8 @@ class Request extends Validation
         return $this->request;
     }
 
-    public function get($key) {
+    public function get($key)
+    {
         return $this->request[$key];
     }
 }

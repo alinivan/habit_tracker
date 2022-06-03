@@ -7,7 +7,7 @@ $route = new Route();
 /* ------------ WEB ------------ */
 
 /* --- PAGES --- */
-$route->get('/', 'DashboardController:test');
+$route->get('/', 'PageController:index');
 // Login
 $route->get('/login', 'UserController:loginPage');
 $route->post('/login', 'UserController:login');
@@ -19,6 +19,8 @@ $route->get('/logout', 'UserController:logout');
 
 
 /* ------------ APP ------------ */
+
+$route->get('/dashboard', 'DashboardController:index');
 
 /* --- HABITS --- */
 // display list of all habits

@@ -28,6 +28,6 @@ class Modal extends TwigTemplating
 
     public function html(): string
     {
-        return $this->renderView('app/modal.html.twig', ['modal' => $this->modal]);
+        return $this->renderView('core/builder/modal.html.twig', ['modal' => $this->modal]);
     }
 }

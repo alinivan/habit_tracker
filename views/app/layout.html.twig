@@ -10,9 +10,7 @@
 <body>
 
     <div>
-        {% include "app/sidebar_mobile.html.twig" %}
-
-        {% include "app/sidebar_desktop.html.twig" %}
+        {{ sidebar() }}
 
         <div class="md:pl-64 flex flex-col">
             {% include "app/header.html.twig" %}

@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\NoReturn;
+
 function pre($data, string $string = ''): void
 {
     if (!empty($string)) {
@@ -10,7 +12,7 @@ function pre($data, string $string = ''): void
     echo '</pre>';
 }
 
-function dd($data)
+#[NoReturn] function dd($data): void
 {
     echo '<pre>';
     var_dump($data);

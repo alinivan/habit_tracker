@@ -70,7 +70,7 @@ class Form extends TwigTemplating
 
     public function html(): string
     {
-        return $this->renderView('app/form.html.twig', ['form' => $this->form]);
+        return $this->renderView('core/builder/form.html.twig', ['form' => $this->form]);
     }
 
 }

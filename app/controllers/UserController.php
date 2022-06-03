@@ -11,7 +11,7 @@ class UserController extends AbstractController
     public function loginPage()
     {
         if (Auth::userLoggedIn()) {
-            redirect('/');
+            redirect('/dashboard');
         }
 
         echo $this->renderView('web/pages/login.html.twig');
@@ -20,7 +20,7 @@ class UserController extends AbstractController
     public function registerPage()
     {
         if (Auth::userLoggedIn()) {
-            redirect('/');
+            redirect('/dashboard');
         }
 
         echo $this->renderView('web/pages/register.html.twig');
@@ -31,7 +31,7 @@ class UserController extends AbstractController
 
         Auth::login($user);
 
-        redirect('/');
+        redirect('/dashboard');
     }
 
     public function login()
@@ -41,7 +41,7 @@ class UserController extends AbstractController
         if (!empty($user)) {
             Auth::login($user);
 
-            redirect('/');
+            redirect('/dashboard');
         } else {
             // user/pass gresite
         }

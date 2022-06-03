@@ -2,18 +2,23 @@
 
 namespace Core;
 
-class Auth {
+class Auth
+{
     public static function login(array $user): void
     {
-        $_SESSION['logged_in'] = true;
+        $_SESSION['user'] = [
+            'authenticated' => true,
+            'user_id' => $user['id']
+        ];
     }
 
     public static function logout(): void
     {
-        $_SESSION['logged_in'] = false;
+        unset($_SESSION['user']);
     }
 
-    public static function userLoggedIn() {
-        return $_SESSION['logged_in'];
+    public static function userLoggedIn(): bool
+    {
+        return isset($_SESSION['user']['authenticated']) && $_SESSION['user']['authenticated'];
     }
 }

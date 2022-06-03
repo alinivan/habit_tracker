@@ -2,21 +2,19 @@
 
 namespace Core\Routing;
 
-class Router {
-    public static function parseUrl($controller_method) {
+class Router
+{
+    public static function parseUrl($controller_method, $id = null)
+    {
         $controller = explode(':', $controller_method)[0];
         $method = explode(':', $controller_method)[1];
 
         $controller = "App\\Controllers\\$controller";
-        return (new $controller())->$method();
 
-    }
+        if (is_null($id)) {
+            return (new $controller())->$method();
+        }
 
-    public static function parseUrlWithId($controller_method, $id) {
-        $controller = explode(':', $controller_method)[0];
-        $method = explode(':', $controller_method)[1];
-
-        $controller = "App\\Controllers\\$controller";
         return (new $controller())->$method($id);
     }
 }

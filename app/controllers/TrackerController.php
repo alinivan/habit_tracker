@@ -58,7 +58,7 @@ class TrackerController extends AbstractController
 
         $modal = new Modal();
         $modal->title($habit['name']);
-        $save = "ajax('tracker/create', '".$form->getId()."', 'POST')";
+        $save = "ajax('tracker/create', '" . $form->getId() . "', 'POST')";
 
         $modal->btn(['onclick' => $save, 'label' => 'Save']);
         $modal->content($form->html());

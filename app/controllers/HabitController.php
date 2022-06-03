@@ -7,7 +7,6 @@ use Core\Builder\Form;
 
 class HabitController extends AbstractController
 {
-
     public function index()
     {
         $habits = Habit::all();
@@ -42,7 +41,6 @@ class HabitController extends AbstractController
             'options' => $value_types
         ]);
         $form->submit(['label' => 'Save']);
-
 
         echo $this->renderView('app/habit/new.html.twig', ['form' => $form->html()]);
     }
@@ -92,73 +90,6 @@ class HabitController extends AbstractController
             'options' => $value_types
         ]);
         $form->submit(['label' => 'Save']);
-
-        /*$form->input([
-            'type' => 'date',
-            'name' => 'date',
-            'label' => 'Date',
-            'value' => '2018-07-22',
-        ]);
-        $form->select([
-            'type' => 'text',
-            'name' => 'name',
-            'label' => 'Select',
-            'value' => 'test3',
-            'options' => [
-                [
-                    'value' => 'test',
-                    'name' => 'test'
-                ],
-                [
-                    'value' => 'test2',
-                    'name' => 'test2'
-                ],
-                [
-                    'value' => 'test3',
-                    'name' => 'test3'
-                ]
-            ]
-        ]);
-        $form->input([
-            'type' => 'checkbox',
-            'name' => 'name',
-            'label' => 'Checkbox',
-            'value' => 'test2',
-            'options' => [
-                [
-                    'value' => 'test',
-                    'name' => 'test'
-                ],
-                [
-                    'value' => 'test2',
-                    'name' => 'test2'
-                ],
-                [
-                    'value' => 'test3',
-                    'name' => 'test3'
-                ]
-            ]
-        ]);
-        $form->input([
-            'type' => 'radio',
-            'name' => 'name',
-            'label' => 'Radio',
-            'value' => 'test',
-            'options' => [
-                [
-                    'value' => 'test',
-                    'name' => 'test'
-                ],
-                [
-                    'value' => 'test2',
-                    'name' => 'test2'
-                ],
-                [
-                    'value' => 'test3',
-                    'name' => 'test3'
-                ]
-            ]
-        ]);*/
 
         echo $this->renderView('app/habit/edit.html.twig', ['habit' => $habit, 'form' => $form->html()]);
     }
