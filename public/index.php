@@ -1,6 +1,8 @@
 <?php
 
-exit('abc');
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 
 
 use Core\Application;
@@ -16,11 +18,9 @@ $dotenv = Dotenv\Dotenv::createImmutable(APP_ROOT);
 $dotenv->load();
 
 // Show errors for development
-if (!$_ENV['SERVER_LIVE']) {
-    ini_set('display_errors', '1');
-    ini_set('display_startup_errors', '1');
-    error_reporting(E_ALL);
-}
+//if (!$_ENV['SERVER_LIVE']) {
+
+//}
 
 // Start session
 session_start();
