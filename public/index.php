@@ -1,5 +1,8 @@
 <?php
 
+exit('abc');
+
+
 use Core\Application;
 
 // Autoloader
