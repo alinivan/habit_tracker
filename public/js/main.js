@@ -13,3 +13,4 @@ function ajax(url, form_id, method = 'GET') {
         modal_close();
     });
 }
+

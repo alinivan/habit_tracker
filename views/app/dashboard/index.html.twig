@@ -7,12 +7,70 @@
                 <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
             </div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                <!-- Replace with your content -->
-                <div class="py-4">
-                    <div class="border-4 border-dashed border-gray-200 rounded-lg h-96"></div>
+
+                <div class="mt-8 grid grid-cols-6 md:grid-cols-4 lg:grid-cols-6">
+                    {% for habit in habits %}
+                        <div class="track-habit col-span-1 flex justify-center py-8 px-8 bg-gray-50 hover:bg-gray-100 cursor-pointer border-collapse border border-gray-900 rounded-md" data-id="{{ habit.id }}">
+                            {{ habit.name }}
+                        </div>
+                    {% endfor %}
                 </div>
-                <!-- /End replace -->
+
+                <div class="max-w-lg mx-auto pt-8">
+                    <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8 text-center">Today</h2>
+
+                    <ul role="list" class="divide-y divide-gray-200">
+                        {% for item in tracker %}
+                            <li class="py-4">
+                                <div class="flex space-x-3">
+                                    <div class="flex-1 space-y-1">
+                                        <div class="flex items-center justify-between">
+                                            <h3 class="text-sm font-medium">{{ item.habit_name }}</h3>
+                                            <p class="text-sm text-gray-500">{{ item.hour }}</p>
+                                        </div>
+                                        <p class="text-sm text-gray-500">{{ item.value }} min</p>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
     </main>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        $('.track-habit').click(function () {
+            let habit_id = $(this).data('id');
+
+            $.ajax({
+                url: '/tracker/new',
+                data: {
+                    'habit_id': habit_id
+                },
+                type: 'GET',
+                success: function (result) {
+                    $('#modal').html(result);
+                }
+            });
+        });
+
+        $(document).on("click", "#tracker-save", function () {
+            $.ajax({
+                url: '/tracker/create',
+                data: {
+                    'min': $('#min').val(),
+                    'date': $('#date').val(),
+                    'habit_id': $('#habit_id').val()
+                },
+                type: 'POST',
+                success: function (result) {
+                    console.log(result);
+                }
+            });
+        });
+    </script>
 {% endblock %}
