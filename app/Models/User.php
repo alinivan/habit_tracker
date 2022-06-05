@@ -12,7 +12,7 @@ class User {
 
     public static function register(array $request) {
         // Register
-        DB::query("INSERT INTO USERS (username, password) VALUES (?, ?)", [$request['username'], md5($request['password'])]);
+        DB::query("INSERT INTO users (username, password) VALUES (?, ?)", [$request['username'], md5($request['password'])]);
 
         // Return user
         return self::getUserByUsername($request['username']);
