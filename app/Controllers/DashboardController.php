@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Habit;
-use App\models\Tracker;
+use App\Models\Tracker;
 
 class DashboardController extends AbstractController
 {

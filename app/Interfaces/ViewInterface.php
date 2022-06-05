@@ -1,6 +1,6 @@
 <?php
 
-namespace App\interfaces;
+namespace App\Interfaces;
 
 interface ViewInterface {
     public function renderView(string $view, array $data = []): string;
