@@ -10,14 +10,16 @@
 
                 <div class="mt-8 grid grid-cols-6 md:grid-cols-4 lg:grid-cols-6">
                     {% for habit in habits %}
-                        <div class="track-habit col-span-1 flex justify-center py-8 px-8 bg-gray-50 hover:bg-gray-100 cursor-pointer border-collapse border border-gray-900 rounded-md" data-id="{{ habit.id }}">
+                        <div class="track-habit col-span-1 flex justify-center py-8 px-8 bg-gray-50 hover:bg-gray-100 cursor-pointer border-collapse border border-gray-900 rounded-md"
+                             data-id="{{ habit.id }}">
                             {{ habit.name }}
                         </div>
                     {% endfor %}
                 </div>
 
                 <div class="max-w-lg mx-auto pt-8">
-                    <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8 text-center">Today</h2>
+                    <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8 text-center">
+                        Today</h2>
 
                     <ul role="list" class="divide-y divide-gray-200">
                         {% for item in tracker %}
@@ -25,10 +27,24 @@
                                 <div class="flex space-x-3">
                                     <div class="flex-1 space-y-1">
                                         <div class="flex items-center justify-between">
-                                            <h3 class="text-sm font-medium">{{ item.habit_name }}</h3>
-                                            <p class="text-sm text-gray-500">{{ item.hour }}</p>
+                                            <h3 class="text-sm font-medium">{{ item.habit.name }}</h3>
+                                            <p class="text-sm text-gray-500">
+                                                {{ item.start_hour ? "#{item.start_hour} - #{item.hour}" : item.hour }}
+                                            </p>
                                         </div>
-                                        <p class="text-sm text-gray-500">{{ item.value }} min</p>
+
+                                        <div class="flex items-center justify-between">
+                                            {% if item.habit.value_type == 'boolean' %}
+                                                <img src="/img/check-svgrepo-com.svg"/>
+                                            {% else %}
+                                                <p class="text-sm text-gray-500">{{ item.value }} min</p>
+                                            {% endif %}
+
+                                            <div>
+                                                <a class="tracker-edit text-gray-300" href="javascript:void(0)" data-id="{{ item.id }}">edit</a>
+                                                <a class="tracker-delete text-red-500" href="javascript:void(0)" data-id="{{ item.id }}">delete</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </li>
@@ -69,6 +85,23 @@
                 type: 'POST',
                 success: function (result) {
                     console.log(result);
+                }
+            });
+        });
+
+
+        $('.tracker-edit').click(function () {
+            let id = $(this).data('id');
+
+            $.ajax({
+                url: '/tracker/edit',
+                data: {
+                    'id': id
+                },
+                type: 'GET',
+                success: function (result) {
+                    alert('editing');
+                    // $('#modal').html(result);
                 }
             });
         });

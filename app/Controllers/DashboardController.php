@@ -13,8 +13,17 @@ class DashboardController extends AbstractController
         $tracker = Tracker::getToday();
 
         foreach ($tracker as &$item) {
-            $item['habit_name'] = Habit::get($item['habit_id'])['name'];
-            $item['hour'] = date('H:i', strtotime($item['date']));
+            $habit = Habit::get($item['habit_id']);
+            $date = date('H:i', strtotime($item['date']));
+            $minutes = (int)$item['value'];
+
+            $item['habit'] = $habit;
+            $item['hour'] = $date;
+
+            if ($habit['value_type'] === 'number') {
+                $item['start_hour'] = date('H:i', strtotime("- $minutes minutes", strtotime($item['date'])));
+            }
+
         }
 
         echo $this->renderView('app/dashboard/index.html.twig', ['habits' => $habits, 'tracker' => $tracker]);

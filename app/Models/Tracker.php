@@ -13,6 +13,6 @@ class Tracker
 
     public static function getToday(): bool|array
     {
-        return DB::query("SELECT * FROM tracker WHERE `date`>=? and `date`<=?", [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])->fetchAll();
+        return DB::query("SELECT * FROM tracker WHERE `date`>=? and `date`<=? ORDER BY `date` asc", [date('Y-m-d 00:00:00'), date('Y-m-d 23:59:59')])->fetchAll();
     }
 }

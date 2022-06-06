@@ -12,6 +12,7 @@ class TwigAppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('active', [$this, 'active']),
+            new TwigFunction('url', [$this, 'url']),
             new TwigFunction('sidebar', [$this, 'sidebar'], ['needs_environment' => true, 'is_safe' => ['html']]),
         ];
     }
@@ -43,5 +44,10 @@ class TwigAppExtension extends AbstractExtension
         }
 
         return $twig->render('app/sidebar.html.twig', ['menu' => $menu]);
+    }
+
+    public function url(string $url)
+    {
+        
     }
 }
