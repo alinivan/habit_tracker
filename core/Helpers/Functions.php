@@ -24,3 +24,14 @@ function redirect($string): void
 {
     header("Location: $string");
 }
+
+function array_pluck(array $array, string $key): array
+{
+    $return = [];
+
+    foreach ($array as $v) {
+        $return[$v[$key]][] = $v;
+    }
+
+    return $return;
+}

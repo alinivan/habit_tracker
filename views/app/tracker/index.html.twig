@@ -7,55 +7,43 @@
                 <h1 class="text-2xl font-semibold text-gray-900">Tracker</h1>
             </div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                <span class="relative z-0 inline-flex shadow-sm rounded-md">
-                    {% for habit in habits %}
-                        <button type="button" data-id="{{ habit.id }}"
-                                class="track-habit relative inline-flex items-center px-4 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">{{ habit.name }}</button>
+                <div class="max-w-lg mx-auto pt-8">
+                    {% for key, tracker in days %}
+                        <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8 text-center">{{ key }}</h2>
+
+
+                        <ul role="list" class="divide-y divide-gray-200">
+                            {% for item in tracker %}
+                                <li class="py-4">
+                                    <div class="flex space-x-3">
+                                        <div class="flex-1 space-y-1">
+                                            <div class="flex items-center justify-between">
+                                                <h3 class="text-sm font-medium">{{ item.habit.name }}</h3>
+                                                <p class="text-sm text-gray-500">
+                                                    {{ item.start_hour ? "#{item.start_hour} - #{item.hour}" : item.hour }}
+                                                </p>
+                                            </div>
+
+                                            <div class="flex items-center justify-between">
+                                                {% if item.habit.value_type == 'boolean' %}
+                                                    <img src="/img/check-svgrepo-com.svg"/>
+                                                {% else %}
+                                                    <p class="text-sm text-gray-500">{{ item.value }} min</p>
+                                                {% endif %}
+
+                                                <div>
+                                                    <a class="tracker-edit text-gray-300" href="javascript:void(0)" data-id="{{ item.id }}">edit</a>
+                                                    <a class="tracker-delete text-red-500" href="javascript:void(0)" data-id="{{ item.id }}">delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
                     {% endfor %}
-                </span>
+                </div>
             </div>
-
-            <ul>
-                {% for item in tracker %}
-                    <li>{{ item.habit_name }} - {{ item.value }}</li>
-                {% endfor %}
-            </ul>
-
         </div>
     </main>
-
-{% endblock %}
-
-{% block scripts %}
-    <script>
-        $('.track-habit').click(function () {
-            let habit_id = $(this).data('id');
-
-            $.ajax({
-                url: '/tracker/new',
-                data: {
-                    'habit_id': habit_id
-                },
-                type: 'GET',
-                success: function (result) {
-                    $('#modal').html(result);
-                }
-            });
-        });
-
-        $(document).on("click", "#tracker-save", function () {
-            $.ajax({
-                url: '/tracker/create',
-                data: {
-                    'min': $('#min').val(),
-                    'date': $('#date').val(),
-                    'habit_id': $('#habit_id').val()
-                },
-                type: 'POST',
-                success: function (result) {
-                    console.log(result);
-                }
-            });
-        });
-    </script>
 {% endblock %}

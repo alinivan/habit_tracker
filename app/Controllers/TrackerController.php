@@ -11,13 +11,22 @@ class TrackerController extends AbstractController
 {
     public function index()
     {
-        $habits = Habit::all();
-        $tracker = Tracker::getToday();
+        $tracker = Tracker::all();
 
-        foreach ($tracker as &$item) {
-            $item['habit_name'] = Habit::get($item['habit_id'])['name'];
+        foreach ($tracker as $k => $v) {
+            $habit = Habit::get($v['habit_id']);
+            $date = date('H:i', strtotime($v['date']));
+            $minutes = $v['value'];
+            $tracker[$k]['habit'] = $habit;
+            $tracker[$k]['hour'] = $date;
+
+            if ($habit['value_type'] === 'number') {
+                $tracker[$k]['start_hour'] = date('H:i', strtotime("- $minutes minutes", strtotime($v['date'])));
+            }
         }
-        echo $this->renderView('app/tracker/index.html.twig', ['habits' => $habits, 'tracker' => $tracker]);
+        $days = array_pluck($tracker, 'date_ymd');
+
+        echo $this->renderView('app/tracker/index.html.twig', ['days' => $days]);
     }
 
     public function new()
