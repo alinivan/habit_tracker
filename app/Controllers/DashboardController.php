@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Category;
 use App\Models\Habit;
 use App\Models\Tracker;
 
@@ -9,7 +10,7 @@ class DashboardController extends AbstractController
 {
     public function index()
     {
-        $habits = Habit::all();
+        $categories = Habit::allWithCategory();
         $tracker = Tracker::getToday();
 
         foreach ($tracker as &$item) {
@@ -23,9 +24,8 @@ class DashboardController extends AbstractController
             if ($habit['value_type'] === 'number') {
                 $item['start_hour'] = date('H:i', strtotime("- $minutes minutes", strtotime($item['date'])));
             }
-
         }
 
-        echo $this->renderView('app/dashboard/index.html.twig', ['habits' => $habits, 'tracker' => $tracker]);
+        echo $this->renderView('app/dashboard/index.html.twig', ['categories' => $categories, 'tracker' => $tracker]);
     }
 }

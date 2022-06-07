@@ -34,6 +34,10 @@ class TwigAppExtension extends AbstractExtension
                 'name' => 'Habits'
             ],
             [
+                'href' => '/categories',
+                'name' => 'Categories'
+            ],
+            [
                 'href' => '/tracker',
                 'name' => 'Tracker'
             ],

@@ -8,18 +8,27 @@
             </div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
 
-                <div class="mt-8 grid grid-cols-6 md:grid-cols-4 lg:grid-cols-6">
-                    {% for habit in habits %}
-                        <div class="track-habit col-span-1 flex justify-center py-8 px-8 bg-gray-50 hover:bg-gray-100 cursor-pointer border-collapse border border-gray-900 rounded-md"
-                             data-id="{{ habit.id }}">
-                            {{ habit.name }}
-                        </div>
-                    {% endfor %}
-                </div>
+                    <div class="grid grid-cols-3 gap-4">
+                        {% for category in categories %}
+                            <div>
+                                <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-red-100 text-red-800"> {{ category.name }} </span>
+
+                                <div class="mt-8 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+                                    {% for habit in category.habits %}
+                                        <div class="track-habit col-span-1 flex justify-center py-8 px-8 bg-gray-50 hover:bg-gray-100 cursor-pointer border-collapse border border-gray-900 rounded-md"
+                                             data-id="{{ habit.id }}">
+                                            {{ habit.name }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
 
                 <div class="max-w-lg mx-auto pt-8">
-                    <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8 text-center">
-                        Today</h2>
+                    <h2 class="max-w-6xl mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8 text-center">Today</h2>
 
                     <ul role="list" class="divide-y divide-gray-200">
                         {% for item in tracker %}

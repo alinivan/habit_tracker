@@ -47,6 +47,14 @@ $route->get('/tracker/new', 'TrackerController:new');
 // insert
 $route->post('/tracker/create', 'TrackerController:create');
 
+/* --- CATEGORIES --- */
+// index
+$route->get('/categories', 'CategoryController:index');
+// form for insert
+$route->get('/category/new', 'CategoryController:new');
+// insert
+$route->post('/categories', 'CategoryController:create');
+
 
 // Not found
 $route->notFound('PageController:notFound');

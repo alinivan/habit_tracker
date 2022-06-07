@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Category;
 use App\Models\Habit;
 use Core\Builder\Form;
 
@@ -76,13 +77,25 @@ class HabitController extends AbstractController
         $value_types = [
             [
                 'value' => 'number',
-                'label' => 'Number'
+                'name' => 'Number'
             ],
             [
                 'value' => 'boolean',
-                'label' => 'Boolean'
+                'name' => 'Boolean'
             ]
         ];
+
+        $categories = Category::all();
+        foreach ($categories as $k => $v) {
+            $categories[$k]['value'] = $v['id'];
+        }
+
+        $form->select([
+            'label' => 'Category',
+            'name' => 'category_id',
+            'value' => $habit['category_id'],
+            'options' => $categories
+        ]);
         $form->select([
             'label' => 'Type',
             'name' => 'value_type',
