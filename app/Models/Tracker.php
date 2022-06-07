@@ -18,6 +18,6 @@ class Tracker
 
     public static function all(): bool|array
     {
-        return DB::query("SELECT *, DATE(`date`) date_ymd FROM tracker order by date_ymd")->fetchAll();
+        return DB::query("SELECT *, DATE(`date`) date_ymd FROM tracker ORDER BY `date` asc")->fetchAll();
     }
 }
