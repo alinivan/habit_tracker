@@ -36,6 +36,13 @@ class HabitController extends AbstractController
                 'label' => 'Boolean'
             ]
         ];
+
+        $form->input([
+            'type' => 'number',
+            'name' => 'min_value',
+            'label' => 'Min value'
+        ]);
+
         $form->select([
             'label' => 'Type',
             'name' => 'value_type',
@@ -72,6 +79,13 @@ class HabitController extends AbstractController
             'name' => 'name',
             'label' => 'Name',
             'value' => $habit['name'],
+        ]);
+
+        $form->input([
+            'type' => 'number',
+            'name' => 'min_value',
+            'label' => 'Min value',
+            'value' => $habit['min_value'],
         ]);
 
         $value_types = [

@@ -12,6 +12,11 @@ class DashboardController extends AbstractController
         $categories = Habit::allWithCategory();
         $tracker = Tracker::getToday();
 
+        $habits = [];
+        foreach ($tracker as $v) {
+            @$habits[$v['habit_id']] += $v['value'];
+        }
+
         /*foreach ($categories as $k => $v) {
             foreach ($v['habits'] as $k2 => $v2) {
                 if ($v2['value_type'] === 'boolean') {
@@ -35,6 +40,6 @@ class DashboardController extends AbstractController
             }
         }
 
-        echo $this->renderView('app/dashboard/index.html.twig', ['categories' => $categories, 'tracker' => $tracker]);
+        echo $this->renderView('app/dashboard/index.html.twig', ['categories' => $categories, 'tracker' => $tracker, 'habits' => $habits]);
     }
 }

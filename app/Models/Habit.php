@@ -8,7 +8,7 @@ class Habit
 {
     public static function insert(array $request): void
     {
-        DB::query("INSERT INTO habits (name, value_type, user_id, category_id) VALUES (?,?,?,?)", [$request['name'], $request['value_type'], 1, $request['category_id']]);
+        DB::query("INSERT INTO habits (name, value_type, user_id, category_id, min_value) VALUES (?,?,?,?)", [$request['name'], $request['value_type'], 1, $request['category_id'], $request['min_value']]);
     }
 
     public static function all(): bool|array
@@ -23,7 +23,7 @@ class Habit
 
     public static function update(int $id, array $request)
     {
-        DB::query("UPDATE habits SET name=?, value_type=?, category_id=? WHERE id=?", [$request['name'], $request['value_type'], $request['category_id'], $id]);
+        DB::query("UPDATE habits SET name=?, value_type=?, category_id=?, min_value=? WHERE id=?", [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $id]);
     }
 
     public static function destroy(int $id): void
