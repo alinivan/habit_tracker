@@ -8,7 +8,7 @@ class Category
 {
     public static function insert(array $request): void
     {
-        DB::query("INSERT INTO category (name) VALUES (?)", [$request['name']]);
+        DB::query("INSERT INTO category (name, color) VALUES (?,?)", [$request['name'], $request['color']]);
     }
 
     public static function all(): bool|array
@@ -23,7 +23,7 @@ class Category
 
     public static function update(int $id, array $request)
     {
-        DB::query("UPDATE category SET name=?, value_type=? WHERE id=?", [$request['name'], $request['value_type'], $id]);
+        DB::query("UPDATE category SET name=?, color=? WHERE id=?", [$request['name'], $request['color'], $id]);
     }
 
     public static function destroy(int $id): void

@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\Category;
 use App\Models\Habit;
 use App\Models\Tracker;
 
@@ -12,6 +11,16 @@ class DashboardController extends AbstractController
     {
         $categories = Habit::allWithCategory();
         $tracker = Tracker::getToday();
+
+        /*foreach ($categories as $k => $v) {
+            foreach ($v['habits'] as $k2 => $v2) {
+                if ($v2['value_type'] === 'boolean') {
+
+                } else {
+
+                }
+            }
+        }*/
 
         foreach ($tracker as &$item) {
             $habit = Habit::get($item['habit_id']);

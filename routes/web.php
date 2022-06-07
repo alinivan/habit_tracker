@@ -54,7 +54,12 @@ $route->get('/categories', 'CategoryController:index');
 $route->get('/category/new', 'CategoryController:new');
 // insert
 $route->post('/categories', 'CategoryController:create');
-
+// show edit form
+$route->get('/category/{id}/edit', 'CategoryController:edit');
+// update
+$route->post('/categories/{id}', 'CategoryController:update');
+// delete a particular habit
+$route->get('/categories/{id}/delete', 'CategoryController:destroy');
 
 // Not found
 $route->notFound('PageController:notFound');

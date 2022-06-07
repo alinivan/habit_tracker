@@ -26,6 +26,31 @@ class CategoryController extends AbstractController
             'label' => 'Name'
         ]);
 
+        $value_types = [
+            [
+                'value' => 'red',
+                'name' => 'red'
+            ],
+            [
+                'value' => 'green',
+                'name' => 'green'
+            ],
+            [
+                'value' => 'gray',
+                'name' => 'gray'
+            ],
+            [
+                'value' => 'blue',
+                'name' => 'blue'
+            ]
+        ];
+        $form->select([
+            'label' => 'Color',
+            'name' => 'color',
+            'value' => $category['color'] ?? '',
+            'options' => $value_types
+        ]);
+
         $form->submit(['label' => 'Save']);
 
         echo $this->renderView('app/category/new.html.twig', ['form' => $form->html()]);
@@ -47,48 +72,57 @@ class CategoryController extends AbstractController
 
     public function edit(int $id)
     {
-        $habit = Category::get($id);
+        $category = Category::get($id);
 
         $form = new Form();
-        $form->action("/habits/$id");
+        $form->action("/categories/$id");
         $form->method('POST');
         $form->input([
             'type' => 'text',
             'name' => 'name',
             'label' => 'Name',
-            'value' => $habit['name'],
+            'value' => $category['name'],
         ]);
 
         $value_types = [
             [
-                'value' => 'number',
-                'label' => 'Number'
+                'value' => 'red',
+                'name' => 'red'
             ],
             [
-                'value' => 'boolean',
-                'label' => 'Boolean'
+                'value' => 'green',
+                'name' => 'green'
+            ],
+            [
+                'value' => 'gray',
+                'name' => 'gray'
+            ],
+            [
+                'value' => 'blue',
+                'name' => 'blue'
             ]
         ];
+
         $form->select([
-            'label' => 'Type',
-            'name' => 'value_type',
-            'value' => $habit['value_type'],
+            'label' => 'Color',
+            'name' => 'color',
+            'value' => $category['color'] ?? '',
             'options' => $value_types
         ]);
         $form->submit(['label' => 'Save']);
 
-        echo $this->renderView('app/category/edit.html.twig', ['habit' => $habit, 'form' => $form->html()]);
+        echo $this->renderView('app/category/edit.html.twig', ['habit' => $category, 'form' => $form->html()]);
     }
 
     public function update(int $id)
     {
         Category::update($id, $_REQUEST);
-        redirect('/habits');
+        redirect('/categories');
     }
 
     public function destroy(int $id)
     {
-        Habit::destroy($id);
-        redirect('/habits');
+        Category::destroy($id);
+        redirect('/categories');
     }
 }
