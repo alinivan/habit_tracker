@@ -20,6 +20,8 @@
                                     <div class="track-habit text-center py-3 {{ habits[habit.id] >= habit.min_value ? 'bg-green-100 hover:bg-green-200' : 'bg-gray-50 hover:bg-gray-100' }} cursor-pointer border-collapse border border-gray-900 rounded-md"
                                          data-id="{{ habit.id }}">
                                         {{ habit.name }}
+
+                                        <span class="text-xs italic">{{ "(#{habits[habit.id] + 0} / #{habit.min_value})" }}</span>
                                     </div>
                                 {% endfor %}
                             </div>
