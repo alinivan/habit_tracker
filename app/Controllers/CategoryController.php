@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\Category;
-use App\Models\Habit;
 use Core\Builder\Form;
 
 class CategoryController extends AbstractController
