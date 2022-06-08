@@ -13,7 +13,9 @@ class Tracker
 
     public static function getToday(): bool|array
     {
-        return DB::query("SELECT * FROM tracker WHERE `date`>=? and `date`<=? ORDER BY `date` asc", [date('Y-m-d '.START_HOUR.':00'), date('Y-m-d '.END_HOUR.':59')])->fetchAll();
+        $start_date = date('Y-m-d '.START_HOUR.':00');
+        $end_date = date('Y-m-d H:i:s', strtotime($start_date . '+1 day'));
+        return DB::query("SELECT * FROM tracker WHERE `date`>=? and `date`<=? ORDER BY `date` asc", [$start_date, $end_date])->fetchAll();
     }
 
     public static function all(): bool|array

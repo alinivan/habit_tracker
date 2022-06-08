@@ -9,4 +9,3 @@ const PATH_CACHE = APP_ROOT.'/storage/cache';
 
 // temporary constants
 const START_HOUR = '04:00';
-const END_HOUR = '03:59';
