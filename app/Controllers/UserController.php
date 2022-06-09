@@ -26,7 +26,8 @@ class UserController extends AbstractController
         echo $this->renderView('web/pages/register.html.twig');
     }
 
-    public function register() {
+    public function register()
+    {
         $user = User::register($_REQUEST);
 
         Auth::login($user);
@@ -43,7 +44,7 @@ class UserController extends AbstractController
 
             redirect('/dashboard');
         } else {
-            // user/pass gresite
+
         }
     }
 
