@@ -61,6 +61,9 @@ $route->post('/categories/{id}', 'CategoryController:update');
 // delete a particular habit
 $route->get('/categories/{id}/delete', 'CategoryController:destroy');
 
+
+$route->get('/import_tracker', 'UserController:import');
+
 // Not found
 $route->notFound('PageController:notFound');
 
