@@ -29,11 +29,11 @@ class HabitController extends AbstractController
         $value_types = [
             [
                 'value' => 'number',
-                'label' => 'Number'
+                'name' => 'Number'
             ],
             [
                 'value' => 'boolean',
-                'label' => 'Boolean'
+                'name' => 'Boolean'
             ]
         ];
 
