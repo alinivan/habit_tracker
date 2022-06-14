@@ -17,16 +17,6 @@ class DashboardController extends AbstractController
             @$habits[$v['habit_id']] += $v['value'];
         }
 
-        /*foreach ($categories as $k => $v) {
-            foreach ($v['habits'] as $k2 => $v2) {
-                if ($v2['value_type'] === 'boolean') {
-
-                } else {
-
-                }
-            }
-        }*/
-
         foreach ($tracker as &$item) {
             $habit = Habit::get($item['habit_id']);
             $date = date('H:i', strtotime($item['date']));
@@ -40,6 +30,8 @@ class DashboardController extends AbstractController
             }
         }
 
-        echo $this->renderView('app/dashboard/index.html.twig', ['categories' => $categories, 'tracker' => $tracker, 'habits' => $habits]);
+        $productive_hours = round(array_sum(array_column($tracker, 'value')) / 60, 2);
+
+        echo $this->renderView('app/dashboard/index.html.twig', ['categories' => $categories, 'tracker' => $tracker, 'habits' => $habits, 'productive_hours' => $productive_hours]);
     }
 }
