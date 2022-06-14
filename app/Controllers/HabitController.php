@@ -17,38 +17,7 @@ class HabitController extends AbstractController
 
     public function new()
     {
-        $form = new Form();
-        $form->action('/habits');
-        $form->method('POST');
-        $form->input([
-            'type' => 'text',
-            'name' => 'name',
-            'label' => 'Name'
-        ]);
-
-        $value_types = [
-            [
-                'value' => 'number',
-                'name' => 'Number'
-            ],
-            [
-                'value' => 'boolean',
-                'name' => 'Boolean'
-            ]
-        ];
-
-        $form->input([
-            'type' => 'number',
-            'name' => 'min_value',
-            'label' => 'Min value'
-        ]);
-
-        $form->select([
-            'label' => 'Type',
-            'name' => 'value_type',
-            'options' => $value_types
-        ]);
-        $form->submit(['label' => 'Save']);
+        $form = $this->addEditForm('/habits');
 
         echo $this->renderView('app/habit/new.html.twig', ['form' => $form->html()]);
     }
@@ -71,27 +40,46 @@ class HabitController extends AbstractController
     {
         $habit = Habit::get($id);
 
+        $form = $this->addEditForm("/habits/$id", $habit);
+
+        echo $this->renderView('app/habit/edit.html.twig', ['habit' => $habit, 'form' => $form->html()]);
+    }
+
+    public function update(int $id)
+    {
+        Habit::update($id, $_REQUEST);
+        redirect('/habits');
+    }
+
+    public function destroy(int $id)
+    {
+        Habit::destroy($id);
+        redirect('/habits');
+    }
+
+    public function addEditForm(string $action, array $habit = []): Form
+    {
         $form = new Form();
-        $form->action("/habits/$id");
+        $form->action($action);
         $form->method('POST');
         $form->input([
             'type' => 'text',
             'name' => 'name',
             'label' => 'Name',
-            'value' => $habit['name'],
+            'value' => $habit['name'] ?? '',
         ]);
 
         $form->input([
             'type' => 'number',
             'name' => 'min_value',
             'label' => 'Min value',
-            'value' => $habit['min_value'],
+            'value' => $habit['min_value'] ?? 0,
         ]);
 
         $form->select([
             'name' => 'active',
             'label' => 'Active',
-            'value' => $habit['active'],
+            'value' => $habit['active'] ?? 1,
             'options' => [['name' => 'Yes', 'value' => 1], ['name' => 'No', 'value' => 0]]
         ]);
 
@@ -114,29 +102,17 @@ class HabitController extends AbstractController
         $form->select([
             'label' => 'Category',
             'name' => 'category_id',
-            'value' => $habit['category_id'],
+            'value' => $habit['category_id'] ?? 0,
             'options' => $categories
         ]);
         $form->select([
             'label' => 'Type',
             'name' => 'value_type',
-            'value' => $habit['value_type'],
+            'value' => $habit['value_type'] ?? 'numeric',
             'options' => $value_types
         ]);
         $form->submit(['label' => 'Save']);
 
-        echo $this->renderView('app/habit/edit.html.twig', ['habit' => $habit, 'form' => $form->html()]);
-    }
-
-    public function update(int $id)
-    {
-        Habit::update($id, $_REQUEST);
-        redirect('/habits');
-    }
-
-    public function destroy(int $id)
-    {
-        Habit::destroy($id);
-        redirect('/habits');
+        return $form;
     }
 }
