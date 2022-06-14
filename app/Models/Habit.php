@@ -23,7 +23,7 @@ class Habit
 
     public static function update(int $id, array $request)
     {
-        DB::query("UPDATE habits SET name=?, value_type=?, category_id=?, min_value=? WHERE id=?", [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $id]);
+        DB::query("UPDATE habits SET name=?, value_type=?, category_id=?, min_value=?, active=? WHERE id=?", [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['active'], $id]);
     }
 
     public static function destroy(int $id): void
@@ -33,7 +33,7 @@ class Habit
 
     public static function allByCategoryId(int $id): bool|array
     {
-        return DB::query("SELECT * FROM habits WHERE category_id=?", [$id])->fetchAll();
+        return DB::query("SELECT * FROM habits WHERE category_id=? and active=1", [$id])->fetchAll();
     }
 
     public static function allWithCategory(): bool|array
