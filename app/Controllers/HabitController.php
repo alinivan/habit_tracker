@@ -105,6 +105,14 @@ class HabitController extends AbstractController
             'value' => $habit['category_id'] ?? 0,
             'options' => $categories
         ]);
+
+        $form->select([
+            'label' => 'Productive',
+            'name' => 'is_productive',
+            'value' => $habit['is_productive'] ?? 0,
+            'options' => [['name' => 'Yes', 'value' => 1], ['name' => 'No', 'value' => 0]]
+        ]);
+
         $form->select([
             'label' => 'Type',
             'name' => 'value_type',

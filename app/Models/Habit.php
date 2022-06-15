@@ -9,7 +9,7 @@ class Habit
 {
     public static function insert(array $request): void
     {
-        DB::query("INSERT INTO habits (name, value_type, category_id, min_value, active, user_id) VALUES (?,?,?,?,?,?)", [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['active'], Auth::getUserId()]);
+        DB::query("INSERT INTO habits (name, value_type, category_id, min_value, active, is_productive, user_id) VALUES (?,?,?,?,?,?)", [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['active'], $request['is_productive'], Auth::getUserId()]);
     }
 
     public static function all(): bool|array
@@ -24,7 +24,7 @@ class Habit
 
     public static function update(int $id, array $request): void
     {
-        DB::query("UPDATE habits SET name=?, value_type=?, category_id=?, min_value=?, active=? WHERE id=?", [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['active'], $id]);
+        DB::query("UPDATE habits SET name=?, value_type=?, category_id=?, min_value=?, active=?, is_productive=? WHERE id=?", [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['active'], $request['is_productive'], $id]);
     }
 
     public static function destroy(int $id): void
