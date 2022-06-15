@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
+use Core\Auth;
 use Core\Database\Db;
 
 class Habit
 {
     public static function insert(array $request): void
     {
-        DB::query("INSERT INTO habits (name, value_type, category_id, min_value, active, user_id) VALUES (?,?,?,?,?,?)", [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['active'], 1]);
+        DB::query("INSERT INTO habits (name, value_type, category_id, min_value, active, user_id) VALUES (?,?,?,?,?,?)", [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['active'], Auth::getUserId()]);
     }
 
     public static function all(): bool|array
     {
-        return DB::query("SELECT * FROM habits")->fetchAll();
+        return DB::query("SELECT * FROM habits where user_id=?", [Auth::getUserId()])->fetchAll();
     }
 
     public static function get(int $id): bool|array
@@ -21,7 +22,7 @@ class Habit
         return DB::query("SELECT * FROM habits WHERE id=?", [$id])->fetch();
     }
 
-    public static function update(int $id, array $request)
+    public static function update(int $id, array $request): void
     {
         DB::query("UPDATE habits SET name=?, value_type=?, category_id=?, min_value=?, active=? WHERE id=?", [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['active'], $id]);
     }

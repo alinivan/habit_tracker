@@ -17,6 +17,11 @@ class Auth
         unset($_SESSION['user']);
     }
 
+    public static function getUserId()
+    {
+        return $_SESSION['user']['user_id'];
+    }
+
     public static function userLoggedIn(): bool
     {
         return isset($_SESSION['user']['authenticated']) && $_SESSION['user']['authenticated'];
