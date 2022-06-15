@@ -4,9 +4,6 @@ namespace App\Controllers;
 
 use App\Models\Habit;
 use App\Models\Tracker;
-use DateInterval;
-use DatePeriod;
-use DateTime;
 
 class DashboardController extends AbstractController
 {
@@ -43,11 +40,6 @@ class DashboardController extends AbstractController
         foreach ($habits_for_graph as $habit_name) {
             $habit_tracker = Tracker::getByHabitId(Habit::getByName($habit_name)['id']);
 
-//            foreach (array_pluck($habit_tracker, 'date_ymd') as $date => $v) {
-//                $graphs[$habit_name][$date] = array_sum(array_column($v, 'value'));
-//            }
-
-
             $tracker_by_date = array_pluck($habit_tracker, 'date_ymd');
 
             foreach ($date_range as $date) {
@@ -60,6 +52,18 @@ class DashboardController extends AbstractController
             }
         }
 
+        $habit_points = array_column(Habit::all(), 'points', 'id');
+        $productivity_tracker = array_pluck(Tracker::all(), 'date_ymd');
+
+        foreach ($date_range as $date) {
+            $graphs['productivity'][$date] = 0;
+
+            if (isset($productivity_tracker[$date])) {
+                foreach ($productivity_tracker[$date] as $productivity_habits) {
+                    $graphs['productivity'][$date] += $productivity_habits['value'] * $habit_points[$productivity_habits['habit_id']];
+                }
+            }
+        }
 
         echo $this->renderView('app/dashboard/index.html.twig', [
             'categories' => $categories,
@@ -86,6 +90,10 @@ class DashboardController extends AbstractController
                 'no m' => [
                     'labels' => array_keys($graphs['no m']),
                     'data' => array_values($graphs['no m'])
+                ],
+                'productivity' => [
+                    'labels' => array_keys($graphs['productivity']),
+                    'data' => array_values($graphs['productivity'])
                 ]
             ]
         ]);
