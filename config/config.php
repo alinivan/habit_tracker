@@ -9,3 +9,5 @@ const PATH_CACHE = APP_ROOT.'/storage/cache';
 
 // temporary constants
 const START_HOUR = '04:00';
+const TRACKER_START_DATE = '2022-06-06';
+const IMPORT_START_DATE = '2022-03-25';

@@ -68,6 +68,11 @@
 {#                        <textarea id="editor"></textarea>#}
 {#                    </div>#}
                 </div>
+
+                {% for habit, values in graph %}
+                    <canvas id="{{ habit }}-progress" width="400" height="150" class="mt-8"></canvas>
+                {% endfor %}
+
             </div>
         </div>
     </main>
@@ -124,5 +129,31 @@
         });
 
         // $('#editor').trumbowyg();
+
+
+        {% for habit, values in graph %}
+            new Chart(document.getElementById('{{ habit }}-progress'), {
+                type: 'line',
+                data: {
+                    labels: JSON.parse('{{ values.labels | json_encode | raw }}'),
+                    datasets: [{
+                        label: 'Minutes',
+                        data: JSON.parse('{{ values.data | json_encode | raw }}'),
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '{{ habit }} Chart'
+                        }
+                    }
+                }
+            });
+        {% endfor %}
     </script>
 {% endblock %}

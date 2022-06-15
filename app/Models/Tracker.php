@@ -24,4 +24,10 @@ class Tracker
         $start_hour = (int)START_HOUR;
         return DB::query("SELECT *, if (HOUR(`date`) < '$start_hour', DATE_SUB(DATE(`date`), INTERVAL 1 DAY), DATE(`date`)) as date_ymd FROM tracker where habit_id in (select id from habits where user_id = ".Auth::getUserId().") and value > 0 ORDER BY `date` desc")->fetchAll();
     }
+
+    public static function getByHabitId(int $habit_id): bool|array
+    {
+        $start_hour = (int)START_HOUR;
+        return DB::query("SELECT *, if (HOUR(`date`) < '$start_hour', DATE_SUB(DATE(`date`), INTERVAL 1 DAY), DATE(`date`)) as date_ymd FROM tracker where habit_id=? and value > 0 ORDER BY `date` asc", [$habit_id])->fetchAll();
+    }
 }

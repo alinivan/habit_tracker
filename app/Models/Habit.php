@@ -47,4 +47,9 @@ class Habit
 
         return $categories;
     }
+
+    public static function getByName(string $string): bool|array
+    {
+        return DB::query("SELECT * FROM habits WHERE user_id=? and `name`=?", [Auth::getUserId(), $string])->fetch();
+    }
 }

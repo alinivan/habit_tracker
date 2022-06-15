@@ -49,3 +49,28 @@ function csvToArray($csvFile): array
     fclose($file_to_read);
     return $lines;
 }
+
+function dateRange(string $dateFrom = '', string $dateTo = ''): array
+{
+    if ($dateFrom === '') {
+        $dateFrom = IMPORT_START_DATE;
+    }
+
+    if ($dateTo === '') {
+        $dateTo = date('Y-m-d');
+    }
+
+    $range = [];
+
+    $period = new DatePeriod(
+        new DateTime($dateFrom),
+        new DateInterval('P1D'),
+        new DateTime($dateTo)
+    );
+
+    foreach ($period as $value) {
+        $range[] = $value->format('Y-m-d');
+    }
+
+    return $range;
+}
