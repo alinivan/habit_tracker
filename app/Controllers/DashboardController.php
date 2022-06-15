@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Habit;
 use App\Models\Tracker;
+use Core\Database\Db;
 
 class DashboardController extends AbstractController
 {
@@ -65,10 +66,16 @@ class DashboardController extends AbstractController
             }
         }
 
+        $routine_items = DB::query("SELECT * FROM routine_items ri inner join habits h on (ri.habit_id = h.id) ")->fetchAll();
+
         echo $this->renderView('app/dashboard/index.html.twig', [
             'categories' => $categories,
             'tracker' => $tracker,
             'habits' => $habits,
+            'routine' => [
+                'name' => 'Routine v1',
+                'items' => $routine_items
+            ],
             'productive_hours' => $productive_hours,
             'graph' => [
                 'meditation' => [
