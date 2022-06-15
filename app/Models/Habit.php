@@ -9,7 +9,7 @@ class Habit
 {
     public static function insert(array $request): void
     {
-        DB::query("INSERT INTO habits (name, value_type, category_id, min_value, active, is_productive, points, user_id) VALUES (?,?,?,?,?,?)", [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['active'], $request['is_productive'], $request['points'], Auth::getUserId()]);
+        DB::query("INSERT INTO habits (name, value_type, category_id, min_value, active, is_productive, points, user_id) VALUES (?,?,?,?,?,?,?,?)", [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['active'], $request['is_productive'], $request['points'], Auth::getUserId()]);
     }
 
     public static function all(): bool|array
