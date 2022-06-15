@@ -20,6 +20,7 @@ class Tracker
 
     public static function all(): bool|array
     {
-        return DB::query("SELECT *, DATE(`date`) date_ymd FROM tracker where value > 0 ORDER BY `date` desc")->fetchAll();
+        $start_hour = (int)START_HOUR;
+        return DB::query("SELECT *, if (HOUR(`date`) < '$start_hour', DATE_SUB(DATE(`date`), INTERVAL 1 DAY), DATE(`date`)) as date_ymd FROM tracker where value > 0 ORDER BY `date` desc")->fetchAll();
     }
 }
