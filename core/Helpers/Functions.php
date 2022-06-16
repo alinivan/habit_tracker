@@ -36,6 +36,17 @@ function array_pluck(array $array, string $key): array
     return $return;
 }
 
+function array_remap(array $array, string $key): array
+{
+    $return = [];
+
+    foreach ($array as $v) {
+        $return[$v[$key]] = $v;
+    }
+
+    return $return;
+}
+
 function csvToArray($csvFile): array
 {
     $lines = [];
@@ -74,3 +85,4 @@ function dateRange(string $dateFrom = '', string $dateTo = ''): array
 
     return $range;
 }
+

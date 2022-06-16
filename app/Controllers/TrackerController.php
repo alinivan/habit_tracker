@@ -11,9 +11,23 @@ class TrackerController extends AbstractController
 {
     public function index()
     {
-        $tracker = Tracker::all();
+        $tracker = array_pluck(Tracker::all(), 'date_ymd');
+        $habits = array_remap(Habit::all(), 'id');
 
-        foreach ($tracker as $k => $v) {
+        $new_tracker = [];
+        foreach ($tracker as $date => $items) {
+            foreach ($items as $item) {
+                @$new_tracker[$date][$habits[$item['habit_id']]['name']] += $item['value'];
+            }
+        }
+
+        /*
+         * array[date][habit_name] = sum(value)
+         *
+         */
+
+
+        /*foreach ($tracker as $k => $v) {
             $habit = Habit::get($v['habit_id']);
             $date = date('H:i', strtotime($v['date']));
             $minutes = $v['value'];
@@ -24,9 +38,9 @@ class TrackerController extends AbstractController
                 $tracker[$k]['start_hour'] = date('H:i', strtotime("- $minutes minutes", strtotime($v['date'])));
             }
         }
-        $days = array_pluck($tracker, 'date_ymd');
+        $days = array_pluck($tracker, 'date_ymd');*/
 
-        echo $this->renderView('app/tracker/index.html.twig', ['days' => $days]);
+        echo $this->renderView('app/tracker/index.html.twig', ['days' => $new_tracker]);
     }
 
     public function new()
