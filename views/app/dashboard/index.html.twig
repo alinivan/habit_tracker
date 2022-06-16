@@ -25,7 +25,11 @@
                                          data-id="{{ habit.id }}">
                                         {{ habit.name }}
 
-                                        <span class="text-xs italic block">{{ "(#{habits[habit.id] + 0} / #{habit.min_value})" }}</span>
+                                        {% if habit.is_productive %}
+                                            <span class="text-xs italic block">{{ "(#{habits[habit.id] + 0} / #{habit.min_value})" }}</span>
+                                        {% else %}
+                                            <span class="text-xs italic block">-</span>
+                                        {% endif %}
                                     </div>
                                 {% endfor %}
                             </div>
@@ -35,7 +39,8 @@
 
                 <div class="grid grid-cols-2 gap-8">
                     <div class="pt-8">
-                        <h2 class="mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8 text-center">Today <a class="text-sm italic" href="/tracker">(see all days)</a></h2>
+                        <h2 class="mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8 text-center">
+                            Today <a class="text-sm italic" href="/tracker">(see all days)</a></h2>
 
                         <ul role="list" class="divide-y divide-gray-200">
                             {% for item in tracker %}
@@ -45,7 +50,11 @@
                                             <div class="flex items-center justify-between">
                                                 <h3 class="text-sm font-medium">{{ item.habit.name }}</h3>
                                                 <p class="text-sm text-gray-500">
-                                                    {{ item.start_hour ? "#{item.start_hour} - #{item.hour}" : item.hour }}
+                                                    {% if item.habit.is_productive %}
+                                                        {{ item.start_hour ? "#{item.start_hour} - #{item.hour}" : item.hour }}
+                                                    {% else %}
+                                                        {{ item.hour }}
+                                                    {% endif %}
                                                 </p>
                                             </div>
 
@@ -57,8 +66,10 @@
                                                 {% endif %}
 
                                                 <div>
-                                                    <a class="tracker-edit text-gray-300" href="javascript:void(0)" data-id="{{ item.id }}">edit</a>
-                                                    <a class="tracker-delete text-red-500" href="javascript:void(0)" data-id="{{ item.id }}">delete</a>
+                                                    <a class="tracker-edit text-gray-300" href="javascript:void(0)"
+                                                       data-id="{{ item.id }}">edit</a>
+                                                    <a class="tracker-delete text-red-500" href="javascript:void(0)"
+                                                       data-id="{{ item.id }}">delete</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -67,11 +78,10 @@
                             {% endfor %}
                         </ul>
 
-                        {#                    <div class="trumbowyg-dark">#}
-                        {#                        <textarea id="editor"></textarea>#}
-                        {#                    </div>#}
+                        {#                    <div class="trumbowyg-dark"> #}
+                        {#                        <textarea id="editor"></textarea> #}
+                        {#                    </div> #}
                     </div>
-
 
 
                     <div class="pt-8">
@@ -97,8 +107,10 @@
                                                 {% endif %}
 
                                                 <div>
-                                                    <a class="tracker-edit text-gray-300" href="javascript:void(0)" data-id="{{ item.id }}">edit</a>
-                                                    <a class="tracker-delete text-red-500" href="javascript:void(0)" data-id="{{ item.id }}">delete</a>
+                                                    <a class="tracker-edit text-gray-300" href="javascript:void(0)"
+                                                       data-id="{{ item.id }}">edit</a>
+                                                    <a class="tracker-delete text-red-500" href="javascript:void(0)"
+                                                       data-id="{{ item.id }}">delete</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -173,28 +185,28 @@
 
 
         {% for habit, values in graph %}
-            new Chart(document.getElementById('{{ habit }}-progress'), {
-                type: 'line',
-                data: {
-                    labels: JSON.parse('{{ values.labels | json_encode | raw }}'),
-                    datasets: [{
-                        label: 'Minutes',
-                        data: JSON.parse('{{ values.data | json_encode | raw }}'),
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: '{{ habit }} Chart'
-                        }
+        new Chart(document.getElementById('{{ habit }}-progress'), {
+            type: 'line',
+            data: {
+                labels: JSON.parse('{{ values.labels | json_encode | raw }}'),
+                datasets: [{
+                    label: 'Minutes',
+                    data: JSON.parse('{{ values.data | json_encode | raw }}'),
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: '{{ habit }} Chart'
                     }
                 }
-            });
+            }
+        });
         {% endfor %}
     </script>
 {% endblock %}

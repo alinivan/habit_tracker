@@ -542,6 +542,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   grid-column: span 6 / span 6;
 }
 
+.float-right {
+  float: right;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -626,6 +630,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .mb-8 {
   margin-bottom: 2rem;
+}
+
+.mt-28 {
+  margin-top: 7rem;
 }
 
 .block {
@@ -1231,6 +1239,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   line-height: 2.25rem;
 }
 
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
 .font-medium {
   font-weight: 500;
 }
@@ -1723,6 +1736,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .sm\:flex-none {
     flex: none;
+  }
+
+  .sm\:flex-auto {
+    flex: 1 1 auto;
   }
 
   .sm\:grid-flow-row-dense {

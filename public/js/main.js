@@ -34,10 +34,10 @@ $('.mobile_sidebar').click(function() {
 
 $('#user-menu-button').click(function() {
     if ($(this).data('open') === 1) {
-        $('#user-menu-area').addClass('transform opacity-0 scale-95');
+        $('#user-menu-area').addClass('transform opacity-0 scale-95 hidden');
         $(this).data('open', 0);
     } else {
-        $('#user-menu-area').removeClass('transform opacity-0 scale-95');
+        $('#user-menu-area').removeClass('transform opacity-0 scale-95 hidden');
         $(this).data('open', 1);
     }
 });
