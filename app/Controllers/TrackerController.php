@@ -18,6 +18,7 @@ class TrackerController extends AbstractController
         foreach ($tracker as $date => $items) {
             foreach ($items as $item) {
                 @$new_tracker[$date][$habits[$item['habit_id']]['name']] += $item['value'];
+                ksort($new_tracker[$date]);
             }
         }
 
