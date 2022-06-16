@@ -38,15 +38,15 @@ function array_pluck(array $array, string $key): array
 
 function csvToArray($csvFile): array
 {
-
+    $lines = [];
     $file_to_read = fopen($csvFile, 'r');
 
     while (!feof($file_to_read) ) {
         $lines[] = fgetcsv($file_to_read, 1000, ',');
-
     }
 
     fclose($file_to_read);
+
     return $lines;
 }
 

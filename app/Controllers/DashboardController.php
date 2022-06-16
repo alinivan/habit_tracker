@@ -31,8 +31,6 @@ class DashboardController extends AbstractController
             }
         }
 
-        $productive_hours = round(array_sum(array_column($tracker, 'value')) / 60, 2);
-
         $habits_for_graph = ['meditation', 'sport', 'eating', 'proteins', 'no m'];
         $graphs = [];
 
@@ -68,15 +66,18 @@ class DashboardController extends AbstractController
 
         $routine_items = DB::query("SELECT * FROM routine_items ri inner join habits h on (ri.habit_id = h.id) ")->fetchAll();
 
+
+        $stats = $this->getStats();
+
         echo $this->renderView('app/dashboard/index.html.twig', [
             'categories' => $categories,
+            'stats_html' => $stats,
             'tracker' => $tracker,
             'habits' => $habits,
             'routine' => [
                 'name' => 'Routine v1',
                 'items' => $routine_items
             ],
-            'productive_hours' => $productive_hours,
             'graph' => [
                 'meditation' => [
                     'labels' => array_keys($graphs['meditation']),
@@ -103,6 +104,25 @@ class DashboardController extends AbstractController
                     'data' => array_values($graphs['productivity'])
                 ]
             ]
+        ]);
+    }
+
+    private function getStats(): string
+    {
+
+        $tracker = Tracker::getTodayWithHabits();
+
+        $points = array_sum(array_column(Tracker::getTodayScore(), 'score'));
+
+        $productive_hours = round($tracker['sum'] / 60, 2);
+        $avg_points = round(array_sum(array_column(Tracker::getAvgScore(), 'score')) / 7, 2);
+        $kg = '51.7';
+
+        return $this->renderView('app/dashboard/components/stats.html.twig', [
+            'productive_hours' => $productive_hours,
+            'points' => $points,
+            'avg_points' => $avg_points,
+            'kg' => $kg
         ]);
     }
 }
