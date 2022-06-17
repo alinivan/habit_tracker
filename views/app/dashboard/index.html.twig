@@ -130,6 +130,8 @@
                     <canvas id="{{ habit }}-progress" width="400" height="150" class="mt-8"></canvas>
                 {% endfor %}
 
+                <canvas id="gaining-weight-progress" width="400" height="150" class="mt-8"></canvas>
+
             </div>
         </div>
     </main>
@@ -212,5 +214,47 @@
             }
         });
         {% endfor %}
+
+        new Chart(document.getElementById('gaining-weight-progress'), {
+            type: 'line',
+            data: {
+                labels: JSON.parse('{{ graph.sport.labels | json_encode | raw }}'),
+                datasets: [
+                    {
+                        label: 'Sport',
+                        data: JSON.parse('{{ graph.sport.data | json_encode | raw }}'),
+                        borderColor: 'rgb(255,127,80)',
+                        backgroundColor: 'rgb(255,127,80)',
+                    },{
+                        label: 'Kg',
+                        data: JSON.parse('{{ graph.kg.data | json_encode | raw }}'),
+                        borderColor: 'rgb(255,215,0)',
+                        backgroundColor: 'rgb(255,215,0)',
+                    },{
+                        label: 'Proteins',
+                        data: JSON.parse('{{ graph.proteins.data | json_encode | raw }}'),
+                        borderColor: 'rgb(127,255,0)',
+                        backgroundColor: 'rgb(127,255,0)',
+                    },{
+                        label: 'Eating',
+                        data: JSON.parse('{{ graph.eating.data | json_encode | raw }}'),
+                        borderColor: 'rgb(147,112,219)',
+                        backgroundColor: 'rgb(147,112,219)',
+                    },
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Gaining Weight Chart'
+                    }
+                }
+            }
+        });
     </script>
 {% endblock %}

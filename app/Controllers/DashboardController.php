@@ -31,7 +31,7 @@ class DashboardController extends AbstractController
             }
         }
 
-        $habits_for_graph = ['meditation', 'sport', 'eating', 'proteins', 'no m'];
+        $habits_for_graph = ['meditation', 'sport', 'eating', 'proteins', 'no m', 'kg'];
         $graphs = [];
 
         $date_range = dateRange();
@@ -98,6 +98,10 @@ class DashboardController extends AbstractController
                 'no m' => [
                     'labels' => array_keys($graphs['no m']),
                     'data' => array_values($graphs['no m'])
+                ],
+                'kg' => [
+                    'labels' => array_keys($graphs['kg']),
+                    'data' => array_values($graphs['kg'])
                 ],
                 'productivity' => [
                     'labels' => array_keys($graphs['productivity']),
