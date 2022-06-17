@@ -111,16 +111,18 @@ class DashboardController extends AbstractController
     {
 
         $tracker = Tracker::getTodayWithHabits();
+        $start_date = Tracker::getTodayStartHour();
 
-        $points = array_sum(array_column(Tracker::getTodayScore(), 'score'));
+//        $points = array_sum(array_column(Tracker::getTodayScore(), 'score'));
 
         $productive_hours = round($tracker['sum'] / 60, 2);
         $avg_points = round(array_sum(array_column(Tracker::getAvgScore(), 'score')) / 7, 2);
-        $kg = '51.7';
+        $kg = Tracker::getLastValue(18)['value'];
 
         return $this->renderView('app/dashboard/components/stats.html.twig', [
             'productive_hours' => $productive_hours,
-            'points' => $points,
+//            'points' => $points,
+            'start_hour' => date('H:i', strtotime($start_date['date'])),
             'avg_points' => $avg_points,
             'kg' => $kg
         ]);
