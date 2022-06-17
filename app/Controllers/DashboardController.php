@@ -64,7 +64,7 @@ class DashboardController extends AbstractController
             }
         }
 
-        $routine_items = DB::query("SELECT * FROM routine_items ri inner join habits h on (ri.habit_id = h.id) ")->fetchAll();
+//        $routine_items = DB::query("SELECT * FROM routine_items ri inner join habits h on (ri.habit_id = h.id) ")->fetchAll();
 
 
         $stats = $this->getStats();
@@ -74,10 +74,10 @@ class DashboardController extends AbstractController
             'stats_html' => $stats,
             'tracker' => $tracker,
             'habits' => $habits,
-            'routine' => [
-                'name' => 'Routine v1',
-                'items' => $routine_items
-            ],
+//            'routine' => [
+//                'name' => 'Routine v1',
+//                'items' => $routine_items
+//            ],
             'graph' => [
                 'meditation' => [
                     'labels' => array_keys($graphs['meditation']),
