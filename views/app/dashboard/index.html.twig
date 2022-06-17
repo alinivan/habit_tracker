@@ -128,10 +128,10 @@
 
 
                 {% for habit, values in graph %}
-                    <canvas id="{{ habit }}-progress" width="400" height="150" class="mt-8 bg-gray-200 rounded px-4 py-2"></canvas>
+                    <canvas id="{{ habit }}-progress" width="400" height="150" class="mt-8 rounded px-4 py-2"></canvas>
                 {% endfor %}
 
-                <canvas id="gaining-weight-progress" width="400" height="150" class="mt-8 bg-gray-200 rounded"></canvas>
+                <canvas id="gaining-weight-progress" width="400" height="150" class="mt-8 rounded"></canvas>
 
             </div>
         </div>
@@ -199,6 +199,8 @@
                 datasets: [{
                     label: 'Minutes',
                     data: JSON.parse('{{ values.data | json_encode | raw }}'),
+                    borderColor: 'green',
+                    backgroundColor: 'green',
                 }]
             },
             options: {
@@ -209,8 +211,20 @@
                     },
                     title: {
                         display: true,
-                        text: '{{ habit }} Chart'
+                        text: '{{ habit }} Chart',
                     }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white',
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white',
+                        }
+                    },
                 }
             }
         });
@@ -252,8 +266,20 @@
                     },
                     title: {
                         display: true,
-                        text: 'Gaining Weight Chart'
+                        text: 'Gaining Weight Chart',
                     }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white',
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white',
+                        }
+                    },
                 }
             }
         });
