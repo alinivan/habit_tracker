@@ -15,8 +15,15 @@ class Tracker
 
     public static function getToday(): bool|array
     {
-        $start_date = date('Y-m-d ' . START_HOUR . ':00');
-        $end_date = date('Y-m-d H:i:s', strtotime($start_date . '+1 day'));
+
+        if (date('H') < (int)START_HOUR) {
+            $end_date = date('Y-m-d ' . START_HOUR . ':00');
+            $start_date = date('Y-m-d H:i:s', strtotime($end_date . '-1 day'));
+        } else {
+            $start_date = date('Y-m-d ' . START_HOUR . ':00');
+            $end_date = date('Y-m-d H:i:s', strtotime($start_date . '+1 day'));
+        }
+
 
         $sql = "SELECT * FROM tracker WHERE habit_id in (select id from habits where user_id=?) and `date`>=? and `date`<=? and value > 0 ORDER BY `date` asc";
 

@@ -4,7 +4,7 @@
     <main class="flex-1">
         <div class="py-6">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
+                <h1 class="text-2xl font-semibold text-white">Dashboard</h1>
             </div>
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
@@ -44,7 +44,7 @@
 {#                <div class="grid grid-cols-2 gap-8">#}
                 <div class="max-w-xl mx-auto">
                     <div class="pt-8">
-                        <h2 class="mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8 text-center">
+                        <h2 class="mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-100 sm:px-6 lg:px-8 text-center">
                             Today <a class="text-sm italic" href="/tracker">(see all days)</a></h2>
 
                         <ul role="list" class="divide-y divide-gray-200">
@@ -53,8 +53,8 @@
                                     <div class="flex space-x-3">
                                         <div class="flex-1 space-y-1">
                                             <div class="flex items-center justify-between">
-                                                <h3 class="text-sm font-medium">{{ item.habit.name }}</h3>
-                                                <p class="text-sm text-gray-500">
+                                                <h3 class="text-sm font-medium text-gray-400">{{ item.habit.name }}</h3>
+                                                <p class="text-sm text-gray-400">
                                                     {% if item.habit.is_productive %}
                                                         {{ item.start_hour ? "#{item.start_hour} - #{item.hour}" : item.hour }}
                                                     {% else %}
@@ -67,7 +67,7 @@
                                                 {% if item.habit.value_type == 'boolean' %}
                                                     <img src="/img/check-svgrepo-com.svg"/>
                                                 {% else %}
-                                                    <p class="text-sm text-gray-500">{{ item.value }} min</p>
+                                                    <p class="text-sm text-gray-200">{{ item.value }} min</p>
                                                 {% endif %}
 
                                                 <div>
@@ -128,10 +128,10 @@
 
 
                 {% for habit, values in graph %}
-                    <canvas id="{{ habit }}-progress" width="400" height="150" class="mt-8"></canvas>
+                    <canvas id="{{ habit }}-progress" width="400" height="150" class="mt-8 bg-gray-200 rounded px-4 py-2"></canvas>
                 {% endfor %}
 
-                <canvas id="gaining-weight-progress" width="400" height="150" class="mt-8"></canvas>
+                <canvas id="gaining-weight-progress" width="400" height="150" class="mt-8 bg-gray-200 rounded"></canvas>
 
             </div>
         </div>
