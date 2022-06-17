@@ -92,6 +92,13 @@ class CategoryController extends AbstractController
             'value' => $category['color'] ?? '',
             'options' => $value_types
         ]);
+
+        $form->input([
+            'type' => 'number',
+            'label' => 'Order',
+            'name' => 'order',
+            'value' => $category['order'] ?? 0
+        ]);
         $form->submit(['label' => 'Save']);
 
         return $form;

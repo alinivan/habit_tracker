@@ -9,13 +9,13 @@ class Category
 {
     public static function insert(array $request): void
     {
-        $sql = "INSERT INTO category (name, color, user_id) VALUES (?,?,?)";
-        DB::query($sql, [$request['name'], $request['color'], Auth::getUserId()]);
+        $sql = "INSERT INTO category (name, color, `order`, user_id) VALUES (?,?,?)";
+        DB::query($sql, [$request['name'], $request['color'], $request['order'], Auth::getUserId()]);
     }
 
     public static function all(): bool|array
     {
-        $sql = "SELECT * FROM category where user_id=?";
+        $sql = "SELECT * FROM category where user_id=? order by `order`";
         return DB::query($sql, [Auth::getUserId()])->fetchAll();
     }
 
@@ -27,8 +27,8 @@ class Category
 
     public static function update(int $id, array $request): void
     {
-        $sql = "UPDATE category SET name=?, color=? WHERE id=?";
-        DB::query($sql, [$request['name'], $request['color'], $id]);
+        $sql = "UPDATE category SET name=?, color=?, `order`=? WHERE id=?";
+        DB::query($sql, [$request['name'], $request['color'], $request['order'], $id]);
     }
 
     public static function destroy(int $id): void
