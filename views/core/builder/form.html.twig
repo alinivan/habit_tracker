@@ -1,11 +1,11 @@
 <form id="{{ form.id }}" action="{{ form.action }}" method="{{ form.method }}">
     <div class="shadow sm:rounded-md sm:overflow-hidden">
-        <div class="bg-white py-6 px-4 space-y-6 sm:p-6">
+        <div class="py-6 px-4 space-y-6 sm:p-6">
             <div class="grid grid-cols-6 gap-6">
                 {% for field in form.fields %}
                     <div class="col-span-6 sm:col-span-3">
                         <label for="{{ field.name }}"
-                               class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+                               class="block text-sm font-medium text-gray-200">{{ field.label }}</label>
 
                         {% if field.type == 'input' %}
                             {% if field.options %}
@@ -16,7 +16,7 @@
                                            value="{{ option.value }}"
                                            {{ field.value == option.value ? 'checked' }}
                                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <label for="{{ option.name }}" class="ml-3 block text-sm font-medium text-gray-700">{{ option.name }}</label>
+                                    <label for="{{ option.name }}" class="ml-3 block text-sm font-medium text-gray-200">{{ option.name }}</label>
                                 {% endfor %}
                             {% else %}
                                 <input type="{{ field.input_type }}"
@@ -28,7 +28,7 @@
                         {% elseif field.type == 'select' %}
                             <select id="{{ field.name }}"
                                     name="{{ field.name }}"
-                                    class="mt-1 block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 {% for option in field.options %}
                                     <option value="{{ option.value }}" {{ field.value == option.value ? 'selected' }}>{{ option.name }}</option>
                                 {% endfor %}
@@ -40,7 +40,7 @@
         </div>
 
         {% if form.submit %}
-            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+            <div class="px-4 py-3 text-right sm:px-6">
                 <button type="submit"
                         class="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     {{ form.submit.label }}

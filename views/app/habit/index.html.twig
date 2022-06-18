@@ -11,7 +11,7 @@
                     <div class="sm:flex sm:items-center">
 
                         <div class="sm:flex-auto">
-                            <p class="mt-2 text-sm text-gray-700">A list of all your habits.</p>
+                            <p class="mt-2 text-sm text-gray-200">A list of all your habits.</p>
                         </div>
 
                         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -21,21 +21,21 @@
                             </a>
                         </div>
                     </div>
-                    <div class="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
+                    <div class="-mx-4 mt-8 overflow-hidden ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-300">
-                            <thead class="bg-gray-50">
+                            <thead class="text-gray-100">
                                 <tr>
                                     <th scope="col"
-                                        class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name
+                                        class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">Name
                                     </th>
                                     <th scope="col"
-                                        class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Min value
+                                        class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">Min value
                                     </th>
                                     <th scope="col"
-                                        class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Points
+                                        class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">Points
                                     </th>
                                     <th scope="col"
-                                        class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Category
+                                        class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">Category
                                     </th>
                                     <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                                         <span class="sr-only">Edit</span>
@@ -43,20 +43,20 @@
                                 </tr>
                             </thead>
 
-                            <tbody class="divide-y divide-gray-200 bg-white">
+                            <tbody class="divide-y divide-gray-200 text-gray-200">
 
                                 {% for habit in habits %}
                                     <tr>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm sm:table-cell">
                                             {{ habit.name }}
                                         </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm sm:table-cell">
                                             {{ habit.min_value }}
                                         </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm sm:table-cell">
                                             {{ habit.points }}
                                         </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm sm:table-cell">
                                             {{ habit.category.name }}
                                         </td>
                                         <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
