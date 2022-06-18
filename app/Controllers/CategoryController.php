@@ -83,7 +83,12 @@ class CategoryController extends AbstractController
             [
                 'value' => 'blue',
                 'name' => 'blue'
-            ]
+            ],
+            [
+                'value' => 'indigo',
+                'name' => 'indigo'
+            ],
+
         ];
 
         $form->select([

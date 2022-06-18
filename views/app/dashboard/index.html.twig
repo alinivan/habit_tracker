@@ -13,18 +13,18 @@
 
                 <div class="grid grid-cols-3 gap-4">
                     {% for category in categories %}
-                        <div class="bg-{{ category.color }}-50 rounded">
+                        <div class="text-white">
                             <div>
                                 <div class="inline-block w-full">
                                     <span class="inline-block rounded w-full py-2 text-center text-md font-medium bg-{{ category.color }}-100 text-{{ category.color }}-800"> {{ category.name }} </span>
-                                    {# bg-green-100 bg-green-50 text-green-800 | bg-blue-100 bg-blue-50 text-blue-800 | bg-red-100 bg-red-50 text-red-800 #}
+                                    {# bg-green-100 bg-green-50 text-green-800 | bg-blue-100 bg-blue-50 text-blue-800 | bg-red-100 bg-red-50 text-red-800 | bg-indigo-100 bg-indigo-50 text-indigo-800 #}
                                 </div>
                             </div>
 
                             <div class="pb-3 px-3">
                                 <div class="mt-4 grid md:grid-cols-2 gap-2 sm:grid-cols-1">
                                     {% for habit in category.habits %}
-                                        <div class="track-habit text-center py-3 {{ habits[habit.id] >= habit.min_value ? 'bg-green-100 hover:bg-green-200' : 'bg-{category.color}-50 hover:bg-gray-100' }} cursor-pointer border-collapse border border-gray-300 rounded-md"
+                                        <div class="track-habit text-center py-3 {{ habits[habit.id] >= habit.min_value ? 'bg-green-400 hover:bg-green-300' : 'hover:bg-gray-700' }} cursor-pointer border-collapse border border-gray-300 rounded-md"
                                              data-id="{{ habit.id }}">
                                             {{ habit.name }}
 
@@ -200,7 +200,7 @@
                     label: 'Minutes',
                     data: JSON.parse('{{ values.data | json_encode | raw }}'),
                     borderColor: 'green',
-                    backgroundColor: 'green',
+                    backgroundColor: 'white',
                 }]
             },
             options: {
@@ -212,6 +212,7 @@
                     title: {
                         display: true,
                         text: '{{ habit }} Chart',
+                        color: 'white'
                     }
                 },
                 scales: {
@@ -267,6 +268,7 @@
                     title: {
                         display: true,
                         text: 'Gaining Weight Chart',
+                        color: 'white'
                     }
                 },
                 scales: {
