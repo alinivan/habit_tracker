@@ -24,7 +24,7 @@
                             <div class="pb-3 px-3">
                                 <div class="mt-4 grid md:grid-cols-2 gap-2 sm:grid-cols-1">
                                     {% for habit in category.habits %}
-                                        <div class="track-habit text-center py-3 {{ habits[habit.id] >= habit.min_value ? 'bg-green-400 hover:bg-green-300' : 'hover:bg-gray-700' }} cursor-pointer border-collapse border border-gray-300 rounded-md"
+                                        <div class="track-habit text-center py-3 {{ habits[habit.id] >= habit.min_value ? 'bg-green-700 hover:bg-green-600' : 'hover:bg-gray-700' }} cursor-pointer border-collapse border border-gray-300 rounded-md"
                                              data-id="{{ habit.id }}">
                                             {{ habit.name }}
 
