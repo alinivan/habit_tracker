@@ -60,9 +60,8 @@ class TrackerController extends AbstractController
             ]);
         } else if ($habit['value_type'] == 'boolean') {
             $form->input([
-                'type' => 'checkbox',
+                'type' => 'hidden',
                 'name' => 'value',
-                'label' => 'Done?',
                 'value' => 1
             ]);
         }
