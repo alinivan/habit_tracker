@@ -51,10 +51,19 @@ class TrackerController extends AbstractController
 
         $form = new Form();
 
+        $form->input([
+            'type' => 'datetime-local',
+            'name' => 'date',
+            'label' => 'Date',
+            'label_class' => 'text-gray-900',
+            'value' => date('Y-m-d\TH:i')
+        ]);
+
         if ($habit['value_type'] == 'number') {
             $form->input([
                 'type' => 'number',
                 'name' => 'value',
+                'label_class' => 'text-gray-900',
                 'label' => 'Minutes',
                 'value' => 0
             ]);
@@ -62,22 +71,17 @@ class TrackerController extends AbstractController
             $form->input([
                 'type' => 'hidden',
                 'name' => 'value',
+                'label_class' => 'text-gray-900',
                 'value' => 1
             ]);
         }
-
-        $form->input([
-            'type' => 'datetime-local',
-            'name' => 'date',
-            'label' => 'Date',
-            'value' => date('Y-m-d\TH:i')
-        ]);
 
         $form->input([
             'type' => 'hidden',
             'name' => 'habit_id',
             'value' => $habit_id,
         ]);
+
 
         $modal = new Modal();
         $modal->title($habit['name']);

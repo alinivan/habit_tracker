@@ -1,11 +1,11 @@
 <form id="{{ form.id }}" action="{{ form.action }}" method="{{ form.method }}">
-    <div class="shadow sm:rounded-md sm:overflow-hidden">
+    <div class="sm:rounded-md sm:overflow-hidden">
         <div class="py-6 px-4 space-y-6 sm:p-6">
             <div class="grid grid-cols-6 gap-6">
                 {% for field in form.fields %}
                     <div class="col-span-6 sm:col-span-3">
                         <label for="{{ field.name }}"
-                               class="block text-sm font-medium text-gray-200">{{ field.label }}</label>
+                               class="block text-sm font-medium text-gray-200 {{ field.label_class }}">{{ field.label }}</label>
 
                         {% if field.type == 'input' %}
                             {% if field.options %}
@@ -15,7 +15,7 @@
                                            name="{{ field.name }}"
                                            value="{{ option.value }}"
                                            {{ field.value == option.value ? 'checked' }}
-                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm {{ option.class }}">
                                     <label for="{{ option.name }}" class="ml-3 block text-sm font-medium text-gray-200">{{ option.name }}</label>
                                 {% endfor %}
                             {% else %}
@@ -23,12 +23,12 @@
                                        id="{{ field.name }}"
                                        name="{{ field.name }}"
                                        value="{{ field.value }}"
-                                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm {{ option.class }}">
                             {% endif %}
                         {% elseif field.type == 'select' %}
                             <select id="{{ field.name }}"
                                     name="{{ field.name }}"
-                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm {{ option.class }}">
                                 {% for option in field.options %}
                                     <option value="{{ option.value }}" {{ field.value == option.value ? 'selected' }}>{{ option.name }}</option>
                                 {% endfor %}

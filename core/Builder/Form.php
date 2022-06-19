@@ -17,6 +17,7 @@ class Form extends TwigTemplating
             'name' => $fields['name'] ?? '',
             'label' => $fields['label'] ?? '',
             'class' => $fields['class'] ?? '',
+            'label_class' => $fields['label_class'] ?? '',
             'value' => $fields['value'] ?? '',
             'placeholder' => $fields['placeholder'] ?? '',
             'options' => $fields['options'] ?? [],
