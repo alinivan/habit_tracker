@@ -68,7 +68,7 @@ function dateRange(string $dateFrom = '', string $dateTo = ''): array
     }
 
     if ($dateTo === '') {
-        $dateTo = date('Y-m-d');
+        $dateTo = date('Y-m-d', strtotime('+1 day'));
     }
 
     $range = [];

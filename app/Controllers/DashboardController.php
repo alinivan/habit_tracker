@@ -47,7 +47,6 @@ class DashboardController extends AbstractController
                 if (isset($tracker_by_date[$date])) {
                     $graphs[$habit_name][$date] = array_sum(array_column($tracker_by_date[$date], 'value'));
                 }
-
             }
         }
 

@@ -77,6 +77,13 @@ class HabitController extends AbstractController
         ]);
 
         $form->input([
+            'type' => 'number',
+            'name' => 'order',
+            'label' => 'Order',
+            'value' => $habit['order'] ?? 0,
+        ]);
+
+        $form->input([
             'type' => 'text',
             'name' => 'points',
             'label' => 'Points',

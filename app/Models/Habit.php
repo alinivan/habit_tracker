@@ -9,8 +9,8 @@ class Habit
 {
     public static function insert(array $request): void
     {
-        $sql = "INSERT INTO habits (name, value_type, category_id, min_value, active, is_productive, points, user_id) VALUES (?,?,?,?,?,?,?,?)";
-        DB::query($sql, [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['active'], $request['is_productive'], $request['points'], Auth::getUserId()]);
+        $sql = "INSERT INTO habits (name, value_type, category_id, min_value, `order`, active, is_productive, points, user_id) VALUES (?,?,?,?,?,?,?,?,?)";
+        DB::query($sql, [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['order'], $request['active'], $request['is_productive'], $request['points'], Auth::getUserId()]);
     }
 
     public static function all(): bool|array
@@ -27,8 +27,8 @@ class Habit
 
     public static function update(int $id, array $request): void
     {
-        $sql = "UPDATE habits SET name=?, value_type=?, category_id=?, min_value=?, active=?, is_productive=?, points=? WHERE id=?";
-        DB::query($sql, [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['active'], $request['is_productive'], $request['points'], $id]);
+        $sql = "UPDATE habits SET name=?, value_type=?, category_id=?, min_value=?, `order`=?, active=?, is_productive=?, points=? WHERE id=?";
+        DB::query($sql, [$request['name'], $request['value_type'], $request['category_id'], $request['min_value'], $request['order'], $request['active'], $request['is_productive'], $request['points'], $id]);
     }
 
     public static function destroy(int $id): void
@@ -39,7 +39,7 @@ class Habit
 
     public static function allByCategoryId(int $id): bool|array
     {
-        $sql = "SELECT * FROM habits WHERE category_id=? and active=1";
+        $sql = "SELECT * FROM habits WHERE category_id=? and active=1 order by `order`";
         return DB::query($sql, [$id])->fetchAll();
     }
 
