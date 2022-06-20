@@ -4,44 +4,19 @@ namespace App\Controllers;
 
 use App\Models\Habit;
 use App\Models\Tracker;
+use App\Services\TrackerService;
 use Core\Builder\Form;
 use Core\Builder\Modal;
+use Core\Helpers\Date;
 
 class TrackerController extends AbstractController
 {
     public function index()
     {
-        $tracker = array_pluck(Tracker::all(), 'date_ymd');
-        $habits = array_remap(Habit::all(), 'id');
 
-        $new_tracker = [];
-        foreach ($tracker as $date => $items) {
-            foreach ($items as $item) {
-                @$new_tracker[$date][$habits[$item['habit_id']]['name']] += $item['value'];
-                ksort($new_tracker[$date]);
-            }
-        }
+        $tracker_html = (new TrackerService())->getTracker(IMPORT_START_DATE, Date::getStartAndEndDate()['end_date'], false);
 
-        /*
-         * array[date][habit_name] = sum(value)
-         *
-         */
-
-
-        /*foreach ($tracker as $k => $v) {
-            $habit = Habit::get($v['habit_id']);
-            $date = date('H:i', strtotime($v['date']));
-            $minutes = $v['value'];
-            $tracker[$k]['habit'] = $habit;
-            $tracker[$k]['hour'] = $date;
-
-            if ($habit['value_type'] === 'number') {
-                $tracker[$k]['start_hour'] = date('H:i', strtotime("- $minutes minutes", strtotime($v['date'])));
-            }
-        }
-        $days = array_pluck($tracker, 'date_ymd');*/
-
-        echo $this->renderView('app/tracker/index.html.twig', ['days' => $new_tracker]);
+        echo $this->renderView('app/tracker/index.html.twig', ['tracker_html' => $tracker_html]);
     }
 
     public function new()

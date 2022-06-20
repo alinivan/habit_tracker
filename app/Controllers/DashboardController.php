@@ -4,7 +4,8 @@ namespace App\Controllers;
 
 use App\Models\Habit;
 use App\Models\Tracker;
-use Core\Database\Db;
+use App\Services\TrackerService;
+use Core\Helpers\Date;
 
 class DashboardController extends AbstractController
 {
@@ -16,19 +17,6 @@ class DashboardController extends AbstractController
         $habits = [];
         foreach ($tracker as $v) {
             @$habits[$v['habit_id']] += $v['value'];
-        }
-
-        foreach ($tracker as &$item) {
-            $habit = Habit::get($item['habit_id']);
-            $date = date('H:i', strtotime($item['date']));
-            $minutes = (int)$item['value'];
-
-            $item['habit'] = $habit;
-            $item['hour'] = $date;
-
-            if ($habit['value_type'] === 'number') {
-                $item['start_hour'] = date('H:i', strtotime("- $minutes minutes", strtotime($item['date'])));
-            }
         }
 
         $habits_for_graph = ['meditation', 'sport', 'eating', 'proteins', 'no m', 'kg'];
@@ -63,20 +51,13 @@ class DashboardController extends AbstractController
             }
         }
 
-//        $routine_items = DB::query("SELECT * FROM routine_items ri inner join habits h on (ri.habit_id = h.id) ")->fetchAll();
-
-
         $stats = $this->getStats();
 
         echo $this->renderView('app/dashboard/index.html.twig', [
             'categories' => $categories,
             'stats_html' => $stats,
-            'tracker' => $tracker,
             'habits' => $habits,
-//            'routine' => [
-//                'name' => 'Routine v1',
-//                'items' => $routine_items
-//            ],
+            'tracker_html' => (new TrackerService())->getTracker(Date::getStartAndEndDate()['start_date'], Date::getStartAndEndDate()['end_date']),
             'graph' => [
                 'meditation' => [
                     'labels' => array_keys($graphs['meditation']),
@@ -122,15 +103,12 @@ class DashboardController extends AbstractController
             $start_hour = date('H:i', strtotime($start_date['date']));
         }
 
-//        $points = array_sum(array_column(Tracker::getTodayScore(), 'score'));
-
         $productive_hours = round($tracker['sum'] / 60, 2);
         $avg_points = round(array_sum(array_column(Tracker::getAvgScore(), 'score')) / 7, 2);
         $kg = Tracker::getLastValue(18)['value'];
 
         return $this->renderView('app/dashboard/components/stats.html.twig', [
             'productive_hours' => $productive_hours,
-//            'points' => $points,
             'start_hour' => $start_hour,
             'avg_points' => $avg_points,
             'kg' => $kg

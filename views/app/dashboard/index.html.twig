@@ -40,90 +40,11 @@
                     {% endfor %}
                 </div>
 
-{#                <div class="grid grid-cols-2 gap-8">#}
-                <div class="max-w-xl mx-auto">
-                    <div class="pt-8">
-                        <h2 class="mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-100 sm:px-6 lg:px-8 text-center">
-                            Today <a class="text-sm italic" href="/tracker">(see all days)</a></h2>
+                {{ tracker_html | raw }}
 
-                        <ul role="list" class="divide-y divide-gray-200">
-                            {% for item in tracker %}
-                                <li class="py-4">
-                                    <div class="flex space-x-3">
-                                        <div class="flex-1 space-y-1">
-                                            <div class="flex items-center justify-between">
-                                                <h3 class="text-sm font-medium text-gray-400">{{ item.habit.name }}</h3>
-                                                <p class="text-sm text-gray-400">
-                                                    {% if item.habit.is_productive %}
-                                                        {{ item.start_hour ? "#{item.start_hour} - #{item.hour}" : item.hour }}
-                                                    {% else %}
-                                                        {{ item.hour }}
-                                                    {% endif %}
-                                                </p>
-                                            </div>
-
-                                            <div class="flex items-center justify-between">
-                                                {% if item.habit.value_type == 'boolean' %}
-                                                    <img src="/img/check-svgrepo-com.svg"/>
-                                                {% else %}
-                                                    <p class="text-sm text-gray-200">{{ item.value }} min</p>
-                                                {% endif %}
-
-                                                <div>
-                                                    <a class="tracker-edit text-gray-300" href="javascript:void(0)"
-                                                       data-id="{{ item.id }}">edit</a>
-                                                    <a class="tracker-delete text-red-500" href="javascript:void(0)"
-                                                       data-id="{{ item.id }}">delete</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            {% endfor %}
-                        </ul>
-
-                        {#                    <div class="trumbowyg-dark"> #}
-                        {#                        <textarea id="editor"></textarea> #}
-                        {#                    </div> #}
-                    </div>
-
-
-{#                    <div class="pt-8">#}
-{#                        <h2 class="mx-auto mt-8 px-4 text-lg leading-6 font-medium text-gray-900 sm:px-6 lg:px-8 text-center">{{ routine.name }}</h2>#}
-
-{#                        <ul role="list" class="divide-y divide-gray-200">#}
-{#                            {% for item in routine.items %}#}
-{#                                <li class="py-4">#}
-{#                                    <div class="flex space-x-3">#}
-{#                                        <div class="flex-1 space-y-1">#}
-{#                                            <div class="flex items-center justify-between">#}
-{#                                                <h3 class="text-sm font-medium">{{ item.name }}</h3>#}
-{#                                                <p class="text-sm text-gray-500">#}
-{#                                                    {{ item.hour }}#}
-{#                                                </p>#}
-{#                                            </div>#}
-
-{#                                            <div class="flex items-center justify-between">#}
-{#                                                {% if item.value_type == 'boolean' %}#}
-{#                                                    <img src="/img/check-svgrepo-com.svg"/>#}
-{#                                                {% else %}#}
-{#                                                    <p class="text-sm text-gray-500">{{ item.value }} min</p>#}
-{#                                                {% endif %}#}
-
-{#                                                <div>#}
-{#                                                    <a class="tracker-edit text-gray-300" href="javascript:void(0)"#}
-{#                                                       data-id="{{ item.id }}">edit</a>#}
-{#                                                    <a class="tracker-delete text-red-500" href="javascript:void(0)"#}
-{#                                                       data-id="{{ item.id }}">delete</a>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                </li>#}
-{#                            {% endfor %}#}
-{#                        </ul>#}
-{#                    </div>#}
-                </div>
+                {#                    <div class="trumbowyg-dark"> #}
+                {#                        <textarea id="editor"></textarea> #}
+                {#                    </div> #}
 
 
                 {% for habit, values in graph %}
