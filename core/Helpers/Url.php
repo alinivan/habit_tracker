@@ -20,7 +20,7 @@ class Url
 
         return [
             'uri' => preg_replace('([1-9][0-9]*)', '{id}', $reqUri),
-            'param' => $param
+            'param' => $param,
         ];
     }
 }

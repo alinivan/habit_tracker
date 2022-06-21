@@ -21,6 +21,7 @@ class TrackerService extends AbstractController
 
             $item['habit_name'] = $habit['name'];
             $item['value_type'] = $habit['value_type'];
+            $item['measurement'] = $habit['measurement'];
             $item['hour'] = $hour;
 
             if ($habit['is_productive'] && $habit['value_type'] === 'number') {
@@ -41,7 +42,8 @@ class TrackerService extends AbstractController
                     @$tracker_by_date_compact[$date][$v['habit_name']] = [
                         'value' => $tracker_by_date_compact[$date][$v['habit_name']]['value'] + $v['value'],
                         'habit_name' => $v['habit_name'],
-                        'value_type' => $v['value_type']
+                        'value_type' => $v['value_type'],
+                        'measurement' => $v['measurement']
                     ];
                 }
             }

@@ -2,13 +2,14 @@
 
 namespace Core\Templating;
 
+use Core\Helpers\Url;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class TwigAppExtension extends AbstractExtension
 {
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('active', [$this, 'active']),
@@ -19,10 +20,11 @@ class TwigAppExtension extends AbstractExtension
 
     public function active(string $url): bool
     {
-        return $_SERVER['REQUEST_URI'] === $url;
+        $reqUri = Url::getNormalizedRoute($_SERVER['REQUEST_URI'])['uri'];
+        return $reqUri === $url;
     }
 
-    public function sidebar(Environment $twig)
+    public function sidebar(Environment $twig): string
     {
         $menu = [
             [

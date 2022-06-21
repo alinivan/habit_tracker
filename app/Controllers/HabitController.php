@@ -11,8 +11,12 @@ class HabitController extends AbstractController
     public function index()
     {
         $habits = Habit::all();
+        $categories = array_remap(Category::all(), 'id');
 
-        echo $this->renderView('app/habit/index.html.twig', ['habits' => $habits]);
+        echo $this->renderView('app/habit/index.html.twig', [
+            'habits' => $habits,
+            'categories' => $categories
+        ]);
     }
 
     public function new()
@@ -95,6 +99,13 @@ class HabitController extends AbstractController
             'label' => 'Active',
             'value' => $habit['active'] ?? 1,
             'options' => [['name' => 'Yes', 'value' => 1], ['name' => 'No', 'value' => 0]]
+        ]);
+
+        $form->select([
+            'name' => 'measurement',
+            'label' => 'Measurement',
+            'value' => $habit['measurement'] ?? 'min',
+            'options' => [['name' => 'min', 'value' => 'min'], ['name' => 'kg', 'value' => 'kg']]
         ]);
 
         $value_types = [
