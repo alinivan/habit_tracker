@@ -2,9 +2,11 @@
 
 namespace Core\Database;
 
+use PDOStatement;
+
 class Db
 {
-    public static function query($sql, $args = NULL): bool|\PDOStatement
+    public static function query($sql, $args = NULL): bool|PDOStatement
     {
         $connection = DatabaseConnection::getInstance();
 

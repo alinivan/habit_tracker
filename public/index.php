@@ -7,7 +7,6 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 use Core\Application;
-use Core\Database\Db;
 
 // Autoloader
 require_once '../vendor/autoload.php';

@@ -1,6 +1,7 @@
 <?php
 
 namespace Core\Database;
+use Core\Database\Db;
 
 class Model
 {
