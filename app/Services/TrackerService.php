@@ -10,9 +10,9 @@ class TrackerService extends AbstractController
 {
     public function getTracker(string $fromDate, string $toDate, bool $timeline = true): string
     {
-        $tracker = Tracker::getFromTo($fromDate, $toDate);
+        $tracker = (new Tracker)->getFromTo($fromDate, $toDate);
 
-        $habits = array_remap(Habit::all(), 'id');
+        $habits = array_remap((new Habit)->all(), 'id');
 
         foreach ($tracker as &$item) {
             $habit = $habits[$item['habit_id']];

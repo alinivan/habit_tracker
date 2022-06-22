@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Category;
 use App\Models\Habit;
 use App\Models\Tracker;
 use App\Services\TrackerService;
@@ -9,10 +10,20 @@ use Core\Helpers\Date;
 
 class DashboardController extends AbstractController
 {
+    private Habit $habit;
+    private Tracker $tracker;
+
+    public function __construct()
+    {
+        $this->habit = new Habit();
+        $this->tracker = new Tracker();
+        parent::__construct();
+    }
+    
     public function index()
     {
-        $categories = Habit::allWithCategory();
-        $tracker = Tracker::getToday();
+        $categories = $this->habit->allWithCategory();
+        $tracker = $this->tracker->getToday();
 
         $habits = [];
         foreach ($tracker as $v) {
@@ -25,7 +36,7 @@ class DashboardController extends AbstractController
         $date_range = dateRange();
 
         foreach ($habits_for_graph as $habit_name) {
-            $habit_tracker = Tracker::getByHabitId(Habit::getByName($habit_name)['id']);
+            $habit_tracker = $this->tracker->getByHabitId($this->habit->getByName($habit_name)['id']);
 
             $tracker_by_date = array_pluck($habit_tracker, 'date_ymd');
 
@@ -38,8 +49,8 @@ class DashboardController extends AbstractController
             }
         }
 
-        $habit_points = array_column(Habit::all(), 'points', 'id');
-        $productivity_tracker = array_pluck(Tracker::all(), 'date_ymd');
+        $habit_points = array_column($this->habit->all(), 'points', 'id');
+        $productivity_tracker = array_pluck($this->tracker->all(), 'date_ymd');
 
         foreach ($date_range as $date) {
             $graphs['productivity'][$date] = 0;
@@ -94,8 +105,8 @@ class DashboardController extends AbstractController
     private function getStats(): string
     {
 
-        $tracker = Tracker::getTodayWithHabits();
-        $start_date = Tracker::getTodayStartHour();
+        $tracker = $this->tracker->getTodayWithHabits();
+        $start_date = $this->tracker->getTodayStartHour();
 
         $start_hour = '--:--';
 
@@ -104,8 +115,8 @@ class DashboardController extends AbstractController
         }
 
         $productive_hours = round($tracker['sum'] / 60, 2);
-        $avg_points = round(array_sum(array_column(Tracker::getAvgScore(), 'score')) / 7, 2);
-        $kg = Tracker::getLastValue(18)['value'];
+        $avg_points = round(array_sum(array_column($this->tracker->getAvgScore(), 'score')) / 7, 2);
+        $kg = $this->tracker->getLastValue(18)['value'];
 
         return $this->renderView('app/dashboard/components/stats.html.twig', [
             'productive_hours' => $productive_hours,

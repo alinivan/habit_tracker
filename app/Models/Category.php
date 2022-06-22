@@ -3,37 +3,51 @@
 namespace App\Models;
 
 use Core\Auth;
-use Core\Database\Db;
+use Core\Database\Model;
 
-class Category
+class Category extends Model
 {
-    public static function insert(array $request): void
+    protected string $table_name = 'category';
+
+    public function create(array $request): void
     {
-        $sql = "INSERT INTO category (name, color, `order`, user_id) VALUES (?,?,?)";
-        DB::query($sql, [$request['name'], $request['color'], $request['order'], Auth::getUserId()]);
+        $this->insert([
+            'name' => $request['name'],
+            'color' => $request['color'],
+            'order' => $request['order'],
+            'user_id' => Auth::getUserId()
+        ]);
     }
 
-    public static function all(): bool|array
+    public function all(): bool|array
     {
-        $sql = "SELECT * FROM category where user_id=? order by `order`";
-        return DB::query($sql, [Auth::getUserId()])->fetchAll();
+        return $this
+            ->select()
+            ->where(['user_id' => Auth::getUserId()])
+            ->orderBy('order')
+            ->fetchAll();
     }
 
-    public static function get(int $id): bool|array
+    public function get(int $id): bool|array
     {
-        $sql = "SELECT * FROM category WHERE id=?";
-        return DB::query($sql, [$id])->fetch();
+        return $this
+            ->select()
+            ->where(['id' => $id])
+            ->fetch();
     }
 
-    public static function update(int $id, array $request): void
+    public function modify(int $id, array $request): void
     {
-        $sql = "UPDATE category SET name=?, color=?, `order`=? WHERE id=?";
-        DB::query($sql, [$request['name'], $request['color'], $request['order'], $id]);
+        $this->update($id, [
+            'name' => $request['name'],
+            'color' => $request['color'],
+            'order' => $request['order'],
+            'user_id' => Auth::getUserId()
+        ]);
     }
 
-    public static function destroy(int $id): void
+    public function delete(int $id): void
     {
-        $sql = "DELETE FROM category WHERE id=?";
-        DB::query($sql, [$id]);
+        $this->destroy($id);
     }
 }

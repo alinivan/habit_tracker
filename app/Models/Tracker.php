@@ -3,27 +3,51 @@
 namespace App\Models;
 
 use Core\Auth;
-use Core\Database\Db;
+use Core\Database\Model;
 use Core\Helpers\Date;
 
-class Tracker
+class Tracker extends Model
 {
-    static string $date_ymd = "if (HOUR(`date`) < '".START_HOUR."', DATE_SUB(DATE(`date`), INTERVAL 1 DAY), DATE(`date`)) as date_ymd";
+    protected string $table_name = 'tracker';
+    private string $date_ymd = "if (HOUR(`date`) < '".START_HOUR."', DATE_SUB(DATE(`date`), INTERVAL 1 DAY), DATE(`date`)) as date_ymd";
 
-    public static function insert(array $request): void
+    public function create(array $request): void
     {
-        $sql = "INSERT INTO tracker (habit_id, date, value) VALUES (?,?,?)";
-        DB::query($sql, [$request['habit_id'], $request['date'], round($request['value'], 1)]);
+        $this->insert([
+            'habit_id' => $request['habit_id'],
+            'date' => $request['date'],
+            'value' => round($request['value'], 1)
+        ]);
     }
 
-    public static function getToday(): bool|array
+    public function whereInHabits(): Model
     {
-        $sql = "SELECT * FROM tracker WHERE habit_id in (select id from habits where user_id=?) and `date`>=? and `date`<=? and value > 0 ORDER BY `date` asc";
-
-        return DB::query($sql, [Auth::getUserId(), Date::getStartAndEndDate()['start_date'], Date::getStartAndEndDate()['end_date']])->fetchAll();
+        return (new Habit())
+            ->select('id')
+//            ->from('habits')
+            ->where([
+                'user_id' => Auth::getUserId()
+            ]);
     }
 
-    public static function getFromTo(string $from, string $to): bool|array
+    public function getToday(): bool|array
+    {
+        return $this
+            ->select()
+            ->whereIn('habit_id', $this->whereInHabits())
+            ->where([
+                'date' => [
+                    '>=' => Date::getStartAndEndDate()['start_date'],
+                    '<=' => Date::getStartAndEndDate()['end_date'],
+                ],
+                'value' => [
+                    '>' => 0
+                ]])
+            ->orderBy('date')
+            ->fetchAll();
+    }
+
+    public function getFromTo(string $from, string $to): bool|array
     {
         $from = Date::addStartHour($from);
         $to = Date::addStartHour($to);
@@ -31,117 +55,154 @@ class Tracker
         $start_date = $from;
         $end_date = $to;
 
-        $sql = "SELECT *, ".self::$date_ymd." FROM tracker WHERE habit_id in (select id from habits where user_id=?) and `date`>=? and `date`<=? and value > 0 ORDER BY `date` asc";
-
-        return DB::query($sql, [Auth::getUserId(), $start_date, $end_date])->fetchAll();
+        return $this
+            ->select("*, $this->date_ymd")
+            ->whereIn('habit_id', $this->whereInHabits())
+            ->where([
+                'date' => [
+                    '>=' => $start_date,
+                    '<=' => $end_date,
+                ],
+                'value' => [
+                    '>' => 0
+                ]
+            ])
+            ->orderBy('date')
+            ->fetchAll();
     }
 
-    public static function getTodayWithHabits(): bool|array
+    public function getTodayWithHabits(): bool|array
     {
         $start_date = date('Y-m-d ' . START_HOUR);
         $end_date = date('Y-m-d H:i:s', strtotime($start_date . '+1 day'));
 
-        $sql = "SELECT 
-                    sum(value) as sum
-                FROM
-                    tracker t
-                INNER JOIN habits h on (h.id= t.habit_id)
-                WHERE
-                    h.is_productive = 1 AND
-                    h.value_type = 'number' AND 
-                    h.user_id = ? AND
-                    `date` >= ? AND
-                    `date` <= ? AND
-                    value > 0";
-
-        return DB::query($sql, [Auth::getUserId(), $start_date, $end_date])->fetch();
+        return $this
+            ->select('sum(value) as sum')
+            ->from('tracker', 't')
+            ->join(['habits', 'h'], 'h.id = t.habit_id')
+            ->where([
+                'h.is_productive' => 1,
+                'h.value_type' => 'number',
+                'h.user_id' => Auth::getUserId(),
+                'date' => [
+                    '>=' => $start_date,
+                    '<=' => $end_date,
+                ],
+                'value' => [
+                    '>' => 0
+                ]
+            ])
+            ->fetch();
     }
 
-    public static function all(): bool|array
+    public function all(): bool|array
     {
-        $sql = "SELECT *, ".self::$date_ymd." FROM tracker where habit_id in (select id from habits where user_id = ?) and value > 0 ORDER BY `date` desc";
-        return DB::query($sql, [Auth::getUserId()])->fetchAll();
+        return $this
+            ->select("*, $this->date_ymd")
+            ->whereIn('habit_id', $this->whereInHabits())
+            ->where([
+                'value' => [
+                    '>' => 0
+                ]
+            ])
+            ->orderBy('date', 'desc')
+            ->fetchAll();
     }
 
-    public static function getByHabitId(int $habit_id): bool|array
+    public function getByHabitId(int $habit_id): bool|array
     {
-        $sql = "SELECT *, ".self::$date_ymd." FROM tracker where habit_id=? and value > 0 ORDER BY `date` asc";
-        return DB::query($sql, [$habit_id])->fetchAll();
+        return $this
+            ->select("*, $this->date_ymd")
+            ->where([
+                'habit_id' => $habit_id,
+                'value' => [
+                    '>' => 0
+                ]
+            ])
+            ->orderBy('date')
+            ->fetchAll();
     }
 
-    public static function getTodayScore(): bool|array
+    public function getTodayScore(): bool|array
     {
         $start_date = date('Y-m-d ' . START_HOUR);
         $end_date = date('Y-m-d H:i:s', strtotime($start_date . '+1 day'));
 
-        $sql = "SELECT 
-                    sum(value * points) as score
-                FROM
-                    tracker t
-                INNER JOIN habits h on (h.id= t.habit_id)
-                WHERE
-                    h.user_id = ? AND
-                    `date` >= ? AND
-                    `date` <= ? AND
-                    value > 0
-                GROUP BY h.id";
-
-
-        return DB::query($sql, [Auth::getUserId(), $start_date, $end_date])->fetchAll();
+        return $this
+            ->select('sum(value * points) as score')
+            ->from('tracker', 't')
+            ->join(['habits', 'h'], 'h.id= t.habit_id')
+            ->where([
+                'h.user_id' => Auth::getUserId(),
+                'date' => [
+                    '>=' => $start_date,
+                    '<=' => $end_date,
+                ]
+            ])
+            ->groupBy('h.id')
+            ->fetchAll();
     }
 
-    public static function getAvgScore(): bool|array
+    public function getAvgScore(): bool|array
     {
         $end_date = date('Y-m-d ' . START_HOUR);
         $start_date = date('Y-m-d H:i:s', strtotime($end_date . '-7 day'));
 
-        $sql = "SELECT 
-                    sum(value * points) as score
-                FROM
-                    tracker t
-                INNER JOIN habits h on (h.id= t.habit_id)
-                WHERE
-                    h.user_id = ? AND
-                    `date` >= ? AND
-                    `date` <= ? AND
-                    value > 0
-                GROUP BY h.id";
-
-        return DB::query($sql, [Auth::getUserId(), $start_date, $end_date])->fetchAll();
+        return $this
+            ->select('sum(value * points) as score')
+            ->from('tracker', 't')
+            ->join(['habits', 'h'], 'h.id= t.habit_id')
+            ->where([
+                'h.user_id' => Auth::getUserId(),
+                'date' => [
+                    '>=' => $start_date,
+                    '<=' => $end_date,
+                ],
+                'value' => [
+                    '>' => 0
+                ]
+            ])
+            ->groupBy('h.id')
+            ->fetchAll();
     }
 
-    public static function getTodayStartHour()
+    public function getTodayStartHour(): bool|array
     {
         $start_date = date('Y-m-d ' . START_HOUR);
-        $sql = "SELECT 
-                    date
-                FROM
-                    tracker t
-                INNER JOIN habits h on (h.id= t.habit_id)
-                WHERE
-                    h.user_id = ? AND
-                    `date` >= ? AND
-                    value > 0
-                order BY date asc 
-                limit 1";
 
-        return DB::query($sql, [Auth::getUserId(), $start_date])->fetch();
+        return $this
+            ->select('date')
+            ->from('tracker', 't')
+            ->join(['habits', 'h'], 'h.id = t.habit_id')
+            ->where([
+                'h.user_id' => Auth::getUserId(),
+                'date' => [
+                    '>=' => $start_date,
+                ],
+                'value' => [
+                    '>' => 0
+                ]
+            ])
+            ->orderBy('date')
+            ->limit(1)
+            ->fetch();
     }
 
-    public static function getLastValue(int $habit_id)
+    public function getLastValue(int $habit_id): bool|array
     {
-        $sql = "SELECT 
-                    value
-                FROM
-                    tracker t
-                INNER JOIN habits h on (h.id= t.habit_id)
-                WHERE
-                    h.user_id = ? AND
-                    h.id = ? AND
-                    value > 0
-                order BY date desc 
-                limit 1";
-
-        return DB::query($sql, [Auth::getUserId(), $habit_id])->fetch();
+        return $this
+            ->select('value')
+            ->from('tracker', 't')
+            ->join(['habits', 'h'], 'h.id = t.habit_id')
+            ->where([
+                'h.user_id' => Auth::getUserId(),
+                'h.id' => $habit_id,
+                'value' => [
+                    '>' => 0
+                ]
+            ])
+            ->orderBy('date', 'desc')
+            ->limit(1)
+            ->fetch();
     }
 }

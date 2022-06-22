@@ -2,31 +2,38 @@
 
 namespace App\Models;
 
-use Core\Database\Db;
+use Core\Database\Model;
 
-class User
+class User extends Model
 {
+    protected string $table_name = 'users';
 
-    public static function getUserForLogin(array $request)
+    public function getUserForLogin(array $request): bool|array
     {
-        $sql = "SELECT * FROM users where username=? and password=?";
-        return DB::query($sql, [$request['username'], md5($request['password'])])->fetch();
+        return $this
+            ->select()
+            ->where([
+                'username' => $request['username'],
+                'password' => md5($request['password'])
+            ])
+            ->fetchAll();
     }
 
-    public static function register(array $request)
+    public function register(array $request): bool|array
     {
-        // Register
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-        DB::query($sql, [$request['username'], md5($request['password'])]);
+        $this->insert([
+            'username' => $request['username'],
+            'password' => $request['password']
+        ]);
 
-        // Return user
         return self::getUserByUsername($request['username']);
     }
 
-    public static function getUserByUsername(string $username)
+    public function getUserByUsername(string $username): bool|array
     {
-        $sql = "SELECT * FROM users where username=?";
-
-        return DB::query($sql, [$username])->fetch();
+        return $this
+            ->select()
+            ->where(['username' => $username])
+            ->fetch();
     }
 }

@@ -7,9 +7,17 @@ use Core\Builder\Form;
 
 class CategoryController extends AbstractController
 {
+    private Category $category;
+
+    public function __construct()
+    {
+        $this->category = new Category();
+        parent::__construct();
+    }
+
     public function index()
     {
-        $categories = Category::all();
+        $categories = $this->category->all();
 
         echo $this->renderView('app/category/index.html.twig', ['categories' => $categories]);
     }
@@ -23,21 +31,21 @@ class CategoryController extends AbstractController
 
     public function create()
     {
-        Category::insert($_REQUEST);
+        $this->category->create($_REQUEST);
 
         redirect('/categories');
     }
 
     public function show(int $id)
     {
-        $habit = Category::get($id);
+        $habit = $this->category->get($id);
 
         echo $this->renderView('app/category/show.html.twig', ['habit' => $habit]);
     }
 
     public function edit(int $id)
     {
-        $category = Category::get($id);
+        $category = $this->category->get($id);
         $form = $this->addEditForm("/categories/$id", $category);
 
         echo $this->renderView('app/category/edit.html.twig', ['habit' => $category, 'form' => $form->html()]);
@@ -45,13 +53,13 @@ class CategoryController extends AbstractController
 
     public function update(int $id)
     {
-        Category::update($id, $_REQUEST);
+        $this->category->modify($id, $_REQUEST);
         redirect('/categories');
     }
 
     public function destroy(int $id)
     {
-        Category::destroy($id);
+        $this->category->delete($id);
         redirect('/categories');
     }
 

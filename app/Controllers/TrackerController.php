@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Category;
 use App\Models\Habit;
 use App\Models\Tracker;
 use App\Services\TrackerService;
@@ -11,6 +12,16 @@ use Core\Helpers\Date;
 
 class TrackerController extends AbstractController
 {
+    private Tracker $tracker;
+    private Habit $habit;
+
+    public function __construct()
+    {
+        $this->tracker = new Tracker();
+        $this->habit = new Habit();
+        parent::__construct();
+    }
+    
     public function index()
     {
 
@@ -22,7 +33,7 @@ class TrackerController extends AbstractController
     public function new()
     {
         $habit_id = $_REQUEST['habit_id'];
-        $habit = Habit::get($habit_id);
+        $habit = $this->habit->get($habit_id);
 
         $form = new Form();
 
@@ -73,7 +84,7 @@ class TrackerController extends AbstractController
         if (!$_REQUEST['date']) {
             $_REQUEST['date'] = date('Y-m-d H:i');
         }
-        Tracker::insert($_REQUEST);
+        $this->tracker->create($_REQUEST);
         #redirect('/tracker');
     }
 }

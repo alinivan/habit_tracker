@@ -2,12 +2,22 @@
 
 namespace App\Controllers;
 
+use App\Models\Habit;
 use App\Models\Tracker;
 use App\Models\User;
 use Core\Auth;
 
 class UserController extends AbstractController
 {
+    private Tracker $tracker;
+    private User $user;
+
+    public function __construct()
+    {
+        $this->tracker = new Tracker();
+        $this->user = new User();
+        parent::__construct();
+    }
 
     public function loginPage()
     {
@@ -29,7 +39,7 @@ class UserController extends AbstractController
 
     public function register()
     {
-        $user = User::register($_REQUEST);
+        $user = $this->user->register($_REQUEST);
 
         Auth::login($user);
 
@@ -38,7 +48,7 @@ class UserController extends AbstractController
 
     public function login()
     {
-        $user = User::getUserForLogin($_REQUEST);
+        $user = $this->user->getUserForLogin($_REQUEST);
 
         if (!empty($user)) {
             Auth::login($user);
@@ -61,20 +71,6 @@ class UserController extends AbstractController
         $csv = csvToArray($csvFile);
 
         foreach ($csv as $v) {
-            /*
-             * sport hour - 14:00
-             * meditation hour - 15:00
-             * no_m hour - 23:00
-             * kg hour - 12:00
-             *
-             *
-             * meditation_id = 15
-             * sport_id = 16
-             * no_m_id = 17
-             * kg_id = 18
-             */
-
-
             $habits = [
                 'meditation' => [
                     'id' => 15,
@@ -117,16 +113,9 @@ class UserController extends AbstractController
                     'date' => date('Y-m-d ' . $v2['hour'], strtotime($v[1])),
                     'value' => $value
                 ];
-                Tracker::insert($insert);
+                $this->tracker->create($insert);
             }
-
-//            $v[1] = 'date';
-//            $v[2] = 'sport';
-//            $v[3] = 'meditation';
-//            $v[4] = 'no_m';
-//            $v[5] = 'kg';
         }
-
 
         exit;
     }
