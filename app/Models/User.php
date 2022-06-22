@@ -16,7 +16,7 @@ class User extends Model
                 'username' => $request['username'],
                 'password' => md5($request['password'])
             ])
-            ->fetchAll();
+            ->fetch();
     }
 
     public function register(array $request): bool|array
