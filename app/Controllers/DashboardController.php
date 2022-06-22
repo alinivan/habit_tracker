@@ -115,7 +115,8 @@ class DashboardController extends AbstractController
         }
 
         $productive_hours = round($tracker['sum'] / 60, 2);
-        $avg_points = round(array_sum(array_column($this->tracker->getAvgScore(), 'score')) / 7, 2);
+//        $avg_points = round(array_sum(array_column($this->tracker->getAvgScore(), 'score')) / 7, 2);
+        $avg_points = 0;
         $kg = $this->tracker->getLastValue(18)['value'];
 
         return $this->renderView('app/dashboard/components/stats.html.twig', [
