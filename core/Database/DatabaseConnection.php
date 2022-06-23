@@ -29,7 +29,7 @@ class DatabaseConnection
             $options = array_replace($default_options, $options);
             $dsn = "mysql:host=$host;dbname=$db;port=$port;charset=utf8mb4";
 
-            self::$instance = new \PDO($dsn, $username, $password, $options);
+            self::$instance = new PDO($dsn, $username, $password, $options);
         }
 
         return self::$instance;

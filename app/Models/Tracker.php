@@ -24,7 +24,6 @@ class Tracker extends Model
     {
         return (new Habit())
             ->select('id')
-//            ->from('habits')
             ->where([
                 'user_id' => Auth::getUserId()
             ]);

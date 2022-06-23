@@ -9,12 +9,12 @@ class Route extends Router
     private array $routes;
     private string $not_found;
 
-    public function get($route, $controller_method)
+    public function get(string $route, string $controller_method)
     {
         $this->add($route, 'GET', $controller_method);
     }
 
-    public function post($route, $controller_method)
+    public function post(string $route, string $controller_method)
     {
         $this->add($route, 'POST', $controller_method);
     }
@@ -29,8 +29,8 @@ class Route extends Router
         return $this->routes;
     }
 
-    public function dissolve() {
-
+    public function dissolve()
+    {
         $reqUri = Url::getNormalizedRoute($_SERVER['REQUEST_URI']);
 
         if (isset($this->routes[$_SERVER['REQUEST_METHOD']][$reqUri['uri']])) {
@@ -40,7 +40,8 @@ class Route extends Router
         }
     }
 
-    public function notFound(string $controller_method) {
+    public function notFound(string $controller_method)
+    {
         $this->not_found = $controller_method;
     }
 }

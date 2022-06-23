@@ -8,7 +8,7 @@ class Model
     private string $sql;
     private array $values = [];
 
-    public function from(string $table, string $alias = ''): Model
+    public function from(string $table, string $alias = ''): self
     {
         $this->sql = substr($this->sql, 0, strpos($this->sql, 'FROM'));
         $this->sql .= "FROM `$table`";
@@ -20,7 +20,7 @@ class Model
         return $this;
     }
 
-    public function select(string $select = '*'): Model
+    public function select(string $select = '*'): self
     {
         $this->values = [];
         $this->sql = "SELECT $select FROM `$this->table_name`";
@@ -39,8 +39,6 @@ class Model
 
         $columns = implode(',', $columns);
         $this->sql = "INSERT INTO `$this->table_name` ($columns) VALUES (" . implode(',', $values) . ")";
-
-        pre($this);
 
         DB::query($this->sql, array_values($params))->fetchAll();
     }
@@ -65,7 +63,7 @@ class Model
     }
 
 
-    public function where(array $params): Model
+    public function where(array $params): self
     {
         foreach ($params as $column => $value) {
             if (is_array($value)) {
@@ -111,7 +109,7 @@ class Model
         return $this;
     }
 
-    public function whereIn(string $column, Model $model): Model
+    public function whereIn(string $column, Model $model): self
     {
         $this->sql .= " WHERE `$column` in ($model->sql)";
         $this->values = array_merge($this->values, $model->values);
@@ -119,7 +117,7 @@ class Model
         return $this;
     }
 
-    public function join(string|array $table, string $on): Model
+    public function join(string|array $table, string $on): self
     {
 
         if (is_array($table)) {
@@ -139,7 +137,7 @@ class Model
 
     }
 
-    public function orderBy(string $column, string $order = 'asc'): Model
+    public function orderBy(string $column, string $order = 'asc'): self
     {
         if (str_contains($column, '.')) {
             $this->sql .= " ORDER BY $column $order";
@@ -150,7 +148,7 @@ class Model
         return $this;
     }
 
-    public function groupBy(string $column, string $order = 'asc'): Model
+    public function groupBy(string $column, string $order = 'asc'): self
     {
         if (str_contains($column, '.')) {
             $this->sql .= " GROUP BY $column $order";
@@ -161,7 +159,7 @@ class Model
         return $this;
     }
 
-    public function limit(int $limit): Model
+    public function limit(int $limit): self
     {
         $this->sql .= " LIMIT $limit";
         return $this;
