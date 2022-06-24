@@ -2,9 +2,9 @@
 
 namespace Core\Builder;
 
-use Core\Templating\TwigTemplating;
+use Core\View\ViewManager;
 
-class Modal extends TwigTemplating
+class Modal extends ViewManager
 {
     private array $modal;
 

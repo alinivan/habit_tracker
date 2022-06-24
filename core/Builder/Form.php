@@ -2,9 +2,9 @@
 
 namespace Core\Builder;
 
-use Core\Templating\TwigTemplating;
+use Core\View\ViewManager;
 
-class Form extends TwigTemplating
+class Form extends ViewManager
 {
     private array $form;
 

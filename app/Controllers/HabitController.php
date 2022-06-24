@@ -4,9 +4,10 @@ namespace App\Controllers;
 
 use App\Models\Category;
 use App\Models\Habit;
+use Core\Base\BaseController;
 use Core\Builder\Form;
 
-class HabitController extends AbstractController
+class HabitController extends BaseController
 {
     private Category $category;
     private Habit $habit;

@@ -3,9 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\Category;
+use Core\Base\BaseController;
 use Core\Builder\Form;
 
-class CategoryController extends AbstractController
+class CategoryController extends BaseController
 {
     private Category $category;
 

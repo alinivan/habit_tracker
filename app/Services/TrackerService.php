@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use App\Controllers\AbstractController;
 use App\Models\Habit;
 use App\Models\Tracker;
+use Core\View\ViewManager;
 
-class TrackerService extends AbstractController
+class TrackerService extends ViewManager
 {
     public function getTracker(string $fromDate, string $toDate, bool $timeline = true): string
     {

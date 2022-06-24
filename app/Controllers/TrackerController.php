@@ -2,15 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Models\Category;
 use App\Models\Habit;
 use App\Models\Tracker;
 use App\Services\TrackerService;
+use Core\Base\BaseController;
 use Core\Builder\Form;
 use Core\Builder\Modal;
 use Core\Helpers\Date;
 
-class TrackerController extends AbstractController
+class TrackerController extends BaseController
 {
     private Tracker $tracker;
     private Habit $habit;

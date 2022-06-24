@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Models\Habit;
 use App\Models\Tracker;
 use App\Models\User;
 use Core\Auth;
+use Core\Base\BaseController;
 
-class UserController extends AbstractController
+class UserController extends BaseController
 {
     private Tracker $tracker;
     private User $user;

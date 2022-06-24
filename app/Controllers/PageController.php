@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
-class PageController extends AbstractController
+use Core\Base\BaseController;
+
+class PageController extends BaseController
 {
     public function index()
     {

@@ -12,7 +12,6 @@
   },
   "require": {
     "twig/twig": "^2.0",
-    "eftec/bladeone": "^4.5",
     "ext-pdo": "*",
     "vlucas/phpdotenv": "^5.4"
   },

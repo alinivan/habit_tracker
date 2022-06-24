@@ -1,13 +1,13 @@
 <?php
 
-namespace Core\Templating;
+namespace Core\View;
 
 use Core\Helpers\Url;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class TwigAppExtension extends AbstractExtension
+class ViewExtension extends AbstractExtension
 {
     public function getFunctions(): array
     {

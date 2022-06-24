@@ -1,12 +1,11 @@
 <?php
 
-namespace Core\Templating;
+namespace Core\View;
 
-use App\Interfaces\ViewInterface;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-class TwigTemplating implements ViewInterface {
+class ViewManager implements ViewInterface {
 
     public Environment $twig;
     public FilesystemLoader $loader;
@@ -16,7 +15,7 @@ class TwigTemplating implements ViewInterface {
         $this->loader = new FilesystemLoader(PATH_VIEWS);
         $this->twig = new Environment($this->loader);
 
-        $this->twig->addExtension(new TwigAppExtension());
+        $this->twig->addExtension(new ViewExtension());
     }
 
     public function renderView(string $view, array $data = []): string
