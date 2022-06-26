@@ -9,16 +9,6 @@ use Core\Base\BaseController;
 
 class UserController extends BaseController
 {
-    private Tracker $tracker;
-    private User $user;
-
-    public function __construct()
-    {
-        $this->tracker = new Tracker();
-        $this->user = new User();
-        parent::__construct();
-    }
-
     public function loginPage()
     {
         if (Auth::userLoggedIn()) {
@@ -39,7 +29,7 @@ class UserController extends BaseController
 
     public function register()
     {
-        $user = $this->user->register($_REQUEST);
+        $user = User::register($_REQUEST);
 
         Auth::login($user);
 
@@ -48,7 +38,7 @@ class UserController extends BaseController
 
     public function login()
     {
-        $user = $this->user->getUserForLogin($_REQUEST);
+        $user = User::getUserForLogin($_REQUEST);
 
         if (!empty($user)) {
             Auth::login($user);
@@ -113,7 +103,7 @@ class UserController extends BaseController
                     'date' => date('Y-m-d ' . $v2['hour'], strtotime($v[1])),
                     'value' => $value
                 ];
-                $this->tracker->create($insert);
+                Tracker::create($insert);
             }
         }
 

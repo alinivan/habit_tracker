@@ -9,21 +9,10 @@ use Core\Builder\Form;
 
 class HabitController extends BaseController
 {
-    private Category $category;
-    private Habit $habit;
-
-    public function __construct()
-    {
-        $this->category = new Category();
-        $this->habit = new Habit();
-        parent::__construct();
-    }
-
-    
     public function index()
     {
-        $habits = $this->habit->all();
-        $categories = array_remap($this->category->all(), 'id');
+        $habits = Habit::all();
+        $categories = array_remap(Category::all(), 'id');
 
         echo $this->renderView('app/habit/index.html.twig', [
             'habits' => $habits,
@@ -40,21 +29,21 @@ class HabitController extends BaseController
 
     public function create()
     {
-        $this->habit->create($_REQUEST);
+        Habit::create($_REQUEST);
 
         redirect('/habits');
     }
 
     public function show(int $id)
     {
-        $habit = $this->habit->get($id);
+        $habit = Habit::get($id);
 
         echo $this->renderView('app/habit/show.html.twig', ['habit' => $habit]);
     }
 
     public function edit(int $id)
     {
-        $habit = $this->habit->get($id);
+        $habit = Habit::get($id);
 
         $form = $this->addEditForm("/habits/$id", $habit);
 
@@ -63,13 +52,13 @@ class HabitController extends BaseController
 
     public function update(int $id)
     {
-        $this->habit->modify($id, $_REQUEST);
+        Habit::modify($id, $_REQUEST);
         redirect('/habits');
     }
 
     public function destroy(int $id)
     {
-        $this->habit->delete($id);
+        Habit::delete($id);
         redirect('/habits');
     }
 
@@ -131,7 +120,7 @@ class HabitController extends BaseController
             ]
         ];
 
-        $categories = $this->category->all();
+        $categories = Category::all();
         foreach ($categories as $k => $v) {
             $categories[$k]['value'] = $v['id'];
         }

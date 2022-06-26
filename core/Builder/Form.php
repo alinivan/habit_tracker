@@ -61,7 +61,8 @@ class Form extends ViewManager
         ];
     }
 
-    public function getId() {
+    public function getId(): string
+    {
         if (!isset($this->form['id'])) {
             $this->form['id'] = uniqid();
         }

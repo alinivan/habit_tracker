@@ -3,37 +3,38 @@
 namespace App\Models;
 
 use Core\Auth;
-use Core\Database\Model;
+use Core\Base\BaseModel;
+use Core\Database\QueryBuilder;
 use Core\Helpers\Date;
 
-class Tracker extends Model
+class Tracker extends BaseModel
 {
     protected string $table_name = 'tracker';
-    private string $date_ymd = "if (HOUR(`date`) < '".START_HOUR."', DATE_SUB(DATE(`date`), INTERVAL 1 DAY), DATE(`date`)) as date_ymd";
+    private static string $date_ymd = "if (HOUR(`date`) < '".START_HOUR."', DATE_SUB(DATE(`date`), INTERVAL 1 DAY), DATE(`date`)) as date_ymd";
 
-    public function create(array $request): void
+    public static function create(array $request): void
     {
-        $this->insert([
+        static::query()->insert([
             'habit_id' => $request['habit_id'],
             'date' => $request['date'],
             'value' => round($request['value'], 1)
         ]);
     }
 
-    public function whereInHabits(): Model
+    public static function whereInHabits(): QueryBuilder
     {
-        return (new Habit())
+        return Habit::query()
             ->select('id')
             ->where([
                 'user_id' => Auth::getUserId()
             ]);
     }
 
-    public function getToday(): bool|array
+    public static function getToday(): bool|array
     {
-        return $this
+        return static::query()
             ->select()
-            ->whereIn('habit_id', $this->whereInHabits())
+            ->whereIn('habit_id', static::whereInHabits())
             ->where([
                 'date' => [
                     '>=' => Date::getStartAndEndDate()['start_date'],
@@ -46,7 +47,7 @@ class Tracker extends Model
             ->fetchAll();
     }
 
-    public function getFromTo(string $from, string $to): bool|array
+    public static function getFromTo(string $from, string $to): bool|array
     {
         $from = Date::addStartHour($from);
         $to = Date::addStartHour($to);
@@ -54,9 +55,9 @@ class Tracker extends Model
         $start_date = $from;
         $end_date = $to;
 
-        return $this
-            ->select("*, $this->date_ymd")
-            ->whereIn('habit_id', $this->whereInHabits())
+        return static::query()
+            ->select("*, " . static::$date_ymd)
+            ->whereIn('habit_id', static::whereInHabits())
             ->where([
                 'date' => [
                     '>=' => $start_date,
@@ -70,12 +71,12 @@ class Tracker extends Model
             ->fetchAll();
     }
 
-    public function getTodayWithHabits(): bool|array
+    public static function getTodayWithHabits(): bool|array
     {
         $start_date = date('Y-m-d ' . START_HOUR);
         $end_date = date('Y-m-d H:i:s', strtotime($start_date . '+1 day'));
 
-        return $this
+        return static::query()
             ->select('sum(value) as sum')
             ->from('tracker', 't')
             ->join(['habits', 'h'], 'h.id = t.habit_id')
@@ -94,11 +95,11 @@ class Tracker extends Model
             ->fetch();
     }
 
-    public function all(): bool|array
+    public static function all(): bool|array
     {
-        return $this
-            ->select("*, $this->date_ymd")
-            ->whereIn('habit_id', $this->whereInHabits())
+        return static::query()
+            ->select("*, " . static::$date_ymd)
+            ->whereIn('habit_id', static::whereInHabits())
             ->where([
                 'value' => [
                     '>' => 0
@@ -108,10 +109,10 @@ class Tracker extends Model
             ->fetchAll();
     }
 
-    public function getByHabitId(int $habit_id): bool|array
+    public static function getByHabitId(int $habit_id): bool|array
     {
-        return $this
-            ->select("*, $this->date_ymd")
+        return static::query()
+            ->select("*, " . static::$date_ymd)
             ->where([
                 'habit_id' => $habit_id,
                 'value' => [
@@ -122,12 +123,12 @@ class Tracker extends Model
             ->fetchAll();
     }
 
-    public function getTodayScore(): bool|array
+    public static function getTodayScore(): bool|array
     {
         $start_date = date('Y-m-d ' . START_HOUR);
         $end_date = date('Y-m-d H:i:s', strtotime($start_date . '+1 day'));
 
-        return $this
+        return static::query()
             ->select('sum(value * points) as score')
             ->from('tracker', 't')
             ->join(['habits', 'h'], 'h.id= t.habit_id')
@@ -142,12 +143,12 @@ class Tracker extends Model
             ->fetchAll();
     }
 
-    public function getAvgScore(): bool|array
+    public static function getAvgScore(): bool|array
     {
         $end_date = date('Y-m-d ' . START_HOUR);
         $start_date = date('Y-m-d H:i:s', strtotime($end_date . '-7 day'));
 
-        return $this
+        return static::query()
             ->select('sum(value * points) as score')
             ->from('tracker', 't')
             ->join(['habits', 'h'], 'h.id= t.habit_id')
@@ -165,11 +166,11 @@ class Tracker extends Model
             ->fetchAll();
     }
 
-    public function getTodayStartHour(): bool|array
+    public static function getTodayStartHour(): bool|array
     {
         $start_date = date('Y-m-d ' . START_HOUR);
 
-        return $this
+        return static::query()
             ->select('date')
             ->from('tracker', 't')
             ->join(['habits', 'h'], 'h.id = t.habit_id')
@@ -187,9 +188,9 @@ class Tracker extends Model
             ->fetch();
     }
 
-    public function getLastValue(int $habit_id): bool|array
+    public static function getLastValue(int $habit_id): bool|array
     {
-        return $this
+        return static::query()
             ->select('value')
             ->from('tracker', 't')
             ->join(['habits', 'h'], 'h.id = t.habit_id')

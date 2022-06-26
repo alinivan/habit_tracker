@@ -8,18 +8,9 @@ use Core\Builder\Form;
 
 class CategoryController extends BaseController
 {
-    private Category $category;
-
-    public function __construct()
-    {
-        $this->category = new Category();
-        parent::__construct();
-    }
-
     public function index()
     {
-        $categories = $this->category->all();
-
+        $categories = Category::all();
         echo $this->renderView('app/category/index.html.twig', ['categories' => $categories]);
     }
 
@@ -32,21 +23,21 @@ class CategoryController extends BaseController
 
     public function create()
     {
-        $this->category->create($_REQUEST);
+        Category::create($_REQUEST);
 
         redirect('/categories');
     }
 
     public function show(int $id)
     {
-        $habit = $this->category->get($id);
+        $habit = Category::get($id);
 
         echo $this->renderView('app/category/show.html.twig', ['habit' => $habit]);
     }
 
     public function edit(int $id)
     {
-        $category = $this->category->get($id);
+        $category = Category::get($id);
         $form = $this->addEditForm("/categories/$id", $category);
 
         echo $this->renderView('app/category/edit.html.twig', ['habit' => $category, 'form' => $form->html()]);
@@ -54,13 +45,13 @@ class CategoryController extends BaseController
 
     public function update(int $id)
     {
-        $this->category->modify($id, $_REQUEST);
+        Category::modify($id, $_REQUEST);
         redirect('/categories');
     }
 
     public function destroy(int $id)
     {
-        $this->category->delete($id);
+        Category::delete($id);
         redirect('/categories');
     }
 

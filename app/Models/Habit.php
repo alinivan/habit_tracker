@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use Core\Auth;
-use Core\Database\Model;
+use Core\Base\BaseModel;
 
-class Habit extends Model
+class Habit extends BaseModel
 {
     protected string $table_name = 'habits';
 
-    public function create(array $request): void
+    public static function create(array $request): void
     {
-        $this->insert([
+        static::query()->insert([
             'name' => $request['name'],
             'value_type' => $request['value_type'],
             'category_id' => $request['category_id'],
@@ -25,25 +25,25 @@ class Habit extends Model
         ]);
     }
 
-    public function all(): bool|array
+    public static function all(): bool|array
     {
-        return $this
+        return static::query()
             ->select()
             ->where(['user_id' => Auth::getUserId()])
             ->fetchAll();
     }
 
-    public function get(int $id): bool|array
+    public static function get(int $id): bool|array
     {
-        return $this
+        return static::query()
             ->select()
             ->where(['id' => $id])
             ->fetch();
     }
 
-    public function modify(int $id, array $request): void
+    public static function modify(int $id, array $request): void
     {
-        $this->update($id, [
+        static::query()->update($id, [
             'name' => $request['name'],
             'value_type' => $request['value_type'],
             'category_id' => $request['category_id'],
@@ -56,26 +56,26 @@ class Habit extends Model
         ]);
     }
 
-    public function delete(int $id): void
+    public static function delete(int $id): void
     {
-        $this->destroy($id);
+        static::query()->destroy($id);
     }
 
-    public function allByCategoryId(int $category_id): bool|array
+    public static function allByCategoryId(int $category_id): bool|array
     {
-        return $this
+        return static::query()
             ->select()
             ->where(['category_id' => $category_id, 'active' => 1])
             ->orderBy('order')
             ->fetchAll();
     }
 
-    public function allWithCategory(): bool|array
+    public static function allWithCategory(): bool|array
     {
-        $categories = (new Category())->all();
+        $categories = Category::all();
 
         foreach ($categories as $k => $v) {
-            $habits = $this->allByCategoryId($v['id']);
+            $habits = static::allByCategoryId($v['id']);
 
             if ($habits) {
                 $categories[$k]['habits'] = $habits;
@@ -85,9 +85,9 @@ class Habit extends Model
         return $categories;
     }
 
-    public function getByName(string $string): bool|array
+    public static function getByName(string $string): bool|array
     {
-        return $this
+        return static::query()
             ->select()
             ->where([
                 'user_id' => Auth::getUserId(),

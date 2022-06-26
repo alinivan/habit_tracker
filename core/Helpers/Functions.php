@@ -48,7 +48,7 @@ function csvToArray($csvFile): array
     $lines = [];
     $file_to_read = fopen($csvFile, 'r');
 
-    while (!feof($file_to_read) ) {
+    while (!feof($file_to_read)) {
         $lines[] = fgetcsv($file_to_read, 1000, ',');
     }
 
@@ -82,3 +82,26 @@ function dateRange(string $dateFrom = '', string $dateTo = ''): array
     return $range;
 }
 
+
+
+/*$classes = modelClasses();
+
+foreach ($classes as $class) {
+    $class_lower = strtolower($class);
+    $class_with_namespace = "App\\Models\\$class";
+    $this->{$class_lower} = new $class_with_namespace();
+}*/
+
+function modelClasses(): array
+{
+    $classPaths = glob(APP_ROOT . '/app/Models/*.php');
+    $classes = [];
+    $namespace = '';
+
+    foreach ($classPaths as $classPath) {
+        $segments = explode('/', $classPath);
+        $segments = explode('\\', $segments[count($segments) - 1]);
+        $classes[] = str_replace('.php', '', $namespace . $segments[count($segments) - 1]);
+    }
+    return $classes;
+}

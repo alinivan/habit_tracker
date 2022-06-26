@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Core\Database\Model;
+use Core\Base\BaseModel;
 
-class User extends Model
+class User extends BaseModel
 {
     protected string $table_name = 'users';
 
-    public function getUserForLogin(array $request): bool|array
+    public static function getUserForLogin(array $request): bool|array
     {
-        return $this
+        return static::query()
             ->select()
             ->where([
                 'username' => $request['username'],
@@ -19,19 +19,19 @@ class User extends Model
             ->fetch();
     }
 
-    public function register(array $request): bool|array
+    public static function register(array $request): bool|array
     {
-        $this->insert([
+        static::query()->insert([
             'username' => $request['username'],
             'password' => $request['password']
         ]);
 
-        return self::getUserByUsername($request['username']);
+        return static::getUserByUsername($request['username']);
     }
 
-    public function getUserByUsername(string $username): bool|array
+    public static function getUserByUsername(string $username): bool|array
     {
-        return $this
+        return static::query()
             ->select()
             ->where(['username' => $username])
             ->fetch();

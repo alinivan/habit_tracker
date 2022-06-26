@@ -6,5 +6,4 @@ use Core\View\ViewManager;
 
 class BaseController extends ViewManager
 {
-
 }

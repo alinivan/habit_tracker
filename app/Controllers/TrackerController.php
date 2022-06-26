@@ -12,19 +12,8 @@ use Core\Helpers\Date;
 
 class TrackerController extends BaseController
 {
-    private Tracker $tracker;
-    private Habit $habit;
-
-    public function __construct()
-    {
-        $this->tracker = new Tracker();
-        $this->habit = new Habit();
-        parent::__construct();
-    }
-    
     public function index()
     {
-
         $tracker_html = (new TrackerService())->getTracker(IMPORT_START_DATE, Date::getStartAndEndDate()['end_date'], false);
 
         echo $this->renderView('app/tracker/index.html.twig', ['tracker_html' => $tracker_html]);
@@ -33,7 +22,7 @@ class TrackerController extends BaseController
     public function new()
     {
         $habit_id = $_REQUEST['habit_id'];
-        $habit = $this->habit->get($habit_id);
+        $habit = Habit::get($habit_id);
 
         $form = new Form();
 
@@ -84,7 +73,7 @@ class TrackerController extends BaseController
         if (!$_REQUEST['date']) {
             $_REQUEST['date'] = date('Y-m-d H:i');
         }
-        $this->tracker->create($_REQUEST);
+        Tracker::create($_REQUEST);
         #redirect('/tracker');
     }
 }

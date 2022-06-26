@@ -3,10 +3,17 @@
 namespace Core\Database;
 use Core\Database\Db;
 
-class Model
+class QueryBuilder
 {
     private string $sql;
     private array $values = [];
+
+    public function __construct(?string $table = '')
+    {
+        if ($table) {
+            $this->table_name = $table;
+        }
+    }
 
     public function from(string $table, string $alias = ''): self
     {
@@ -109,7 +116,7 @@ class Model
         return $this;
     }
 
-    public function whereIn(string $column, Model $model): self
+    public function whereIn(string $column, QueryBuilder $model): self
     {
         $this->sql .= " WHERE `$column` in ($model->sql)";
         $this->values = array_merge($this->values, $model->values);

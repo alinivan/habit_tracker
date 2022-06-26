@@ -3,15 +3,16 @@
 namespace App\Models;
 
 use Core\Auth;
-use Core\Database\Model;
+use Core\Base\BaseModel;
 
-class Category extends Model
+class Category extends BaseModel
 {
+    protected static string $table = 'category';
     protected string $table_name = 'category';
 
-    public function create(array $request): void
+    public static function create(array $request): void
     {
-        $this->insert([
+        static::query()->insert([
             'name' => $request['name'],
             'color' => $request['color'],
             'order' => $request['order'],
@@ -19,26 +20,26 @@ class Category extends Model
         ]);
     }
 
-    public function all(): bool|array
+    public static function all(): bool|array
     {
-        return $this
+        return static::query()
             ->select()
             ->where(['user_id' => Auth::getUserId()])
             ->orderBy('order')
             ->fetchAll();
     }
 
-    public function get(int $id): bool|array
+    public static function get(int $id): bool|array
     {
-        return $this
+        return static::query()
             ->select()
             ->where(['id' => $id])
             ->fetch();
     }
 
-    public function modify(int $id, array $request): void
+    public static function modify(int $id, array $request): void
     {
-        $this->update($id, [
+        static::query()->update($id, [
             'name' => $request['name'],
             'color' => $request['color'],
             'order' => $request['order'],
@@ -46,8 +47,8 @@ class Category extends Model
         ]);
     }
 
-    public function delete(int $id): void
+    public static function delete(int $id): void
     {
-        $this->destroy($id);
+        static::query()->destroy($id);
     }
 }
