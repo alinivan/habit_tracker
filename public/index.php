@@ -13,18 +13,9 @@ require_once '../vendor/autoload.php';
 /*$containerBuilder = new ContainerBuilder();
 $containerBuilder->addDefinitions(APP_ROOT.'/config/php_di.php');
 $container = $containerBuilder->build();
-
-
-
-
 $container->get(Habit::class);*/
-
-
-
 
 // Run app
 $app = new Application();
-//$app->init();
-//$app->run();
 $app->init()
     ->run();
