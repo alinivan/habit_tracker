@@ -1,0 +1,39 @@
+<script>
+    new Chart(document.getElementById({{ chart.id }}), {
+        type: '{{ chart.type }}',
+        data: {
+            labels: JSON.parse('{{ chart.data.labels | json_encode | raw }}'),
+            datasets: [{
+                label: 'Minutes',
+                data: JSON.parse('{{ chart.data.data | json_encode | raw }}'),
+                borderColor: 'green',
+                backgroundColor: 'white',
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: '{{ chart.title }}',
+                    color: 'white'
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: 'white',
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: 'white',
+                    }
+                },
+            }
+        }
+    });
+</script>

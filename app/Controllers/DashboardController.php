@@ -6,6 +6,8 @@ use App\Models\Habit;
 use App\Models\Tracker;
 use App\Services\TrackerService;
 use Core\Base\BaseController;
+use Core\Charts\Chart;
+use Core\Device;
 use Core\Helpers\Date;
 
 class DashboardController extends BaseController
@@ -42,24 +44,21 @@ class DashboardController extends BaseController
         $habit_points = array_column(Habit::all(), 'points', 'id');
         $productivity_tracker = array_pluck(Tracker::all(), 'date_ymd');
 
-        foreach ($date_range as $date) {
-            $graphs['productivity'][$date] = 0;
+        $graph = [];
 
-            if (isset($productivity_tracker[$date])) {
-                foreach ($productivity_tracker[$date] as $productivity_habits) {
-                    $graphs['productivity'][$date] += $productivity_habits['value'] * $habit_points[$productivity_habits['habit_id']];
+        if (Device::isDesktop()) {
+            foreach ($date_range as $date) {
+                $graphs['productivity'][$date] = 0;
+
+                if (isset($productivity_tracker[$date])) {
+                    foreach ($productivity_tracker[$date] as $productivity_habits) {
+                        $graphs['productivity'][$date] += $productivity_habits['value'] * $habit_points[$productivity_habits['habit_id']];
+                    }
                 }
             }
-        }
 
-        $stats = $this->getStats();
 
-        echo $this->renderView('app/dashboard/index.html.twig', [
-            'categories' => $categories,
-            'stats_html' => $stats,
-            'habits' => $habits,
-            'tracker_html' => (new TrackerService())->getTracker(Date::getStartAndEndDate()['start_date'], Date::getStartAndEndDate()['end_date']),
-            'graph' => [
+            $graph = [
                 'meditation' => [
                     'labels' => array_keys($graphs['meditation']),
                     'data' => array_values($graphs['meditation'])
@@ -88,7 +87,18 @@ class DashboardController extends BaseController
                     'labels' => array_keys($graphs['productivity']),
                     'data' => array_values($graphs['productivity'])
                 ]
-            ]
+            ];
+        }
+
+        $stats = $this->getStats();
+
+        echo $this->renderView('app/dashboard/index.html.twig', [
+            'categories' => $categories,
+            'stats_html' => $stats,
+            'habits' => $habits,
+            'tracker_html' => (new TrackerService())->getTracker(Date::getStartAndEndDate()['start_date'], Date::getStartAndEndDate()['end_date']),
+            'graph' => $graph,
+//            'chart' => (new Chart())->test()
         ]);
     }
 
