@@ -10,9 +10,9 @@ class TrackerService extends ViewManager
 {
     public function getTracker(string $fromDate, string $toDate, bool $timeline = true): string
     {
-        $tracker = (new Tracker)->getFromTo($fromDate, $toDate);
+        $tracker = Tracker::getFromTo($fromDate, $toDate);
 
-        $habits = array_remap((new Habit)->all(), 'id');
+        $habits = array_remap(Habit::all(), 'id');
 
         foreach ($tracker as &$item) {
             $habit = $habits[$item['habit_id']];
