@@ -8,7 +8,7 @@ class Form extends ViewManager
 {
     private array $form;
 
-    public function input(array $fields)
+    public function addInput(array $fields)
     {
         $this->form['fields'][] = [
             'type' => 'input',
@@ -24,7 +24,7 @@ class Form extends ViewManager
         ];
     }
 
-    public function select(array $fields)
+    public function addSelect(array $fields)
     {
         $this->form['fields'][] = [
             'type' => 'select',
@@ -37,22 +37,22 @@ class Form extends ViewManager
         ];
     }
 
-    public function action(string $action)
+    public function setAction(string $action)
     {
         $this->form['action'] = $action;
     }
 
-    public function method(string $method)
+    public function setMethod(string $method)
     {
         $this->form['method'] = $method;
     }
 
-    public function title(string $title)
+    public function setTitle(string $title)
     {
         $this->form['title'] = $title;
     }
 
-    public function submit(array $fields)
+    public function setSubmit(array $fields)
     {
         $this->form['submit'] = [
             'id' => $fields['id'] ?? '',
@@ -70,7 +70,7 @@ class Form extends ViewManager
         return $this->form['id'];
     }
 
-    public function html(): string
+    public function getHtml(): string
     {
         return $this->renderView('core/builder/form.html.twig', ['form' => $this->form]);
     }

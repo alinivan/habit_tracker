@@ -26,7 +26,7 @@ class TrackerController extends BaseController
 
         $form = new Form();
 
-        $form->input([
+        $form->addInput([
             'type' => 'datetime-local',
             'name' => 'date',
             'label' => 'Date',
@@ -35,7 +35,7 @@ class TrackerController extends BaseController
         ]);
 
         if ($habit['value_type'] == 'number') {
-            $form->input([
+            $form->addInput([
                 'type' => 'number',
                 'name' => 'value',
                 'label_class' => 'text-gray-900',
@@ -43,7 +43,7 @@ class TrackerController extends BaseController
                 'value' => 0
             ]);
         } else if ($habit['value_type'] == 'boolean') {
-            $form->input([
+            $form->addInput([
                 'type' => 'hidden',
                 'name' => 'value',
                 'label_class' => 'text-gray-900',
@@ -51,7 +51,7 @@ class TrackerController extends BaseController
             ]);
         }
 
-        $form->input([
+        $form->addInput([
             'type' => 'hidden',
             'name' => 'habit_id',
             'value' => $habit_id,
@@ -59,13 +59,15 @@ class TrackerController extends BaseController
 
 
         $modal = new Modal();
-        $modal->title($habit['name']);
+        $modal->setTitle($habit['name']);
         $save = "ajax('tracker/create', '" . $form->getId() . "', 'POST')";
 
-        $modal->btn(['onclick' => $save, 'label' => 'Save']);
-        $modal->content($form->html());
+        $modal->addBtn(['onclick' => $save, 'label' => 'Save']);
+        $modal->setContent($form->getHtml());
 
-        echo $this->renderView('app/tracker/new.html.twig', ['modal' => $modal->html()]);
+        echo $this->renderView('app/tracker/new.html.twig', [
+            'modal' => $modal->getHtml()
+        ]);
     }
 
     public function create()

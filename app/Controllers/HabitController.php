@@ -65,44 +65,44 @@ class HabitController extends BaseController
     public function addEditForm(string $action, array $habit = []): Form
     {
         $form = new Form();
-        $form->action($action);
-        $form->method('POST');
-        $form->input([
+        $form->setAction($action);
+        $form->setMethod('POST');
+        $form->addInput([
             'type' => 'text',
             'name' => 'name',
             'label' => 'Name',
             'value' => $habit['name'] ?? '',
         ]);
 
-        $form->input([
+        $form->addInput([
             'type' => 'number',
             'name' => 'min_value',
             'label' => 'Min value',
             'value' => $habit['min_value'] ?? 0,
         ]);
 
-        $form->input([
+        $form->addInput([
             'type' => 'number',
             'name' => 'order',
             'label' => 'Order',
             'value' => $habit['order'] ?? 0,
         ]);
 
-        $form->input([
+        $form->addInput([
             'type' => 'text',
             'name' => 'points',
             'label' => 'Points',
             'value' => $habit['points'] ?? 0,
         ]);
 
-        $form->select([
+        $form->addSelect([
             'name' => 'active',
             'label' => 'Active',
             'value' => $habit['active'] ?? 1,
             'options' => [['name' => 'Yes', 'value' => 1], ['name' => 'No', 'value' => 0]]
         ]);
 
-        $form->select([
+        $form->addSelect([
             'name' => 'measurement',
             'label' => 'Measurement',
             'value' => $habit['measurement'] ?? 'min',
@@ -125,27 +125,27 @@ class HabitController extends BaseController
             $categories[$k]['value'] = $v['id'];
         }
 
-        $form->select([
+        $form->addSelect([
             'label' => 'Category',
             'name' => 'category_id',
             'value' => $habit['category_id'] ?? 0,
             'options' => $categories
         ]);
 
-        $form->select([
+        $form->addSelect([
             'label' => 'Productive',
             'name' => 'is_productive',
             'value' => $habit['is_productive'] ?? 0,
             'options' => [['name' => 'Yes', 'value' => 1], ['name' => 'No', 'value' => 0]]
         ]);
 
-        $form->select([
+        $form->addSelect([
             'label' => 'Type',
             'name' => 'value_type',
             'value' => $habit['value_type'] ?? 'numeric',
             'options' => $value_types
         ]);
-        $form->submit(['label' => 'Save']);
+        $form->setSubmit(['label' => 'Save']);
 
         return $form;
     }

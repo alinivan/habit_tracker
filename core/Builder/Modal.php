@@ -8,12 +8,12 @@ class Modal extends ViewManager
 {
     private array $modal;
 
-    public function title(string $title)
+    public function setTitle(string $title)
     {
         $this->modal['title'] = $title;
     }
 
-    public function btn(array $fields)
+    public function addBtn(array $fields)
     {
         $this->modal['buttons'][] = [
             'label' => $fields['label'] ?? '',
@@ -22,11 +22,11 @@ class Modal extends ViewManager
         ];
     }
 
-    public function content(string $content) {
+    public function setContent(string $content) {
         $this->modal['content'] = $content;
     }
 
-    public function html(): string
+    public function getHtml(): string
     {
         return $this->renderView('core/builder/modal.html.twig', ['modal' => $this->modal]);
     }

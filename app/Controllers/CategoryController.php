@@ -58,9 +58,9 @@ class CategoryController extends BaseController
     public function addEditForm(string $action, array $category = []): Form
     {
         $form = new Form();
-        $form->action($action);
-        $form->method('POST');
-        $form->input([
+        $form->setAction($action);
+        $form->setMethod('POST');
+        $form->addInput([
             'type' => 'text',
             'name' => 'name',
             'label' => 'Name',
@@ -91,20 +91,20 @@ class CategoryController extends BaseController
 
         ];
 
-        $form->select([
+        $form->addSelect([
             'label' => 'Color',
             'name' => 'color',
             'value' => $category['color'] ?? '',
             'options' => $value_types
         ]);
 
-        $form->input([
+        $form->addInput([
             'type' => 'number',
             'label' => 'Order',
             'name' => 'order',
             'value' => $category['order'] ?? 0
         ]);
-        $form->submit(['label' => 'Save']);
+        $form->setSubmit(['label' => 'Save']);
 
         return $form;
     }
