@@ -1,16 +1,7 @@
 {% extends "app/layout.html.twig" %}
 
+{% block page_title %} Tracker {% endblock %}
+
 {% block content %}
-    <main class="flex-1">
-        <div class="py-6">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-                <h1 class="text-2xl font-semibold text-white">Tracker</h1>
-            </div>
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
-
-                {{ tracker_html | raw }}
-
-            </div>
-        </div>
-    </main>
+    {{ tracker_html | raw }}
 {% endblock %}

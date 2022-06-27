@@ -24,7 +24,7 @@ class HabitController extends BaseController
     {
         $form = $this->addEditForm('/habits');
 
-        echo $this->renderView('app/habit/new.html.twig', ['form' => $form->html()]);
+        echo $this->renderView('app/habit/new.html.twig', ['form' => $form->getHtml()]);
     }
 
     public function create()
@@ -47,7 +47,7 @@ class HabitController extends BaseController
 
         $form = $this->addEditForm("/habits/$id", $habit);
 
-        echo $this->renderView('app/habit/edit.html.twig', ['habit' => $habit, 'form' => $form->html()]);
+        echo $this->renderView('app/habit/edit.html.twig', ['habit' => $habit, 'form' => $form->getHtml()]);
     }
 
     public function update(int $id)

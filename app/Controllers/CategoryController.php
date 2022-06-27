@@ -18,7 +18,7 @@ class CategoryController extends BaseController
     {
         $form = $this->addEditForm('/categories');
 
-        echo $this->renderView('app/category/new.html.twig', ['form' => $form->html()]);
+        echo $this->renderView('app/category/new.html.twig', ['form' => $form->getHtml()]);
     }
 
     public function create()
@@ -40,7 +40,7 @@ class CategoryController extends BaseController
         $category = Category::get($id);
         $form = $this->addEditForm("/categories/$id", $category);
 
-        echo $this->renderView('app/category/edit.html.twig', ['habit' => $category, 'form' => $form->html()]);
+        echo $this->renderView('app/category/edit.html.twig', ['habit' => $category, 'form' => $form->getHtml()]);
     }
 
     public function update(int $id)
