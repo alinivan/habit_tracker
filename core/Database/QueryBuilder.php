@@ -155,12 +155,12 @@ class QueryBuilder
         return $this;
     }
 
-    public function groupBy(string $column, string $order = 'asc'): self
+    public function groupBy(string $column): self
     {
         if (str_contains($column, '.')) {
-            $this->sql .= " GROUP BY $column $order";
+            $this->sql .= " GROUP BY $column";
         } else {
-            $this->sql .= " GROUP BY `$column` $order";
+            $this->sql .= " GROUP BY `$column`";
         }
 
         return $this;
