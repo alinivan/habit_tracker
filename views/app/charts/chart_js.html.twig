@@ -1,14 +1,21 @@
 <script>
-    new Chart(document.getElementById({{ chart.id }}), {
+
+    let chart_datasets = [];
+
+    {% for dataset in chart.datasets %}
+        chart_datasets = [...chart_datasets, {
+            label: 'Minutes',
+            data: JSON.parse('{{ dataset | json_encode | raw }}'),
+            borderColor: 'green',
+            backgroundColor: 'white',
+        }]
+    {% endfor %}
+
+    new Chart(document.getElementById('{{ chart.id }}'), {
         type: '{{ chart.type }}',
         data: {
-            labels: JSON.parse('{{ chart.data.labels | json_encode | raw }}'),
-            datasets: [{
-                label: 'Minutes',
-                data: JSON.parse('{{ chart.data.data | json_encode | raw }}'),
-                borderColor: 'green',
-                backgroundColor: 'white',
-            }]
+            labels: JSON.parse('{{ chart.labels | json_encode | raw }}'),
+            datasets: chart_datasets
         },
         options: {
             responsive: true,

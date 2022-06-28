@@ -24,7 +24,7 @@ class TrackerService extends ViewManager
             $item['measurement'] = $habit['measurement'];
             $item['hour'] = $hour;
 
-            if ($habit['is_productive'] && $habit['value_type'] === 'number') {
+            if (HabitService::habitHasTimeInterval($habit)) {
                 $minutes = (float)$item['value'];
                 $start_hour = date('H:i', strtotime("- $minutes minutes", strtotime($item['date'])));
 

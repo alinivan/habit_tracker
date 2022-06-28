@@ -43,6 +43,10 @@ class ViewExtension extends AbstractExtension
                 'href' => '/tracker',
                 'name' => 'Tracker'
             ],
+            [
+                'href' => '/progress',
+                'name' => 'Progress'
+            ],
         ];
 
         foreach ($menu as &$v) {

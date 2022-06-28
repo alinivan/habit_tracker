@@ -64,6 +64,10 @@ $route->get('/categories/{id}/delete', 'CategoryController:destroy');
 
 $route->get('/import_tracker', 'UserController:import');
 
+
+
+$route->get('/progress', 'ProgressController:index');
+
 // Not found
 $route->notFound('PageController:notFound');
 
