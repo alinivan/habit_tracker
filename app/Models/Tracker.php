@@ -11,6 +11,7 @@ class Tracker extends BaseModel
 {
     protected string $table_name = 'tracker';
     private static string $date_ymd = "if (HOUR(`date`) < '".START_HOUR."', DATE_SUB(DATE(`date`), INTERVAL 1 DAY), DATE(`date`)) as date_ymd";
+    private static string $date_week = "WEEK(`date`, 1) as date_ymd";
 
     public static function create(array $request): void
     {
@@ -95,10 +96,16 @@ class Tracker extends BaseModel
             ->fetch();
     }
 
-    public static function all(): bool|array
+    public static function all(bool $weekly = false): bool|array
     {
+        $select = static::$date_ymd;
+
+        if ($weekly) {
+            $select = static::$date_week;
+        }
+
         return static::query()
-            ->select("*, " . static::$date_ymd)
+            ->select("*, " . $select)
             ->whereIn('habit_id', static::whereInHabits())
             ->where([
                 'value' => [

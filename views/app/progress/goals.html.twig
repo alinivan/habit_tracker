@@ -1,0 +1,48 @@
+<div class="max-w-2xl mx-auto px-4 items-center sm:px-6 mt-5 lg:max-w-7xl lg:px-8 grid grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 gap-4 sm:gap-6 lg:gap-8">
+        <img src="https://www.aquascapeinc.com/upload/pond1.jpg"
+             class="rounded-lg"/>
+    </div>
+
+    <div class="mb-6">
+        <h2 class="text-2xl font-extrabold tracking-tight text-gray-100 sm:text-2xl text-right">{{ title }}</h2>
+        <p class="mt-4 text-gray-300 text-xs text-right italic font-semibold">{{ description }}</p>
+
+        <dl class="mt-4 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-1 sm:gap-y-4 lg:gap-x-8">
+            {% for area_name, area in areas_1 %}
+                <div class="pt-4">
+                    <dt class="font-bold text-gray-200 border-b border-gray-200 pb-3">{{ area_name }}</dt>
+
+                    {% for name in area %}
+                        <dd class="mt-2 text-sm text-gray-300">{{ name }}</dd>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </dl>
+    </div>
+
+
+
+
+    <div class="mb-6">
+        <dl class="mt-4 grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-1 sm:gap-y-4 lg:gap-x-4">
+            {% for area_name, area in areas_2 %}
+                <div class="pt-4">
+                    <dt class="font-bold text-gray-200 border-b border-gray-200 pb-3">{{ area_name }}</dt>
+
+                    {% for name in area %}
+                        <dd class="mt-2 text-sm text-gray-300">{{ name }}</dd>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </dl>
+    </div>
+
+
+
+    <div class="grid grid-cols-1 gap-4 sm:gap-6 lg:gap-8">
+        <img src="https://design-milk.com/images/2015/07/Spahaus-Fraternite-sur-Lac-YH2-1.jpg" class="rounded-lg"/>
+    </div>
+
+
+</div>
