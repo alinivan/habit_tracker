@@ -57,7 +57,7 @@ function csvToArray($csvFile): array
     return $lines;
 }
 
-function dateRange(string $dateFrom = '', string $dateTo = ''): array
+function dateRange(string $dateFrom = '', string $dateTo = '', string $type = ''): array
 {
     if ($dateFrom === '') {
         $dateFrom = IMPORT_START_DATE;
@@ -76,10 +76,14 @@ function dateRange(string $dateFrom = '', string $dateTo = ''): array
     );
 
     foreach ($period as $value) {
-        $range[] = $value->format('Y-m-d');
+        if ($type == 'weekly') {
+            $range[] = $value->format('W');
+        } else {
+            $range[] = $value->format('Y-m-d');
+        }
     }
 
-    return $range;
+    return array_unique($range);
 }
 
 

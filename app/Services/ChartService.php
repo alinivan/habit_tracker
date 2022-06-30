@@ -12,22 +12,16 @@ class ChartService
     {
         $tracker = array_pluck(Tracker::all($weekly), 'date_ymd');
         $habits = array_remap(Habit::all(), 'id');
-        $date_range = dateRange();
-
+        $date_range = dateRange('', '', 'weekly');
         $productive_dataset = [];
 
-
         foreach ($date_range as $date) {
-            if ($weekly) {
-                $date = (new DateTime($date))->format('W');
-            }
-
             if (!empty($tracker[$date])) {
                 foreach ($tracker[$date] as $tracker_item) {
                     $habit = $habits[$tracker_item['habit_id']];
 
                     if (HabitService::habitIsProductive($habit)) {
-                        @$productive_dataset[$date] += (int)$habit['points'] * $tracker_item['value'];
+                        @$productive_dataset[$date] += (int)($habit['points'] * $tracker_item['value']);
                     }
                 }
             } else {
