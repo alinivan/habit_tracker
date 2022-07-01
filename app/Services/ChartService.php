@@ -36,7 +36,7 @@ class ChartService
     {
         $habit = Habit::getByName($habit_name);
         $tracker = array_pluck(Tracker::getByHabitId($habit['id'], $start_date), 'date_ymd');
-        $date_range = dateRange();
+        $date_range = dateRange($start_date);
         $productive_dataset = [];
 
         foreach ($date_range as $date) {

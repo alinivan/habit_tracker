@@ -2,22 +2,22 @@
     <dl class="mt-5 grid grid-cols-2 gap-5 sm:grid-cols-4">
         <div class="px-4 py-5 bg-gray-700 shadow rounded-lg overflow-hidden sm:p-6">
             <dt class="text-sm font-medium text-gray-200 truncate">Productive Hours</dt>
-            <dd class="mt-1 text-3xl font-semibold text-white">{{ productive_hours }}</dd>
+            <dd class="mt-1 text-3xl font-semibold text-white">{{ sumOfTodayProductiveHours }}</dd>
         </div>
 
         <div class="px-4 py-5 bg-gray-700 shadow rounded-lg overflow-hidden sm:p-6">
             <dt class="text-sm font-medium text-gray-200 truncate">Avg Points (7 days)</dt>
-            <dd class="mt-1 text-3xl font-semibold text-white">{{ avg_points }}</dd>
+            <dd class="mt-1 text-3xl font-semibold text-white">{{ averageDailyPointsLast7Days }}</dd>
         </div>
 
         <div class="px-4 py-5 bg-gray-700 shadow rounded-lg overflow-hidden sm:p-6">
             <dt class="text-sm font-medium text-gray-200 truncate">Start hour</dt>
-            <dd class="mt-1 text-3xl font-semibold text-white">{{ start_hour }}</dd>
+            <dd class="mt-1 text-3xl font-semibold text-white">{{ todayStartHour }}</dd>
         </div>
 
         <div class="px-4 py-5 bg-gray-700 shadow rounded-lg overflow-hidden sm:p-6">
             <dt class="text-sm font-medium text-gray-200 truncate">Kg</dt>
-            <dd class="mt-1 text-3xl font-semibold text-white">{{ kg }}</dd>
+            <dd class="mt-1 text-3xl font-semibold text-white">{{ lastKgValue }}</dd>
         </div>
     </dl>
 </div>

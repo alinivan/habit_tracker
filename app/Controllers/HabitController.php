@@ -11,20 +11,17 @@ class HabitController extends BaseController
 {
     public function index()
     {
-        $habits = Habit::all();
-        $categories = array_remap(Category::all(), 'id');
-
         echo $this->renderView('app/habit/index.html.twig', [
-            'habits' => $habits,
-            'categories' => $categories
+            'habits' => Habit::all(),
+            'categories' => array_remap(Category::all(), 'id')
         ]);
     }
 
     public function new()
     {
-        $form = $this->addEditForm('/habits');
+        $addEditForm = $this->addEditForm('/habits');
 
-        echo $this->renderView('app/habit/new.html.twig', ['form' => $form->getHtml()]);
+        echo $this->renderView('app/habit/new.html.twig', ['form' => $addEditForm->getHtml()]);
     }
 
     public function create()
@@ -36,9 +33,7 @@ class HabitController extends BaseController
 
     public function show(int $id)
     {
-        $habit = Habit::get($id);
-
-        echo $this->renderView('app/habit/show.html.twig', ['habit' => $habit]);
+        echo $this->renderView('app/habit/show.html.twig', ['habit' => Habit::get($id)]);
     }
 
     public function edit(int $id)
@@ -109,20 +104,12 @@ class HabitController extends BaseController
             'options' => [['name' => 'min', 'value' => 'min'], ['name' => 'kg', 'value' => 'kg']]
         ]);
 
-        $value_types = [
-            [
-                'value' => 'number',
-                'name' => 'Number'
-            ],
-            [
-                'value' => 'boolean',
-                'name' => 'Boolean'
-            ]
-        ];
 
+        // setting 'value' => 'id' for builder select option
         $categories = Category::all();
-        foreach ($categories as $k => $v) {
-            $categories[$k]['value'] = $v['id'];
+
+        foreach ($categories as &$category) {
+            $category['value'] = $category['id'];
         }
 
         $form->addSelect([
@@ -139,11 +126,22 @@ class HabitController extends BaseController
             'options' => [['name' => 'Yes', 'value' => 1], ['name' => 'No', 'value' => 0]]
         ]);
 
+        $valueTypes = [
+            [
+                'value' => 'number',
+                'name' => 'Number'
+            ],
+            [
+                'value' => 'boolean',
+                'name' => 'Boolean'
+            ]
+        ];
+
         $form->addSelect([
             'label' => 'Type',
             'name' => 'value_type',
             'value' => $habit['value_type'] ?? 'numeric',
-            'options' => $value_types
+            'options' => $valueTypes
         ]);
         $form->setSubmit(['label' => 'Save']);
 

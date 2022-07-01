@@ -51,4 +51,26 @@ class Category extends BaseModel
     {
         static::query()->destroy($id);
     }
+
+    public static function allWithHabits(): array
+    {
+        $categories = static::all();
+
+        if (!empty($categories)) {
+            foreach ($categories as $k => &$category) {
+                $habits = Habit::allByCategoryId($category['id']);
+
+                $category['habits'] = [];
+
+                if (!empty($habits)) {
+                    $category['habits'] = $habits;
+                }
+            }
+        } else {
+            $categories = [];
+        }
+
+        return $categories;
+    }
+
 }

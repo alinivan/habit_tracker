@@ -10,15 +10,16 @@ class CategoryController extends BaseController
 {
     public function index()
     {
-        $categories = Category::all();
-        echo $this->renderView('app/category/index.html.twig', ['categories' => $categories]);
+        echo $this->renderView('app/category/index.html.twig', [
+            'categories' => Category::all()
+        ]);
     }
 
     public function new()
     {
-        $form = $this->addEditForm('/categories');
+        $add_edit_form = $this->addEditForm('/categories');
 
-        echo $this->renderView('app/category/new.html.twig', ['form' => $form->getHtml()]);
+        echo $this->renderView('app/category/new.html.twig', ['form' => $add_edit_form->getHtml()]);
     }
 
     public function create()
@@ -30,17 +31,15 @@ class CategoryController extends BaseController
 
     public function show(int $id)
     {
-        $habit = Category::get($id);
-
-        echo $this->renderView('app/category/show.html.twig', ['habit' => $habit]);
+        echo $this->renderView('app/category/show.html.twig', ['category' => Category::get($id)]);
     }
 
     public function edit(int $id)
     {
         $category = Category::get($id);
-        $form = $this->addEditForm("/categories/$id", $category);
+        $add_edit_form = $this->addEditForm("/categories/$id", $category);
 
-        echo $this->renderView('app/category/edit.html.twig', ['habit' => $category, 'form' => $form->getHtml()]);
+        echo $this->renderView('app/category/edit.html.twig', ['category' => $category, 'form' => $add_edit_form->getHtml()]);
     }
 
     public function update(int $id)
@@ -67,7 +66,7 @@ class CategoryController extends BaseController
             'value' => $category['name'] ?? '',
         ]);
 
-        $value_types = [
+        $color_options = [
             [
                 'value' => 'red',
                 'name' => 'red'
@@ -95,7 +94,7 @@ class CategoryController extends BaseController
             'label' => 'Color',
             'name' => 'color',
             'value' => $category['color'] ?? '',
-            'options' => $value_types
+            'options' => $color_options
         ]);
 
         $form->addInput([

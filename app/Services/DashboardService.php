@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Models\Tracker;
 
-class DashboardComponentsService
+class DashboardService
 {
-    public static function getHabitValuesOfToday(): array
+    public static function getHabitsValuesOfToday(): array
     {
         $habits = [];
         $tracker = Tracker::getToday();
@@ -17,4 +17,6 @@ class DashboardComponentsService
 
         return $habits;
     }
+
+
 }
