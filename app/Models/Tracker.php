@@ -188,7 +188,7 @@ class Tracker extends BaseModel
         $start_date = date('Y-m-d ' . START_HOUR);
 
         $return = static::query()
-            ->select('TIME_FORMAT(`date`, "%H:%i") as hour')
+            ->select("TIME_FORMAT(`date`, '%H:%i') as hour")
             ->whereIn('habit_id', static::whereInHabits())
             ->where([
                 'date' => [
