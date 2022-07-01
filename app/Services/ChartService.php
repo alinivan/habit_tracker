@@ -31,4 +31,24 @@ class ChartService
 
         return $productive_dataset;
     }
+
+    public static function habitChart(string $habit_name): array
+    {
+        $habit = Habit::getByName($habit_name);
+        $tracker = array_pluck(Tracker::getByHabitId($habit['id']), 'date_ymd');
+        $date_range = dateRange();
+        $productive_dataset = [];
+
+        foreach ($date_range as $date) {
+            if (!empty($tracker[$date])) {
+                foreach ($tracker[$date] as $tracker_item) {
+                    @$productive_dataset[$date] += $tracker_item['value'];
+                }
+            } else {
+                $productive_dataset[$date] = 0;
+            }
+        }
+
+        return $productive_dataset;
+    }
 }

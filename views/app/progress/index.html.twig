@@ -5,8 +5,10 @@
 {% block content %}
     {{ motivation | raw }}
     {{ progress_chart.html | raw }}
+    {{ kg_chart.html | raw }}
 {% endblock %}
 
 {% block scripts %}
     {{ progress_chart.js | raw }}
+    {{ kg_chart.js | raw }}
 {% endblock %}

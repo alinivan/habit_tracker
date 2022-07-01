@@ -24,9 +24,16 @@ class ProgressController extends BaseController
         $productivity_chart->addDataset(array_values($dataset));
         $productivity_chart->setLabels(array_keys($dataset));
 
+        $dataset_kg = ChartService::habitChart('Kg');
+        $kg_chart = new Chart();
+        $kg_chart->setTitle('Gaining Weight');
+        $kg_chart->addDataset(array_values($dataset_kg));
+        $kg_chart->setLabels(array_keys($dataset_kg));
+
         echo $this->renderView('app/progress/index.html.twig', [
             'motivation' => $motivation,
-            'progress_chart' => $productivity_chart->getHtmlAndJs()
+            'progress_chart' => $productivity_chart->getHtmlAndJs(),
+            'kg_chart' => $kg_chart->getHtmlAndJs()
         ]);
     }
 }
