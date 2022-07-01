@@ -11,7 +11,7 @@ class Router
         $controller = explode(':', $controller_method)[0];
         $method = explode(':', $controller_method)[1];
 
-        if (in_array($controller, static::authMiddleware()) && !Auth::userLoggedIn()) {
+        if (in_array($controller, static::authMiddleware()) && !Auth::userIsLoggedIn()) {
             redirect('/login');
             exit;
         }

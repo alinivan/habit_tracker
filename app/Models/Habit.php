@@ -21,7 +21,7 @@ class Habit extends BaseModel
             'measurement' => $request['measurement'],
             'is_productive' => $request['is_productive'],
             'points' => $request['points'],
-            'user_id' => Auth::getUserId()
+            'user_id' => Auth::getAuthenticatedUserId()
         ]);
     }
 
@@ -29,7 +29,7 @@ class Habit extends BaseModel
     {
         return static::query()
             ->select()
-            ->where(['user_id' => Auth::getUserId()])
+            ->where(['user_id' => Auth::getAuthenticatedUserId()])
             ->fetchAll();
     }
 
@@ -61,7 +61,7 @@ class Habit extends BaseModel
         static::query()->destroy($id);
     }
 
-    public static function allByCategoryId(int $category_id): bool|array
+    public static function allInCategoryId(int $category_id): bool|array
     {
         return static::query()
             ->select()
@@ -70,27 +70,12 @@ class Habit extends BaseModel
             ->fetchAll();
     }
 
-    public static function allWithCategory(): bool|array
-    {
-        $categories = Category::all();
-
-        foreach ($categories as $k => $v) {
-            $habits = static::allByCategoryId($v['id']);
-
-            if ($habits) {
-                $categories[$k]['habits'] = $habits;
-            }
-        }
-
-        return $categories;
-    }
-
     public static function getByName(string $string): bool|array
     {
         return static::query()
             ->select()
             ->where([
-                'user_id' => Auth::getUserId(),
+                'user_id' => Auth::getAuthenticatedUserId(),
                 'name' => $string
             ])
             ->fetch();

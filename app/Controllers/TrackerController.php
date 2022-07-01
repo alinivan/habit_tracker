@@ -14,18 +14,17 @@ class TrackerController extends BaseController
 {
     public function index()
     {
-        $tracker_html = (new TrackerService())->getTracker(IMPORT_START_DATE, Date::getStartAndEndDate()['end_date'], false);
+        $trackerHtml = (new TrackerService())->getTracker(IMPORT_START_DATE, Date::getStartAndEndDate()['end_date'], false);
 
-        echo $this->renderView('app/tracker/index.html.twig', ['tracker_html' => $tracker_html]);
+        echo $this->renderView('app/tracker/index.html.twig', ['trackerHtml' => $trackerHtml]);
     }
 
     public function new()
     {
-        $habit_id = $_REQUEST['habit_id'];
-        $habit = Habit::get($habit_id);
+        $habitId = $_REQUEST['habit_id'];
+        $habit = Habit::get($habitId);
 
         $form = new Form();
-
         $form->addInput([
             'type' => 'datetime-local',
             'name' => 'date',
@@ -54,9 +53,8 @@ class TrackerController extends BaseController
         $form->addInput([
             'type' => 'hidden',
             'name' => 'habit_id',
-            'value' => $habit_id,
+            'value' => $habitId,
         ]);
-
 
         $modal = new Modal();
         $modal->setTitle($habit['name']);

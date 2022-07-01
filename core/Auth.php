@@ -17,12 +17,12 @@ class Auth
         unset($_SESSION['user']);
     }
 
-    public static function getUserId()
+    public static function getAuthenticatedUserId()
     {
         return $_SESSION['user']['user_id'];
     }
 
-    public static function userLoggedIn(): bool
+    public static function userIsLoggedIn(): bool
     {
         return isset($_SESSION['user']['authenticated']) && $_SESSION['user']['authenticated'];
     }

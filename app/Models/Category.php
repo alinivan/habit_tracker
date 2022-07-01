@@ -16,7 +16,7 @@ class Category extends BaseModel
             'name' => $request['name'],
             'color' => $request['color'],
             'order' => $request['order'],
-            'user_id' => Auth::getUserId()
+            'user_id' => Auth::getAuthenticatedUserId()
         ]);
     }
 
@@ -24,7 +24,7 @@ class Category extends BaseModel
     {
         return static::query()
             ->select()
-            ->where(['user_id' => Auth::getUserId()])
+            ->where(['user_id' => Auth::getAuthenticatedUserId()])
             ->orderBy('order')
             ->fetchAll();
     }
@@ -43,7 +43,7 @@ class Category extends BaseModel
             'name' => $request['name'],
             'color' => $request['color'],
             'order' => $request['order'],
-            'user_id' => Auth::getUserId()
+            'user_id' => Auth::getAuthenticatedUserId()
         ]);
     }
 
@@ -58,7 +58,7 @@ class Category extends BaseModel
 
         if (!empty($categories)) {
             foreach ($categories as $k => &$category) {
-                $habits = Habit::allByCategoryId($category['id']);
+                $habits = Habit::allInCategoryId($category['id']);
 
                 $category['habits'] = [];
 

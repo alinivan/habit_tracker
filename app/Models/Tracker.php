@@ -27,7 +27,7 @@ class Tracker extends BaseModel
         return Habit::query()
             ->select('id')
             ->where([
-                'user_id' => Auth::getUserId()
+                'user_id' => Auth::getAuthenticatedUserId()
             ]);
     }
 
@@ -84,7 +84,7 @@ class Tracker extends BaseModel
             ->where([
                 'h.is_productive' => 1,
                 'h.value_type' => 'number',
-                'h.user_id' => Auth::getUserId(),
+                'h.user_id' => Auth::getAuthenticatedUserId(),
                 'date' => [
                     '>=' => $start_date,
                     '<=' => $end_date,
@@ -139,26 +139,6 @@ class Tracker extends BaseModel
             ->fetchAll();
     }
 
-    public static function getTodayScore(): bool|array
-    {
-        $start_date = date('Y-m-d ' . START_HOUR);
-        $end_date = date('Y-m-d H:i:s', strtotime($start_date . '+1 day'));
-
-        return static::query()
-            ->select('sum(value * points) as score')
-            ->from('tracker', 't')
-            ->join(['habits', 'h'], 'h.id= t.habit_id')
-            ->where([
-                'h.user_id' => Auth::getUserId(),
-                'date' => [
-                    '>=' => $start_date,
-                    '<=' => $end_date,
-                ]
-            ])
-            ->groupBy('h.id')
-            ->fetchAll();
-    }
-
     public static function getSumOfPointsLast7Days(): int
     {
         $end_date = date('Y-m-d ' . START_HOUR);
@@ -169,7 +149,7 @@ class Tracker extends BaseModel
             ->from('tracker', 't')
             ->join(['habits', 'h'], 'h.id= t.habit_id')
             ->where([
-                'h.user_id' => Auth::getUserId(),
+                'h.user_id' => Auth::getAuthenticatedUserId(),
                 'date' => [
                     '>=' => $start_date,
                     '<=' => $end_date,
@@ -205,14 +185,14 @@ class Tracker extends BaseModel
         return !empty($return['hour']) ? $return['hour'] : '--:--';
     }
 
-    public static function getLastInsertedValueOfHabit(int $habit_id): int
+    public static function getLastInsertedValueOfHabit(int $habit_id): float
     {
         $return = static::query()
             ->select('value')
             ->from('tracker', 't')
             ->join(['habits', 'h'], 'h.id = t.habit_id')
             ->where([
-                'h.user_id' => Auth::getUserId(),
+                'h.user_id' => Auth::getAuthenticatedUserId(),
                 'h.id' => $habit_id,
                 'value' => [
                     '>' => 0
@@ -222,6 +202,6 @@ class Tracker extends BaseModel
             ->limit(1)
             ->fetch();
 
-        return !empty($return['value']) ? (int)$return['value'] : 0;
+        return !empty($return['value']) ? $return['value'] : 0;
     }
 }

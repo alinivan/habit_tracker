@@ -11,7 +11,7 @@ class UserController extends BaseController
 {
     public function loginPage()
     {
-        if (Auth::userLoggedIn()) {
+        if (Auth::userIsLoggedIn()) {
             redirect('/dashboard');
         }
 
@@ -20,7 +20,7 @@ class UserController extends BaseController
 
     public function registerPage()
     {
-        if (Auth::userLoggedIn()) {
+        if (Auth::userIsLoggedIn()) {
             redirect('/dashboard');
         }
 
