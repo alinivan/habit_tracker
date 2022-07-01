@@ -32,10 +32,10 @@ class ChartService
         return $productive_dataset;
     }
 
-    public static function habitChart(string $habit_name): array
+    public static function habitChart(string $habit_name, string $start_date = ''): array
     {
         $habit = Habit::getByName($habit_name);
-        $tracker = array_pluck(Tracker::getByHabitId($habit['id']), 'date_ymd');
+        $tracker = array_pluck(Tracker::getByHabitId($habit['id'], $start_date), 'date_ymd');
         $date_range = dateRange();
         $productive_dataset = [];
 

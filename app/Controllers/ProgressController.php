@@ -24,7 +24,7 @@ class ProgressController extends BaseController
         $productivity_chart->addDataset(array_values($dataset));
         $productivity_chart->setLabels(array_keys($dataset));
 
-        $dataset_kg = ChartService::habitChart('Kg');
+        $dataset_kg = ChartService::habitChart('Kg', '2022-06-16');
         $kg_chart = new Chart();
         $kg_chart->setTitle('Gaining Weight');
         $kg_chart->addDataset(array_values($dataset_kg));

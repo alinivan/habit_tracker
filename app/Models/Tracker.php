@@ -116,16 +116,23 @@ class Tracker extends BaseModel
             ->fetchAll();
     }
 
-    public static function getByHabitId(int $habit_id): bool|array
+    public static function getByHabitId(int $habit_id, string $start_date = ''): bool|array
     {
+        $where = [
+            'habit_id' => $habit_id,
+            'value' => [
+                '>' => 0
+            ]
+        ];
+
+        if ($start_date) {
+            $where['date'] = [
+                '>=' => $start_date
+            ];
+        }
         return static::query()
             ->select("*, " . static::$date_ymd)
-            ->where([
-                'habit_id' => $habit_id,
-                'value' => [
-                    '>' => 0
-                ]
-            ])
+            ->where($where)
             ->orderBy('date')
             ->fetchAll();
     }
