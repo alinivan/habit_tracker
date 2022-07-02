@@ -1,0 +1,24 @@
+<table class="min-w-full divide-y divide-gray-300">
+    <thead class="text-gray-100">
+        <tr>
+            {% for header in headers %}
+                <th scope="col"
+                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-6">{{ header }}
+                </th>
+            {% endfor %}
+        </tr>
+    </thead>
+
+    <tbody class="divide-y divide-gray-200 text-gray-200">
+        {% for rowItems in rows %}
+            <tr>
+                {% for column in rowItems %}
+                    <td class="whitespace-nowrap px-3 py-4 text-sm sm:table-cell">
+                        {{ column }}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+
+    </tbody>
+</table>

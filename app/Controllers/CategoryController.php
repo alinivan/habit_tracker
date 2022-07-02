@@ -5,13 +5,22 @@ namespace App\Controllers;
 use App\Models\Category;
 use Core\Base\BaseController;
 use Core\Builder\Form;
+use Core\Builder\Table;
 
 class CategoryController extends BaseController
 {
     public function index()
     {
+        $table = new Table();
+        $table->setHeaders([
+            'Name', 'Color', ' '
+        ]);
+        $table->addRow(['Productivity', 'blue', 'edit, delete']);
+        $table->addRow(['Self Care', 'Green', 'edit, delete']);
+
         echo $this->renderView('app/category/index.html.twig', [
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'categoriesTable' => $table->getHtml()
         ]);
     }
 
