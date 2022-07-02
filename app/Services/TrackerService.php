@@ -11,36 +11,35 @@ class TrackerService extends ViewManager
     public function getTracker(string $fromDate, string $toDate, bool $timeline = true): string
     {
         $tracker = Tracker::getFromTo($fromDate, $toDate);
+        $habits = arrayRemap(Habit::all(), 'id');
 
-        $habits = array_remap(Habit::all(), 'id');
+        foreach ($tracker as &$trackerItem) {
+            $habit = $habits[$trackerItem['habit_id']];
 
-        foreach ($tracker as &$item) {
-            $habit = $habits[$item['habit_id']];
+            $hour = date('H:i', strtotime($trackerItem['date']));
 
-            $hour = date('H:i', strtotime($item['date']));
+            $trackerItem['habit_name'] = $habit['name'];
+            $trackerItem['value_type'] = $habit['value_type'];
+            $trackerItem['measurement'] = $habit['measurement'];
+            $trackerItem['hour'] = $hour;
 
-            $item['habit_name'] = $habit['name'];
-            $item['value_type'] = $habit['value_type'];
-            $item['measurement'] = $habit['measurement'];
-            $item['hour'] = $hour;
+            if (HabitService::habitSupportsTimeInterval($habit)) {
+                $minutes = (float)$trackerItem['value'];
+                $startHour = date('H:i', strtotime("- $minutes minutes", strtotime($trackerItem['date'])));
 
-            if (HabitService::habitHasTimeInterval($habit)) {
-                $minutes = (float)$item['value'];
-                $start_hour = date('H:i', strtotime("- $minutes minutes", strtotime($item['date'])));
-
-                $item['hour'] = "$start_hour - $hour";
+                $trackerItem['hour'] = "$startHour - $hour";
             }
         }
 
-        $tracker_by_date = array_pluck($tracker, 'date_ymd');
-        krsort($tracker_by_date);
+        $trackerByDate = arrayPluck($tracker, 'date_ymd');
+        krsort($trackerByDate);
 
         if (!$timeline) {
-            $tracker_by_date_compact = [];
-            foreach ($tracker_by_date as $date => $habits_tracker) {
-                foreach ($habits_tracker as $k => $v) {
-                    @$tracker_by_date_compact[$date][$v['habit_name']] = [
-                        'value' => $tracker_by_date_compact[$date][$v['habit_name']]['value'] + $v['value'],
+            $trackerByDateCompact = [];
+            foreach ($trackerByDate as $date => $habitsTracker) {
+                foreach ($habitsTracker as $v) {
+                    @$trackerByDateCompact[$date][$v['habit_name']] = [
+                        'value' => $trackerByDateCompact[$date][$v['habit_name']]['value'] + $v['value'],
                         'habit_name' => $v['habit_name'],
                         'value_type' => $v['value_type'],
                         'measurement' => $v['measurement']
@@ -50,7 +49,7 @@ class TrackerService extends ViewManager
         }
 
         return $this->renderView('app/tracker/view.html.twig', [
-            'dates' => $timeline ? $tracker_by_date : $tracker_by_date_compact,
+            'dates' => $timeline ? $trackerByDate : $trackerByDateCompact,
             'timeline' => $timeline
         ]);
     }

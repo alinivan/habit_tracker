@@ -13,7 +13,7 @@ class HabitController extends BaseController
     {
         echo $this->renderView('app/habit/index.html.twig', [
             'habits' => Habit::all(),
-            'categories' => array_remap(Category::all(), 'id')
+            'categories' => arrayRemap(Category::all(), 'id')
         ]);
     }
 

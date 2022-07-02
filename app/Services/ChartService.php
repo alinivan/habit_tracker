@@ -9,45 +9,45 @@ class ChartService
 {
     public static function productiveDataset(bool $weekly = false): array
     {
-        $tracker = array_pluck(Tracker::all($weekly), 'date_ymd');
-        $habits = array_remap(Habit::all(), 'id');
-        $date_range = dateRange('', '', 'weekly');
-        $productive_dataset = [];
+        $tracker = arrayPluck(Tracker::all($weekly), 'date_ymd');
+        $habits = arrayRemap(Habit::all(), 'id');
+        $dateRange = dateRange('', '', 'weekly');
+        $productiveDataset = [];
 
-        foreach ($date_range as $date) {
+        foreach ($dateRange as $date) {
             if (!empty($tracker[$date])) {
-                foreach ($tracker[$date] as $tracker_item) {
-                    $habit = $habits[$tracker_item['habit_id']];
+                foreach ($tracker[$date] as $trackerItem) {
+                    $habit = $habits[$trackerItem['habit_id']];
 
                     if (HabitService::habitIsProductive($habit)) {
-                        @$productive_dataset[$date] += (int)($habit['points'] * $tracker_item['value']);
+                        @$productiveDataset[$date] += (int)($habit['points'] * $trackerItem['value']);
                     }
                 }
             } else {
-                $productive_dataset[$date] = 0;
+                $productiveDataset[$date] = 0;
             }
         }
 
-        return $productive_dataset;
+        return $productiveDataset;
     }
 
-    public static function habitChart(string $habit_name, string $start_date = ''): array
+    public static function habitChart(string $habitName, string $startDate = ''): array
     {
-        $habit = Habit::getByName($habit_name);
-        $tracker = array_pluck(Tracker::getByHabitId($habit['id'], $start_date), 'date_ymd');
-        $date_range = dateRange($start_date);
-        $productive_dataset = [];
+        $habit = Habit::getByName($habitName);
+        $tracker = arrayPluck(Tracker::getByHabitId($habit['id'], $startDate), 'date_ymd');
+        $dateRange = dateRange($startDate);
+        $productiveDataset = [];
 
-        foreach ($date_range as $date) {
+        foreach ($dateRange as $date) {
             if (!empty($tracker[$date])) {
-                foreach ($tracker[$date] as $tracker_item) {
-                    @$productive_dataset[$date] += $tracker_item['value'];
+                foreach ($tracker[$date] as $trackerItem) {
+                    @$productiveDataset[$date] += $trackerItem['value'];
                 }
             } else {
-                $productive_dataset[$date] = 0;
+                $productiveDataset[$date] = 0;
             }
         }
 
-        return $productive_dataset;
+        return $productiveDataset;
     }
 }

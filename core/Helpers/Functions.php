@@ -21,7 +21,7 @@ function redirect($string): void
     header("Location: $string");
 }
 
-function array_pluck(array $array, string $key): array
+function arrayPluck(array $array, string $key): array
 {
     $return = [];
 
@@ -32,7 +32,7 @@ function array_pluck(array $array, string $key): array
     return $return;
 }
 
-function array_remap(array $array, string $key): array
+function arrayRemap(array $array, string $key): array
 {
     $return = [];
 
@@ -84,28 +84,4 @@ function dateRange(string $dateFrom = '', string $dateTo = '', string $type = ''
     }
 
     return array_unique($range);
-}
-
-
-
-/*$classes = modelClasses();
-
-foreach ($classes as $class) {
-    $class_lower = strtolower($class);
-    $class_with_namespace = "App\\Models\\$class";
-    $this->{$class_lower} = new $class_with_namespace();
-}*/
-
-function modelClasses(): array
-{
-    $classPaths = glob(APP_ROOT . '/app/Models/*.php');
-    $classes = [];
-    $namespace = '';
-
-    foreach ($classPaths as $classPath) {
-        $segments = explode('/', $classPath);
-        $segments = explode('\\', $segments[count($segments) - 1]);
-        $classes[] = str_replace('.php', '', $namespace . $segments[count($segments) - 1]);
-    }
-    return $classes;
 }

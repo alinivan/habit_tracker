@@ -98,7 +98,7 @@ class Tracker extends BaseModel
         return !empty($return['sum']) ? $return['sum'] : 0;
     }
 
-    public static function all(bool $weekly = false): bool|array
+    public static function all(bool $weekly = false): array
     {
         $select = static::$date_ymd;
 
@@ -106,7 +106,7 @@ class Tracker extends BaseModel
             $select = static::$date_week;
         }
 
-        return static::query()
+        $return = static::query()
             ->select("*, " . $select)
             ->whereIn('habit_id', static::whereInHabits())
             ->where([
@@ -116,6 +116,8 @@ class Tracker extends BaseModel
             ])
             ->orderBy('date', 'desc')
             ->fetchAll();
+
+        return !empty($return) ? $return : [];
     }
 
     public static function getByHabitId(int $habit_id, string $start_date = ''): bool|array

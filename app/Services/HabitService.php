@@ -9,7 +9,7 @@ class HabitService
         return $habit['is_productive'];
     }
 
-    public static function habitHasTimeInterval(array $habit): bool
+    public static function habitSupportsTimeInterval(array $habit): bool
     {
         return $habit['is_productive'] && $habit['value_type'] == 'number';
     }
