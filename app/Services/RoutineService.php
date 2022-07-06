@@ -19,6 +19,9 @@ class RoutineService extends ViewManager
         $habitsValues = DashboardService::getHabitsValuesOfToday();
 
         foreach ($routineCategories as &$routineCategory) {
+            if (empty($routine[$routineCategory['id']])) {
+                continue;
+            }
             $html = '';
             $routineCategory['routines'] = $routine[$routineCategory['id']];
 
