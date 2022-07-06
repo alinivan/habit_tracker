@@ -22,6 +22,7 @@ class TrackerController extends BaseController
     public function new()
     {
         $habitId = $_REQUEST['habit_id'];
+        $routineCategoryId = $_REQUEST['routine_category_id'];
         $habit = Habit::get($habitId);
 
         $form = new Form();
@@ -55,6 +56,14 @@ class TrackerController extends BaseController
             'name' => 'habit_id',
             'value' => $habitId,
         ]);
+
+        if ($routineCategoryId) {
+            $form->addInput([
+                'type' => 'hidden',
+                'name' => 'routine_category_id',
+                'value' => $routineCategoryId,
+            ]);
+        }
 
         $modal = new Modal();
         $modal->setTitle($habit['name']);

@@ -44,11 +44,13 @@
     <script>
         $('.track-habit').click(function () {
             let habit_id = $(this).data('id');
+            let routine_category_id = $(this).data('routine-category-id');
 
             $.ajax({
                 url: '/tracker/new',
                 data: {
-                    'habit_id': habit_id
+                    'habit_id': habit_id,
+                    'routine_category_id': routine_category_id
                 },
                 type: 'GET',
                 success: function (result) {

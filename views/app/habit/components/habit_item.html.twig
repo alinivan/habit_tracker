@@ -1,5 +1,5 @@
 <div class="track-habit text-white text-center py-3 {{ habit.tracker_value >= habit.min_value ? 'bg-green-900 hover:bg-green-800' : 'hover:bg-gray-700' }} cursor-pointer border-collapse border border-gray-300 rounded-md"
-     data-id="{{ habit.id }}">
+     data-id="{{ habit.id }}" data-routine-category-id="{{ habit.routine_category_id }}">
     {{ habit.name }}
 
     {% if habit.is_productive %}

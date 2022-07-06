@@ -18,7 +18,8 @@ class Tracker extends BaseModel
         static::query()->insert([
             'habit_id' => $request['habit_id'],
             'date' => $request['date'],
-            'value' => round($request['value'], 1)
+            'value' => round($request['value'], 1),
+            'routine_category_id' => (int)$request['routine_category_id']
         ]);
     }
 

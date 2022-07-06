@@ -18,5 +18,19 @@ class DashboardService
         return $habits;
     }
 
+    public static function getHabitsValuesOfTodayWithRoutineCategory(): array
+    {
+        $tracker = Tracker::getToday();
+        $habits = [];
+
+        foreach ($tracker as $v) {
+            if ($v['routine_category_id']) {
+                @$habits[$v['routine_category_id']][$v['habit_id']] += $v['value'];
+            }
+        }
+
+        return $habits;
+    }
+
 
 }

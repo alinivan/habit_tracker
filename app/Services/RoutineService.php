@@ -15,8 +15,7 @@ class RoutineService extends ViewManager
         $routineCategories = RoutineCategory::all();
         $routine = array_pluck(Routine::all(), 'routine_category_id');
 
-        // de preluat habit values in funectie de routine_category_id
-        $habitsValues = DashboardService::getHabitsValuesOfToday();
+        $habitsValues = DashboardService::getHabitsValuesOfTodayWithRoutineCategory();
 
         foreach ($routineCategories as &$routineCategory) {
             if (empty($routine[$routineCategory['id']])) {
@@ -35,8 +34,7 @@ class RoutineService extends ViewManager
             $targetValues = array_column($routine[$routineCategory['id']], 'target_value', 'habit_id');
 
             foreach ($habits as $habit) {
-                // to add $tracker_value, $target_value
-                $html .= (new HabitService())->getHabitHtml($habit, @$habitsValues[$habit['id']], @$targetValues[$habit['id']]);
+                $html .= (new HabitService())->getHabitHtml($habit, @$habitsValues[$routineCategory['id']][$habit['id']], @$targetValues[$habit['id']], $routineCategory['id']);
             }
 
             $routineCategory['html'] = $html;
