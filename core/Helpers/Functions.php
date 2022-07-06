@@ -21,7 +21,7 @@ function redirect($string): void
     header("Location: $string");
 }
 
-function arrayPluck(array $array, string $key): array
+function array_pluck(array $array, string $key): array
 {
     $return = [];
 
@@ -32,7 +32,7 @@ function arrayPluck(array $array, string $key): array
     return $return;
 }
 
-function arrayRemap(array $array, string $key): array
+function array_remap(array $array, string $key): array
 {
     $return = [];
 
@@ -43,7 +43,7 @@ function arrayRemap(array $array, string $key): array
     return $return;
 }
 
-function csvToArray($csvFile): array
+function csv_to_array($csvFile): array
 {
     $lines = [];
     $file_to_read = fopen($csvFile, 'r');
@@ -57,7 +57,7 @@ function csvToArray($csvFile): array
     return $lines;
 }
 
-function dateRange(string $dateFrom = '', string $dateTo = '', string $type = ''): array
+function date_range(string $dateFrom = '', string $dateTo = '', string $type = ''): array
 {
     if ($dateFrom === '') {
         $dateFrom = IMPORT_START_DATE;

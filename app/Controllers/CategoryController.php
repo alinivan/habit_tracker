@@ -11,15 +11,19 @@ class CategoryController extends BaseController
 {
     public function index()
     {
+        $categories = Category::all();
         $table = new Table();
         $table->setHeaders([
             'Name', 'Color', ' '
         ]);
-        $table->addRow(['Productivity', 'blue', 'edit, delete']);
-        $table->addRow(['Self Care', 'Green', 'edit, delete']);
+
+        foreach ($categories as $category) {
+            $editButton = '<a href="/category/'.$category['id'].'/edit" class="text-indigo-600 hover:text-indigo-900">Edit</a>';
+            $deleteButton = '<a href="/categories/'.$category['id'].'/delete" class="text-red-600 hover:text-red-900">Delete</a>';
+            $table->addRow([$category['name'], $category['color'], $editButton . $deleteButton]);
+        }
 
         echo $this->renderView('app/category/index.html.twig', [
-            'categories' => Category::all(),
             'categoriesTable' => $table->getHtml()
         ]);
     }

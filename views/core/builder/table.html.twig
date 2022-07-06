@@ -14,11 +14,10 @@
             <tr>
                 {% for column in rowItems %}
                     <td class="whitespace-nowrap px-3 py-4 text-sm sm:table-cell">
-                        {{ column }}
+                        {{ column | raw }}
                     </td>
                 {% endfor %}
             </tr>
         {% endfor %}
-
     </tbody>
 </table>

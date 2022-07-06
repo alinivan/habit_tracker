@@ -31,7 +31,8 @@ class Router
             'DashboardController',
             'HabitController',
             'TrackerController',
-            'CategoryController'
+            'CategoryController',
+            'ProgressController'
         ];
     }
 }

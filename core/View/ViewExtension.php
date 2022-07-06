@@ -28,7 +28,7 @@ class ViewExtension extends AbstractExtension
     {
         $menu = [
             [
-                'href' => '/dashboard',
+                'href' => '/dashboard?routine_view',
                 'name' => 'Dashboard'
             ],
             [
@@ -44,7 +44,7 @@ class ViewExtension extends AbstractExtension
                 'name' => 'Tracker'
             ],
             [
-                'href' => '/progress/?weekly',
+                'href' => '/progress?weekly',
                 'name' => 'Progress'
             ],
         ];

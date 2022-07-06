@@ -9,9 +9,9 @@ class ChartService
 {
     public static function productiveDataset(bool $weekly = false): array
     {
-        $tracker = arrayPluck(Tracker::all($weekly), 'date_ymd');
-        $habits = arrayRemap(Habit::all(), 'id');
-        $dateRange = dateRange('', '', 'weekly');
+        $tracker = array_pluck(Tracker::all($weekly), 'date_ymd');
+        $habits = array_remap(Habit::all(), 'id');
+        $dateRange = date_range('', '', 'weekly');
         $productiveDataset = [];
 
         foreach ($dateRange as $date) {
@@ -34,8 +34,8 @@ class ChartService
     public static function habitChart(string $habitName, string $startDate = ''): array
     {
         $habit = Habit::getByName($habitName);
-        $tracker = arrayPluck(Tracker::getByHabitId($habit['id'], $startDate), 'date_ymd');
-        $dateRange = dateRange($startDate);
+        $tracker = array_pluck(Tracker::getByHabitId($habit['id'], $startDate), 'date_ymd');
+        $dateRange = date_range($startDate);
         $productiveDataset = [];
 
         foreach ($dateRange as $date) {

@@ -1,0 +1,26 @@
+<nav class="h-full overflow-y-auto" aria-label="Directory">
+    {% for routineCategory in routineCategories %}
+        <div class="relative">
+            <div class="z-10 sticky top-0 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
+                <h3>{{ routineCategory.name }}</h3>
+            </div>
+            <ul role="list" class="relative z-0 divide-y divide-gray-200 mt-4 grid md:grid-cols-2 gap-2 sm:grid-cols-1">
+{#                {% for routine in routineCategory.routines %}#}
+
+                    {{ routineCategory.html | raw }}
+
+{#                    <div class="track-habit text-center py-3 {{ habits_values[routine.habit_id] >= habit.min_value ? 'bg-green-900 hover:bg-green-800' : 'hover:bg-gray-700' }} cursor-pointer border-collapse border border-gray-300 rounded-md"#}
+{#                         data-id="{{ routine.habit_id }}">#}
+{#                        {{ habits[routine.habit_id]['name'] }}#}
+
+{#                        {% if habit.is_productive %}#}
+{#                            <span class="text-xs italic block">{{ "(#{habits_values[habit.id] + 0} / #{habit.min_value})" }}</span>#}
+{#                        {% else %}#}
+{#                            <span class="text-xs italic block">-</span>#}
+{#                        {% endif %}#}
+{#                    </div>#}
+{#                {% endfor %}#}
+            </ul>
+        </div>
+    {% endfor %}
+</nav>

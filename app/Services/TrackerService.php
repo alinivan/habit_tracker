@@ -11,7 +11,7 @@ class TrackerService extends ViewManager
     public function getTracker(string $fromDate, string $toDate, bool $timeline = true): string
     {
         $tracker = Tracker::getFromTo($fromDate, $toDate);
-        $habits = arrayRemap(Habit::all(), 'id');
+        $habits = array_remap(Habit::all(), 'id');
 
         foreach ($tracker as &$trackerItem) {
             $habit = $habits[$trackerItem['habit_id']];
@@ -31,7 +31,7 @@ class TrackerService extends ViewManager
             }
         }
 
-        $trackerByDate = arrayPluck($tracker, 'date_ymd');
+        $trackerByDate = array_pluck($tracker, 'date_ymd');
         krsort($trackerByDate);
 
         if (!$timeline) {

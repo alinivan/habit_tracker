@@ -1,0 +1,10 @@
+<div class="track-habit text-white text-center py-3 {{ habit.tracker_value >= habit.min_value ? 'bg-green-900 hover:bg-green-800' : 'hover:bg-gray-700' }} cursor-pointer border-collapse border border-gray-300 rounded-md"
+     data-id="{{ habit.id }}">
+    {{ habit.name }}
+
+    {% if habit.is_productive %}
+        <span class="text-xs italic block">{{ "(#{habit.tracker_value + 0} / #{habit.min_value})" }}</span>
+    {% else %}
+        <span class="text-xs italic block">-</span>
+    {% endif %}
+</div>

@@ -58,7 +58,7 @@ class UserController extends BaseController
     public function import()
     {
         $csvFile = APP_ROOT . '/storage/uploads/tracker.csv';
-        $csv = csvToArray($csvFile);
+        $csv = csv_to_array($csvFile);
 
         foreach ($csv as $v) {
             $habits = [
