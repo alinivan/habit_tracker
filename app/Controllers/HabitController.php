@@ -4,8 +4,10 @@ namespace App\Controllers;
 
 use App\Models\Category;
 use App\Models\Habit;
+use App\Services\ChartService;
 use Core\Base\BaseController;
 use Core\Builder\Form;
+use Core\Charts\Chart;
 
 class HabitController extends BaseController
 {
@@ -42,7 +44,17 @@ class HabitController extends BaseController
 
         $form = $this->addEditForm("/habits/$id", $habit);
 
-        echo $this->renderView('app/habit/edit.html.twig', ['habit' => $habit, 'form' => $form->getHtml()]);
+        $dataset = ChartService::habitChart($habit['name'], '2022-06-16');
+        $chart = new Chart();
+        $chart->setTitle('History');
+        $chart->addDataset(array_values($dataset));
+        $chart->setLabels(array_keys($dataset));
+
+        echo $this->renderView('app/habit/edit.html.twig', [
+            'habit' => $habit,
+            'form' => $form->getHtml(),
+            'chart' => $chart->getHtmlAndJs()
+        ]);
     }
 
     public function update(int $id)

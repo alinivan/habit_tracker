@@ -4,4 +4,10 @@
 
 {% block content %}
     {{ form | raw }}
+
+    {{ chart.html | raw }}
+{% endblock %}
+
+{% block scripts %}
+    {{ chart.js | raw }}
 {% endblock %}

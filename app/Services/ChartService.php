@@ -11,7 +11,13 @@ class ChartService
     {
         $tracker = array_pluck(Tracker::all($weekly), 'date_ymd');
         $habits = array_remap(Habit::all(), 'id');
-        $dateRange = date_range('', '', 'weekly');
+
+        if ($weekly) {
+            $dateRange = date_range('', '', 'weekly');
+        } else {
+            $dateRange = date_range();
+        }
+
         $productiveDataset = [];
 
         foreach ($dateRange as $date) {
