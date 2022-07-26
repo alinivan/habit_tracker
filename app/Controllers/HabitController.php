@@ -11,7 +11,7 @@ use Core\Charts\Chart;
 
 class HabitController extends BaseController
 {
-    public function index()
+    public function index(): void
     {
         echo $this->renderView('app/habit/index.html.twig', [
             'habits' => Habit::all(),
@@ -19,32 +19,32 @@ class HabitController extends BaseController
         ]);
     }
 
-    public function new()
+    public function new(): void
     {
         $addEditForm = $this->addEditForm('/habits');
 
         echo $this->renderView('app/habit/new.html.twig', ['form' => $addEditForm->getHtml()]);
     }
 
-    public function create()
+    public function create(): void
     {
         Habit::create($_REQUEST);
 
         redirect('/habits');
     }
 
-    public function show(int $id)
+    public function show(int $id): void
     {
         echo $this->renderView('app/habit/show.html.twig', ['habit' => Habit::get($id)]);
     }
 
-    public function edit(int $id)
+    public function edit(int $id): void
     {
         $habit = Habit::get($id);
 
         $form = $this->addEditForm("/habits/$id", $habit);
 
-        $dataset = ChartService::habitChart($habit['name'], '2022-06-16');
+        $dataset = ChartService::habitChart($habit['name']);
         $chart = new Chart();
         $chart->setTitle('History');
         $chart->addDataset(array_values($dataset));
@@ -57,13 +57,13 @@ class HabitController extends BaseController
         ]);
     }
 
-    public function update(int $id)
+    public function update(int $id): void
     {
         Habit::modify($id, $_REQUEST);
         redirect('/habits');
     }
 
-    public function destroy(int $id)
+    public function destroy(int $id): void
     {
         Habit::delete($id);
         redirect('/habits');
