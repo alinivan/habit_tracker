@@ -6,7 +6,7 @@ use App\Models\Habit;
 use App\Models\Tracker;
 use App\Services\TrackerService;
 use Core\Base\BaseController;
-use Core\Builder\Form;
+use Core\Builder\FormBuilder\FormBuilder;
 use Core\Builder\Modal;
 use Core\Helpers\Date;
 
@@ -25,7 +25,7 @@ class TrackerController extends BaseController
         $routineCategoryId = $_REQUEST['routine_category_id'];
         $habit = Habit::get($habitId);
 
-        $form = new Form();
+        $form = new FormBuilder();
         $form->addInput([
             'type' => 'datetime-local',
             'name' => 'date',

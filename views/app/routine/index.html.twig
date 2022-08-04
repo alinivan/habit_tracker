@@ -1,0 +1,13 @@
+{% extends "app/layout.html.twig" %}
+
+{% block page_title %} Routine {% endblock %}
+
+{% block content %}
+    {% for routineCategory in routineCategories %}
+        <a class="block text-white">{{ routineCategory.name }}</a>
+
+        {% for routine in routineCategory.routines %}
+            <a class="block text-white ml-4">{{ habits[routine.habit_id]['name'] }} <span> - {{ routine.target_value }}</span></a>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}

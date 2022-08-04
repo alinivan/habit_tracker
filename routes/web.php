@@ -67,6 +67,7 @@ $route->get('/import_tracker', 'UserController:import');
 
 
 $route->get('/progress', 'ProgressController:index');
+$route->get('/routine', 'RoutineController:index');
 
 // Not found
 $route->notFound('PageController:notFound');

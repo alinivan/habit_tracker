@@ -9,6 +9,7 @@ use App\Services\HabitService;
 use App\Services\RoutineService;
 use App\Services\TrackerService;
 use Core\Base\BaseController;
+use Core\Components\Habit\HabitRenderer;
 use Core\Helpers\Date;
 
 class DashboardController extends BaseController
@@ -29,7 +30,7 @@ class DashboardController extends BaseController
         foreach ($categories as &$category) {
             $categoryHtml = '';
             foreach ($category['habits'] as $habit) {
-                $categoryHtml .= (new HabitService())->getHabitHtml($habit, @$habitsValues[$habit['id']]);
+                $categoryHtml .= (new HabitRenderer())->render($habit, @$habitsValues[$habit['id']]);
             }
             $category['html'] = $categoryHtml;
         }

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Habit;
 use App\Models\Routine;
 use App\Models\RoutineCategory;
+use Core\Components\Habit\HabitRenderer;
 use Core\Database\Db;
 use Core\View\ViewManager;
 
@@ -34,7 +35,7 @@ class RoutineService extends ViewManager
             $targetValues = array_column($routine[$routineCategory['id']], 'target_value', 'habit_id');
 
             foreach ($habits as $habit) {
-                $html .= (new HabitService())->getHabitHtml($habit, @$habitsValues[$routineCategory['id']][$habit['id']], @$targetValues[$habit['id']], $routineCategory['id']);
+                $html .= (new HabitRenderer())->render($habit, @$habitsValues[$routineCategory['id']][$habit['id']], @$targetValues[$habit['id']], $routineCategory['id']);
             }
 
             $routineCategory['html'] = $html;

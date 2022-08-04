@@ -13,7 +13,7 @@ class ChartService
         $habits = array_remap(Habit::all(), 'id');
 
         if ($weekly) {
-            $dateRange = date_range('', '', 'weekly');
+            $dateRange = date_range(type: 'weekly');
         } else {
             $dateRange = date_range();
         }

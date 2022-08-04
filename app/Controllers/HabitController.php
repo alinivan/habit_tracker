@@ -6,7 +6,7 @@ use App\Models\Category;
 use App\Models\Habit;
 use App\Services\ChartService;
 use Core\Base\BaseController;
-use Core\Builder\Form;
+use Core\Builder\FormBuilder\FormBuilder;
 use Core\Charts\Chart;
 
 class HabitController extends BaseController
@@ -69,9 +69,9 @@ class HabitController extends BaseController
         redirect('/habits');
     }
 
-    public function addEditForm(string $action, array $habit = []): Form
+    public function addEditForm(string $action, array $habit = []): FormBuilder
     {
-        $form = new Form();
+        $form = new FormBuilder();
         $form->setAction($action);
         $form->setMethod('POST');
         $form->addInput([

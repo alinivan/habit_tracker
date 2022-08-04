@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Category;
 use Core\Base\BaseController;
-use Core\Builder\Form;
+use Core\Builder\FormBuilder\FormBuilder;
 use Core\Builder\Table;
 
 class CategoryController extends BaseController
@@ -67,9 +67,9 @@ class CategoryController extends BaseController
         redirect('/categories');
     }
 
-    public function addEditForm(string $action, array $category = []): Form
+    public function addEditForm(string $action, array $category = []): FormBuilder
     {
-        $form = new Form();
+        $form = new FormBuilder();
         $form->setAction($action);
         $form->setMethod('POST');
         $form->addInput([
