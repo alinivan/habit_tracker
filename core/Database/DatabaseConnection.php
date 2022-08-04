@@ -4,7 +4,7 @@ namespace Core\Database;
 
 use PDO;
 
-class DatabaseConnection
+final class DatabaseConnection
 {
     public static ?PDO $instance = null;
 

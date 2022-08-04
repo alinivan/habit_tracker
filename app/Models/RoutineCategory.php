@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Core\Auth;
 use Core\Base\BaseModel;
 
 class RoutineCategory extends BaseModel

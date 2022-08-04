@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Tracker;
 use App\Models\User;
-use Core\Auth;
+use Core\Auth\Auth;
 use Core\Base\BaseController;
 
 class UserController extends BaseController

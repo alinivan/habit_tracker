@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Core\Auth;
+use Core\Auth\Auth;
 use Core\Base\BaseModel;
 use Core\Database\QueryBuilder;
 use Core\Helpers\Date;

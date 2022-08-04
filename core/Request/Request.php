@@ -1,6 +1,8 @@
 <?php
 
-namespace Core;
+namespace Core\Request;
+
+use Core\Validation\Validation;
 
 class Request extends Validation
 {

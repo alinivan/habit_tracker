@@ -2,7 +2,7 @@
 
 namespace Core\Routing;
 
-use Core\Auth;
+use Core\Auth\Auth;
 
 class Router
 {
