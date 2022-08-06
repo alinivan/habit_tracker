@@ -117,9 +117,9 @@ class HabitController extends BaseController
         ]);
 
 
-        // setting 'value' => 'id' for builder select option
         $categories = Category::all();
 
+        // setting 'value' => 'id' for builder select option
         foreach ($categories as &$category) {
             $category['value'] = $category['id'];
         }

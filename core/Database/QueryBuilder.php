@@ -1,9 +1,10 @@
 <?php
 
 namespace Core\Database;
+
 use Core\Database\Db;
 
-class QueryBuilder
+class QueryBuilder implements QueryBuilderInterface
 {
     private string $sql;
     private array $values = [];
@@ -15,22 +16,29 @@ class QueryBuilder
         }
     }
 
+    protected function reset(): void
+    {
+        $this->values = [];
+        $this->sql = '';
+    }
+
+    public function select(string $select = '*'): self
+    {
+        $this->reset();
+        $this->sql .= "SELECT $select FROM " . Utilities::toStr($this->table_name);
+
+        return $this;
+    }
+
     public function from(string $table, string $alias = ''): self
     {
         $this->sql = substr($this->sql, 0, strpos($this->sql, 'FROM'));
-        $this->sql .= "FROM `$table`";
+        $this->sql .= "FROM " . Utilities::toStr($table);
 
         if ($alias) {
             $this->sql .= " as $alias";
         }
 
-        return $this;
-    }
-
-    public function select(string $select = '*'): self
-    {
-        $this->values = [];
-        $this->sql = "SELECT $select FROM `$this->table_name`";
         return $this;
     }
 
@@ -40,12 +48,12 @@ class QueryBuilder
         $values = [];
 
         foreach ($columns as &$column) {
-            $column = "`$column`";
+            $column = Utilities::toStr($column);
             $values[] = '?';
         }
 
         $columns = implode(',', $columns);
-        $this->sql = "INSERT INTO `$this->table_name` ($columns) VALUES (" . implode(',', $values) . ")";
+        $this->sql = "INSERT INTO " . Utilities::toStr($this->table_name) . " ($columns) VALUES (" . implode(',', $values) . ")";
 
         DB::query($this->sql, array_values($params))->fetchAll();
     }
@@ -55,17 +63,18 @@ class QueryBuilder
         $set = [];
 
         foreach ($params as $column => $value) {
-            $set[] = "`$column`=?";
+            $set[] = Utilities::toStr($column) . "=?";
         }
 
-        $this->sql = "UPDATE `$this->table_name` SET " . implode(',', $set) . " WHERE id=?";
+        $this->sql = "UPDATE " . Utilities::toStr($this->table_name) . " SET " . implode(',', $set) . " WHERE id=?";
 
         DB::query($this->sql, array_merge(array_values($params), [$id]))->fetchAll();
     }
 
     public function destroy(int $id): void
     {
-        $this->sql = "DELETE FROM `$this->table_name` WHERE id=?";
+        $this->sql = "DELETE FROM " . Utilities::toStr($this->table_name) . " WHERE id=?";
+
         DB::query($this->sql, [$id]);
     }
 
@@ -75,50 +84,33 @@ class QueryBuilder
         foreach ($params as $column => $value) {
             if (is_array($value)) {
                 foreach ($value as $condition => $val) {
+                    $clause = "WHERE";
+
                     if (str_contains($this->sql, 'WHERE')) {
-
-                        if (str_contains($column, '.')) {
-                            $this->sql .= " AND $column $condition? ";
-                        } else {
-                            $this->sql .= " AND `$column`$condition? ";
-                        }
-
-                    } else {
-                        if (str_contains($column, '.')) {
-                            $this->sql .= " WHERE $column $condition? ";
-                        } else {
-                            $this->sql .= " WHERE `$column`$condition? ";
-                        }
+                        $clause = "AND";
                     }
+
+                    $this->sql .= " $clause " . Utilities::toStr($column) . " $condition? ";
                     $this->values[] = $val;
                 }
             } else {
+                $clause = "WHERE";
+
                 if (str_contains($this->sql, 'WHERE')) {
-
-                    if (str_contains($column, '.')) {
-                        $this->sql .= " AND $column=? ";
-                    } else {
-                        $this->sql .= " AND `$column`=? ";
-                    }
-
-                } else {
-
-                    if (str_contains($column, '.')) {
-                        $this->sql .= " WHERE $column=? ";
-                    } else {
-                        $this->sql .= " WHERE `$column`=? ";
-                    }
+                    $clause = "AND";
                 }
+
+                $this->sql .= " $clause " . Utilities::toStr($column) . "=? ";
                 $this->values[] = $value;
             }
-
         }
+
         return $this;
     }
 
     public function whereIn(string $column, QueryBuilder $model): self
     {
-        $this->sql .= " WHERE `$column` in ($model->sql)";
+        $this->sql .= " WHERE " . Utilities::toStr($column) . " in ($model->sql)";
         $this->values = array_merge($this->values, $model->values);
 
         return $this;
@@ -126,42 +118,32 @@ class QueryBuilder
 
     public function join(string|array $table, string $on): self
     {
-
         if (is_array($table)) {
-            $this->sql .= " INNER JOIN `$table[0]` ";
+            $this->sql .= " INNER JOIN " . Utilities::toStr($table[0]) . " ";
 
             if (isset($table[1])) {
                 $this->sql .= " as $table[1] ";
             }
 
         } else {
-            $this->sql .= " INNER JOIN `$table` ";
+            $this->sql .= " INNER JOIN " . Utilities::toStr($table) . " ";
         }
 
         $this->sql .= "on ($on)";
 
         return $this;
-
     }
 
     public function orderBy(string $column, string $order = 'asc'): self
     {
-        if (str_contains($column, '.')) {
-            $this->sql .= " ORDER BY $column $order";
-        } else {
-            $this->sql .= " ORDER BY `$column` $order";
-        }
+        $this->sql .= " ORDER BY " . Utilities::toStr($column) . " $order";
 
         return $this;
     }
 
     public function groupBy(string $column): self
     {
-        if (str_contains($column, '.')) {
-            $this->sql .= " GROUP BY $column";
-        } else {
-            $this->sql .= " GROUP BY `$column`";
-        }
+        $this->sql .= " GROUP BY " . Utilities::toStr($column);
 
         return $this;
     }

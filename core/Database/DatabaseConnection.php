@@ -6,7 +6,7 @@ use PDO;
 
 final class DatabaseConnection
 {
-    public static ?PDO $instance = null;
+    private static ?PDO $instance = null;
 
     private function __construct()
     {
