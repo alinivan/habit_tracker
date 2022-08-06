@@ -4,7 +4,7 @@ namespace Core\Base;
 
 use Core\Database\QueryBuilder;
 
-class BaseModel extends QueryBuilder
+abstract class BaseModel extends QueryBuilder
 {
     public static function query(): static
     {

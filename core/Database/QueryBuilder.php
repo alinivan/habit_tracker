@@ -4,7 +4,7 @@ namespace Core\Database;
 
 use Core\Database\Db;
 
-class QueryBuilder implements QueryBuilderInterface
+abstract class QueryBuilder implements QueryBuilderInterface
 {
     private string $sql;
     private array $values = [];

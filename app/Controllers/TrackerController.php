@@ -9,6 +9,8 @@ use Core\Base\BaseController;
 use Core\Builder\FormBuilder\FormBuilder;
 use Core\Builder\Modal;
 use Core\Helpers\Date;
+use Core\Transcript\Instructions;
+use Core\Transcript\Transcript;
 
 class TrackerController extends BaseController
 {
@@ -84,5 +86,14 @@ class TrackerController extends BaseController
         }
         Tracker::create($_REQUEST);
         #redirect('/tracker');
+    }
+
+    public function fastCreate()
+    {
+        if ($_REQUEST['search']) {
+            $transcript = new Transcript($_REQUEST['search']);
+            $instructions = new Instructions($transcript);
+            $instructions->execute();
+        }
     }
 }

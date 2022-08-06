@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\Category;
 use App\Models\Tracker;
 use App\Services\DashboardService;
-use App\Services\HabitService;
 use App\Services\RoutineService;
 use App\Services\TrackerService;
 use Core\Base\BaseController;
@@ -18,6 +17,7 @@ class DashboardController extends BaseController
     {
         $statsHtml = $this->getDashboardStatsHtml();
         $habitsValues = DashboardService::getHabitsValuesOfToday();
+
 
         $routineHtml = '';
 

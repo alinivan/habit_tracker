@@ -1,6 +1,6 @@
 function ajax(url, form_id, method = 'GET') {
-    var form = $('#'+form_id)[0];
-    var data = new FormData(form);
+    let element = $('#' + form_id)[0];
+    let data = new FormData(element);
 
     $.ajax({
         url: url,
@@ -9,14 +9,14 @@ function ajax(url, form_id, method = 'GET') {
         processData: false,
         contentType: false,
         cache: false
-    }).done(function() {
+    }).done(function () {
         modal_close();
     });
 }
 
 let mobile_sidebar_open = 0;
 
-$('.mobile_sidebar').click(function() {
+$('.mobile_sidebar').click(function () {
     if (mobile_sidebar_open === 1) {
         $('#sidebar_opacity').addClass('opacity-0');
         $('#sidebar_translate').addClass('-translate-x-full');
@@ -32,7 +32,7 @@ $('.mobile_sidebar').click(function() {
     }
 });
 
-$('#user-menu-button').click(function() {
+$('#user-menu-button').click(function () {
     if ($(this).data('open') === 1) {
         $('#user-menu-area').addClass('transform opacity-0 scale-95 hidden');
         $(this).data('open', 0);

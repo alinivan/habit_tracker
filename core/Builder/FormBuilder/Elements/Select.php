@@ -14,6 +14,7 @@ class Select
             'class' => $fields['class'] ?? '',
             'value' => $fields['value'] ?? '',
             'options' => $fields['options'] ?? [],
+            'options_default_value' => $fields['options_default_value'] ?? false
         ];
     }
 }

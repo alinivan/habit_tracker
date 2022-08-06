@@ -21,6 +21,7 @@ class Habit extends BaseModel
             'measurement' => $request['measurement'],
             'is_productive' => $request['is_productive'],
             'points' => $request['points'],
+            'parent_id' => (int)$request['parent_id'],
             'user_id' => Auth::getAuthenticatedUserId()
         ]);
     }
@@ -52,6 +53,7 @@ class Habit extends BaseModel
             'active' => $request['active'],
             'measurement' => $request['measurement'],
             'is_productive' => $request['is_productive'],
+            'parent_id' => (int)$request['parent_id'],
             'points' => $request['points']
         ]);
     }

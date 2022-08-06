@@ -118,10 +118,15 @@ class HabitController extends BaseController
 
 
         $categories = Category::all();
+        $habits = Habit::all();
 
         // setting 'value' => 'id' for builder select option
         foreach ($categories as &$category) {
             $category['value'] = $category['id'];
+        }
+
+        foreach ($habits as &$v) {
+            $v['value'] = $v['id'];
         }
 
         $form->addSelect([
@@ -136,6 +141,14 @@ class HabitController extends BaseController
             'name' => 'is_productive',
             'value' => $habit['is_productive'] ?? 0,
             'options' => [['name' => 'Yes', 'value' => 1], ['name' => 'No', 'value' => 0]]
+        ]);
+
+        $form->addSelect([
+            'label' => 'Parent Category',
+            'name' => 'parent_id',
+            'value' => $habit['parent_id'] ?? 0,
+            'options' => $habits,
+            'options_default_value' => true
         ]);
 
         $valueTypes = [

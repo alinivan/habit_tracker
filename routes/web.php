@@ -47,6 +47,8 @@ $route->get('/tracker/new', 'TrackerController:new');
 // insert
 $route->post('/tracker/create', 'TrackerController:create');
 
+$route->post('/tracker/fast-create', 'TrackerController:fastCreate');
+
 /* --- CATEGORIES --- */
 // index
 $route->get('/categories', 'CategoryController:index');

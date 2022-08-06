@@ -19,7 +19,7 @@ class Tracker extends BaseModel
             'habit_id' => $request['habit_id'],
             'date' => $request['date'],
             'value' => round($request['value'], 1),
-            'routine_category_id' => (int)$request['routine_category_id']
+            'routine_category_id' => isset($request['routine_category_id']) ? (int)$request['routine_category_id'] : 0
         ]);
     }
 
