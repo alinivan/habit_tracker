@@ -2,6 +2,7 @@
     $('#content').trumbowyg();
 
     {% if content | length > 2 %}
-        $('#content').trumbowyg("html", "{{ content | raw }}");
+        let content = '{{ content | raw }}';
+        $('#content').trumbowyg("html", content);
     {% endif %}
-</script>
+</script>k
