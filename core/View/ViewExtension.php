@@ -51,6 +51,14 @@ class ViewExtension extends AbstractExtension
                 'href' => '/routine',
                 'name' => 'Routine'
             ],
+            [
+                'href' => '/pages',
+                'name' => 'Pages'
+            ],
+            [
+                'href' => '/pages-category',
+                'name' => 'Pages Category'
+            ]
         ];
 
         foreach ($menu as &$v) {

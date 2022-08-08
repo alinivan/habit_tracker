@@ -2,7 +2,7 @@
 
 namespace Core\Voice;
 
-class Api
+class AssemblyAi
 {
     public function call(): bool|string
     {

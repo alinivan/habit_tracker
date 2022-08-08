@@ -25,6 +25,7 @@ $('#search-field').on('keypress', function (e) {
     if (e.which === 13) {
         ajax('/tracker/fast-create', 'search-field', 'POST')
         $('#search-field input').val('');
+        location.reload();
 
     }
 });

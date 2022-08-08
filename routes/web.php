@@ -7,7 +7,7 @@ $route = new Route();
 /* ------------ WEB ------------ */
 
 /* --- PAGES --- */
-$route->get('/', 'PageController:index');
+$route->get('/', 'PageController:homePage');
 // Login
 $route->get('/login', 'UserController:loginPage');
 $route->post('/login', 'UserController:login');
@@ -49,6 +49,9 @@ $route->post('/tracker/create', 'TrackerController:create');
 
 $route->post('/tracker/fast-create', 'TrackerController:fastCreate');
 
+$route->post('/tracker/upload', 'TrackerController:upload');
+
+
 /* --- CATEGORIES --- */
 // index
 $route->get('/categories', 'CategoryController:index');
@@ -64,12 +67,37 @@ $route->post('/categories/{id}', 'CategoryController:update');
 $route->get('/categories/{id}/delete', 'CategoryController:destroy');
 
 
-$route->get('/import_tracker', 'UserController:import');
-
-
-
 $route->get('/progress', 'ProgressController:index');
 $route->get('/routine', 'RoutineController:index');
+
+
+// Pages
+$route->get('/pages', 'PageController:index');
+// form for insert
+$route->get('/pages/new', 'PageController:new');
+// insert
+$route->post('/pages', 'PageController:create');
+// show edit form
+$route->get('/pages/{id}/edit', 'PageController:edit');
+// update
+$route->post('/pages/{id}', 'PageController:update');
+// delete a particular habit
+$route->get('/pages/{id}/delete', 'PageController:destroy');
+
+
+
+// Pages Category
+$route->get('/pages-category', 'PageCategoryController:index');
+// form for insert
+$route->get('/pages-category/new', 'PageCategoryController:new');
+// insert
+$route->post('/pages-category', 'PageCategoryController:create');
+// show edit form
+$route->get('/pages-category/{id}/edit', 'PageCategoryController:edit');
+// update
+$route->post('/pages-category/{id}', 'PageCategoryController:update');
+// delete a particular habit
+$route->get('/pages-category/{id}/delete', 'PageCategoryController:destroy');
 
 // Not found
 $route->notFound('PageController:notFound');

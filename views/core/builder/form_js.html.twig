@@ -1,0 +1,7 @@
+<script>
+    $('#content').trumbowyg();
+
+    {% if content | length > 2 %}
+        $('#content').trumbowyg("html", "{{ content | raw }}");
+    {% endif %}
+</script>

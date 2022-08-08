@@ -38,6 +38,8 @@
                                     <option value="{{ option.value }}" {{ field.value == option.value ? 'selected' }}>{{ option.name }}</option>
                                 {% endfor %}
                             </select>
+                        {% elseif field.type == 'text' %}
+                            <div id="content" class="text-white"></div>
                         {% endif %}
                     </div>
                 {% endfor %}

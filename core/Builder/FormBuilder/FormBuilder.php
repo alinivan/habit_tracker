@@ -4,6 +4,7 @@ namespace Core\Builder\FormBuilder;
 
 use Core\Builder\FormBuilder\Elements\Input;
 use Core\Builder\FormBuilder\Elements\Select;
+use Core\Builder\FormBuilder\Elements\Text;
 use Core\View\ViewManager;
 
 class FormBuilder extends ViewManager implements FormBuilderInterface
@@ -23,6 +24,11 @@ class FormBuilder extends ViewManager implements FormBuilderInterface
     public function addSelect(array $fields): void
     {
         $this->addField(Select::build($fields));
+    }
+
+    public function addText(array $field): void
+    {
+        $this->addField(Text::build($field));
     }
 
     public function setAction(string $action): void
@@ -61,6 +67,11 @@ class FormBuilder extends ViewManager implements FormBuilderInterface
     public function getHtml(): string
     {
         return $this->renderView('core/builder/form.html.twig', ['form' => $this->form]);
+    }
+
+    public function getJs(?string $content = ''): string
+    {
+        return $this->renderView('core/builder/form_js.html.twig', ['content' => $content]);
     }
 
 }

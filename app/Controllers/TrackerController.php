@@ -96,4 +96,11 @@ class TrackerController extends BaseController
             $instructions->execute();
         }
     }
+
+    public function upload()
+    {
+        $input = $_FILES['audio_data']['tmp_name'];
+        $output = APP_ROOT . '/storage/voice/' . time() . '.wav';
+        move_uploaded_file($input, $output);
+    }
 }
