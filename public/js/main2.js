@@ -34,9 +34,24 @@ $(document).keyup(function (event) {
 
 $('#search-field').on('keypress', function (e) {
     if (e.which === 13) {
-        ajax('/tracker/fast-create', 'search-field', 'POST')
-        $('#search-field input').val('');
-        location.reload();
+        let element = $('#search-field')[0];
+        let data = new FormData(element);
+
+        $.ajax({
+            url: '/tracker/fast-create',
+            data: data,
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            cache: false
+        }).done(function (response) {
+            if (typeof response.url === 'string') {
+                window.location.replace('/' + response.url);
+            } else {
+                location.reload();
+            }
+            // $('#search-field input').val('');
+        });
 
     }
 });

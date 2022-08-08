@@ -41,4 +41,15 @@ class Page extends BaseModel
     {
         static::query()->destroy($id);
     }
+
+    public static function getByName(string $string): bool|array
+    {
+        return static::query()
+            ->select()
+            ->where([
+                'user_id' => Auth::getAuthenticatedUserId(),
+                'name' => $string
+            ])
+            ->fetch();
+    }
 }

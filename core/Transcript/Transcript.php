@@ -3,12 +3,15 @@
 namespace Core\Transcript;
 
 use App\Models\Habit;
+use App\Models\Page;
 
 class Transcript
 {
     private string $transcript;
     private array $habit;
     private float $value;
+    private string $type = 'tracker';
+    private string $url;
 
     public function __construct(string $text)
     {
@@ -21,23 +24,24 @@ class Transcript
     {
         $array = explode(' ', $this->transcript);
 
-        //habit
-        $habits = Habit::all();
+        if ($array[0] === 'goto') {
+            $this->setType('goto');
 
-        foreach ($habits as &$habit) {
-            $habit['name'] = strtolower($habit['name']);
-        }
+            $page = Page::getByName($array[1]);
 
-        foreach ($habits as $v) {
-            if (array_search($v['name'], $array)) {
-                $this->habit = $v;
+            if (!empty($page)) {
+                $endpoint = 'edit';
+                if (!empty($array[2]) && $array[2] === '-v') {
+                    $endpoint = 'view';
+                }
+                $this->setUrl('pages/' . $page['id'] . '/' . $endpoint);
             }
-        }
+        } else {
+            $habit = Habit::getByName($array[1]);
 
-        //value
-        foreach ($array as $item) {
-            if (is_numeric($item)) {
-                $this->value = $item;
+            if (is_numeric($array[0]) && !empty($habit)) {
+                $this->value = $array[0];
+                $this->habit = $habit;
             }
         }
     }
@@ -50,5 +54,25 @@ class Transcript
     public function getValue(): float
     {
         return $this->value;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    private function setType(string $string): void
+    {
+        $this->type = $string;
+    }
+
+    private function setUrl(string $url): void
+    {
+        $this->url = $url;
     }
 }
