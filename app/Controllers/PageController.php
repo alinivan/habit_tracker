@@ -57,6 +57,13 @@ class PageController extends BaseController
         ]);
     }
 
+    public function view(int $id): void
+    {
+        echo $this->renderView('app/pages/view.html.twig', [
+            'page' => Page::get($id)
+        ]);
+    }
+
     public function update(int $id): void
     {
         Page::modify($id, $_REQUEST);
@@ -96,6 +103,7 @@ class PageController extends BaseController
 
         $form->addText([
             'name' => 'content',
+            'span' => 12,
             'value' => $page['content'] ?? ''
         ]);
 

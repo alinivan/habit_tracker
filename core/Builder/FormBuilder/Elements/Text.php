@@ -10,6 +10,7 @@ class Text
             'type' => 'text',
             'name' => $fields['name'] ?? '',
             'value' => $fields['value'] ?? '',
+            'span' => $fields['span'] ?? 6
         ];
     }
 }

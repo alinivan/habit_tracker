@@ -13,6 +13,7 @@ class Input
             'name' => $fields['name'] ?? '',
             'label' => $fields['label'] ?? '',
             'class' => $fields['class'] ?? '',
+            'span' => $fields['span'] ?? 6,
             'label_class' => $fields['label_class'] ?? '',
             'value' => $fields['value'] ?? '',
             'placeholder' => $fields['placeholder'] ?? '',

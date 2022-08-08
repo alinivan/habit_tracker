@@ -1,9 +1,9 @@
 <form id="{{ form.id }}" action="{{ form.action }}" method="{{ form.method }}">
     <div class="sm:rounded-md sm:overflow-hidden">
         <div class="py-6 px-4 space-y-6 sm:p-6">
-            <div class="grid grid-cols-6 gap-6">
+            <div class="grid grid-cols-12 gap-6">
                 {% for field in form.fields %}
-                    <div class="col-span-6 sm:col-span-3">
+                    <div class="col-span-{{ field.span ?? 6 }}">
                         <label for="{{ field.name }}"
                                class="block text-sm font-medium text-gray-200 {{ field.label_class }}">{{ field.label }}</label>
 

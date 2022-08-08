@@ -83,6 +83,8 @@ $route->get('/pages/{id}/edit', 'PageController:edit');
 $route->post('/pages/{id}', 'PageController:update');
 // delete a particular habit
 $route->get('/pages/{id}/delete', 'PageController:destroy');
+// view page
+$route->get('/pages/{id}/view', 'PageController:view');
 
 
 
