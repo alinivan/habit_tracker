@@ -1,19 +1,19 @@
 <?php
 
-namespace Core\Database;
+namespace Core\Database\QueryBuilder;
 
 use Core\Database\Db;
+use Core\Database\Utilities;
 
-abstract class QueryBuilder implements QueryBuilderInterface
+class MySQLQueryBuilder implements SqlQueryBuilderInterface
 {
     private string $sql;
     private array $values = [];
+    private string $table;
 
-    public function __construct(?string $table = '')
+    public function __construct(string $table)
     {
-        if ($table) {
-            $this->table_name = $table;
-        }
+        $this->table = $table;
     }
 
     protected function reset(): void
@@ -25,7 +25,7 @@ abstract class QueryBuilder implements QueryBuilderInterface
     public function select(string $select = '*'): self
     {
         $this->reset();
-        $this->sql .= "SELECT $select FROM " . Utilities::toStr($this->table_name);
+        $this->sql .= "SELECT $select FROM " . Utilities::toStr($this->table);
 
         return $this;
     }
@@ -53,7 +53,7 @@ abstract class QueryBuilder implements QueryBuilderInterface
         }
 
         $columns = implode(',', $columns);
-        $this->sql = "INSERT INTO " . Utilities::toStr($this->table_name) . " ($columns) VALUES (" . implode(',', $values) . ")";
+        $this->sql = "INSERT INTO " . Utilities::toStr($this->table) . " ($columns) VALUES (" . implode(',', $values) . ")";
 
         DB::query($this->sql, array_values($params))->fetchAll();
     }
@@ -66,14 +66,14 @@ abstract class QueryBuilder implements QueryBuilderInterface
             $set[] = Utilities::toStr($column) . "=?";
         }
 
-        $this->sql = "UPDATE " . Utilities::toStr($this->table_name) . " SET " . implode(',', $set) . " WHERE id=?";
+        $this->sql = "UPDATE " . Utilities::toStr($this->table) . " SET " . implode(',', $set) . " WHERE id=?";
 
         DB::query($this->sql, array_merge(array_values($params), [$id]))->fetchAll();
     }
 
     public function destroy(int $id): void
     {
-        $this->sql = "DELETE FROM " . Utilities::toStr($this->table_name) . " WHERE id=?";
+        $this->sql = "DELETE FROM " . Utilities::toStr($this->table) . " WHERE id=?";
 
         DB::query($this->sql, [$id]);
     }
@@ -108,7 +108,7 @@ abstract class QueryBuilder implements QueryBuilderInterface
         return $this;
     }
 
-    public function whereIn(string $column, QueryBuilder $model): self
+    public function whereIn(string $column, SqlQueryBuilderInterface $model): self
     {
         $this->sql .= " WHERE " . Utilities::toStr($column) . " in ($model->sql)";
         $this->values = array_merge($this->values, $model->values);
@@ -165,3 +165,28 @@ abstract class QueryBuilder implements QueryBuilderInterface
     }
 
 }
+
+
+/*
+ * interface SQLQueryBuilder
+ *      select
+ *      where
+ *      limit
+ *      etc.
+ *
+ * class MySQLQueryBuilder implements SQLQueryBuilder
+ *      protected $query
+ *
+ *      protected function reset()
+ *          $this->query = null
+ *
+ *      public function select()
+ *      public function where()
+ *
+ * class PostgreSQLQueryBuilder extends MySQLQueryBuilder
+ *
+ *      public function limit()
+ *
+ * client code (SQLQueryBuilder $queryBuilder)
+ *      $query = $queryBuilder->select()->where()->limit()
+ */

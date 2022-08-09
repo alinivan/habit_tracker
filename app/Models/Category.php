@@ -8,7 +8,6 @@ use Core\Base\BaseModel;
 class Category extends BaseModel
 {
     protected static string $table = 'category';
-    protected string $table_name = 'category';
 
     public static function create(array $request): void
     {

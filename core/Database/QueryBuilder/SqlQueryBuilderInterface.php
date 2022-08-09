@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Database;
+namespace Core\Database\QueryBuilder;
 
-interface QueryBuilderInterface
+interface SqlQueryBuilderInterface
 {
     public function from(string $table, string $alias = ''): self;
 
@@ -16,7 +16,7 @@ interface QueryBuilderInterface
 
     public function where(array $params): self;
 
-    public function whereIn(string $column, QueryBuilder $model): self;
+    public function whereIn(string $column, SqlQueryBuilderInterface $model): self;
 
     public function join(string|array $table, string $on): self;
 

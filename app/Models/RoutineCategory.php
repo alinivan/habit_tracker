@@ -7,7 +7,6 @@ use Core\Base\BaseModel;
 class RoutineCategory extends BaseModel
 {
     protected static string $table = 'routine_category';
-    protected string $table_name = 'routine_category';
 
     public static function create(array $request): void
     {

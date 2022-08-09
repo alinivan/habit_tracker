@@ -6,7 +6,7 @@ use Core\Base\BaseModel;
 
 class User extends BaseModel
 {
-    protected string $table_name = 'users';
+    protected static string $table = 'users';
 
     public static function getUserForLogin(array $request): bool|array
     {

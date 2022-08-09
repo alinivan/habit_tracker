@@ -8,7 +8,6 @@ use Core\Base\BaseModel;
 class Page extends BaseModel
 {
     protected static string $table = 'pages';
-    protected string $table_name = 'pages';
 
     public static function create(array $request): void
     {

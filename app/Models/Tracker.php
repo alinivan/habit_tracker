@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Core\Auth\Auth;
 use Core\Base\BaseModel;
-use Core\Database\QueryBuilder;
+use Core\Database\QueryBuilder\SqlQueryBuilderInterface;
 use Core\Helpers\Date;
 
 class Tracker extends BaseModel
 {
-    protected string $table_name = 'tracker';
+    protected static string $table = 'tracker';
     private static string $date_ymd = "if (HOUR(`date`) < '".START_HOUR."', DATE_SUB(DATE(`date`), INTERVAL 1 DAY), DATE(`date`)) as date_ymd";
     private static string $date_week = "WEEK(`date`, 1) as date_ymd";
 
@@ -23,7 +23,7 @@ class Tracker extends BaseModel
         ]);
     }
 
-    public static function whereInHabits(): QueryBuilder
+    public static function whereInHabits(): SqlQueryBuilderInterface
     {
         return Habit::query()
             ->select('id')

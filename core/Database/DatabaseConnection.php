@@ -14,6 +14,7 @@ final class DatabaseConnection
 
     public static function getInstance($options = []): PDO
     {
+        $dbConnection = $_ENV['DB_CONNECTION'];
         $db = $_ENV['DB_NAME'];
         $username = $_ENV['DB_USER'];
         $password = $_ENV['DB_PASS'];
@@ -27,7 +28,7 @@ final class DatabaseConnection
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             ];
             $options = array_replace($default_options, $options);
-            $dsn = "mysql:host=$host;dbname=$db;port=$port;charset=utf8mb4";
+            $dsn = "$dbConnection:host=$host;dbname=$db;port=$port;charset=utf8mb4";
 
             self::$instance = new PDO($dsn, $username, $password, $options);
         }

@@ -7,7 +7,6 @@ use Core\Base\BaseModel;
 class Routine extends BaseModel
 {
     protected static string $table = 'routine';
-    protected string $table_name = 'routine';
 
     public static function create(array $request): void
     {

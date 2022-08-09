@@ -7,7 +7,7 @@ use Core\Base\BaseModel;
 
 class Habit extends BaseModel
 {
-    protected string $table_name = 'habits';
+    protected static string $table = 'habits';
 
     public static function create(array $request): void
     {

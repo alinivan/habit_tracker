@@ -2,12 +2,18 @@
 
 namespace Core\Base;
 
-use Core\Database\QueryBuilder;
+use Core\Database\QueryBuilder\MySQLQueryBuilder;
+use Core\Database\QueryBuilder\PostgreSQLQueryBuilder;
+use Core\Database\QueryBuilder\SqlQueryBuilderInterface;
 
-abstract class BaseModel extends QueryBuilder
+abstract class BaseModel
 {
-    public static function query(): static
+    public static function query(): SqlQueryBuilderInterface
     {
-        return new static;
+        if ($_ENV['DB_CONNECTION'] === 'pgsql') {
+            return new PostgreSQLQueryBuilder(static::$table);
+        }
+
+        return new MySQLQueryBuilder(static::$table);
     }
 }
