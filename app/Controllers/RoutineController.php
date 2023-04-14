@@ -17,7 +17,8 @@ class RoutineController extends BaseController
             $tasksView[] = [
                 'title' => $task['name'],
                 'start' => $task['date_start'],
-                'end' => $task['date_end'] ?? 0
+                'end' => $task['date_end'] ?? 0,
+                'classNames' => $task['done'] ? 'calendar-done' : ''
             ];
         }
 
