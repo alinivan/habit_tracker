@@ -15,7 +15,7 @@ class Task extends BaseModel
             'name' => $request['name'],
             'done' => (int)$request['done'],
             'date_start' => $request['date_start'],
-            'date_end' => $request['date_end'],
+            'date_end' => $request['date_end'] ?: null,
             'user_id' => Auth::getAuthenticatedUserId()
         ]);
     }
@@ -42,7 +42,7 @@ class Task extends BaseModel
             'name' => $request['name'],
             'done' => (int)$request['done'],
             'date_start' => $request['date_start'],
-            'date_end' => $request['date_end'],
+            'date_end' => $request['date_end'] ?: null,
             'user_id' => Auth::getAuthenticatedUserId()
         ]);
     }
