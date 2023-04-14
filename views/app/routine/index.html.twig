@@ -11,38 +11,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                events:
-                    [
-                        {
-                            "title": "Long Event",
-                            "start": "2023-04-07",
-                            "end": "2023-04-10"
-                        },
-                        {
-                            "title": "Repeating Event",
-                            "start": "2023-04-09T16:00:00+00:00",
-                            "groupId": "999",
-                        },
-                        {
-                            "title": "Conference",
-                            "start": "2023-04-13",
-                            "end": "2023-04-15"
-                        },
-                        {
-                            "title": "Meeting",
-                            "start": "2023-04-14T10:30:00+00:00",
-                            "end": "2023-04-14T12:30:00+00:00"
-                        },
-                        {
-                            "title": "Lunch",
-                            "start": "2023-04-14T12:00:00+00:00"
-                        },
-                        {
-                            "title": "Birthday Party",
-                            "start": "2023-04-15T07:00:00+00:00"
-                        }
-                    ]
+                initialView: 'dayGridMonth', //dayGridMonth //timeGridWeek //listWeek //timeGridDay
+                hour12: false,
+                meridiem: false,
+                firstDay: 1,
+                events: JSON.parse('{{ tasks | json_encode | raw }}')
             });
             calendar.render();
         });

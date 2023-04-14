@@ -46,6 +46,10 @@ class ViewExtension extends AbstractExtension
             [
                 'href' => '/routine',
                 'name' => 'Routine'
+            ],
+            [
+                'href' => '/tasks',
+                'name' => 'Tasks'
             ]
         ];
 
