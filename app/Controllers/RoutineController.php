@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Habit;
 use App\Models\Routine;
 use App\Models\RoutineCategory;
+use App\Models\Tracker;
 use Core\Base\BaseController;
 use Core\Builder\FormBuilder\FormBuilder;
 
@@ -12,6 +13,15 @@ class RoutineController extends BaseController
 {
     public function index()
     {
+
+
+//        dd(Tracker::all());
+
+
+
+
+
+
         $routineCategories = RoutineCategory::all();
         $routines = array_pluck(Routine::all(), 'routine_category_id');
 

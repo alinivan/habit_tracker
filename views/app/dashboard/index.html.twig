@@ -12,10 +12,6 @@
 {% block content %}
     {{ stats_html | raw }}
 
-    <div id="controls">
-        <button id="recordButton" data-recording="0">Record</button>
-    </div>
-
     {% if routineView %}
         <div class="max-w-xl mx-auto">
             {{ routineHtml | raw }}

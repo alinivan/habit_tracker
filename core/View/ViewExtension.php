@@ -44,20 +44,8 @@ class ViewExtension extends AbstractExtension
                 'name' => 'Tracker'
             ],
             [
-                'href' => '/progress?weekly',
-                'name' => 'Progress'
-            ],
-            [
                 'href' => '/routine',
                 'name' => 'Routine'
-            ],
-            [
-                'href' => '/pages',
-                'name' => 'Pages'
-            ],
-            [
-                'href' => '/pages-category',
-                'name' => 'Pages Category'
             ]
         ];
 

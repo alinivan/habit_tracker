@@ -32,7 +32,6 @@ class Router
             'HabitController',
             'TrackerController',
             'CategoryController',
-            'ProgressController'
         ];
     }
 }

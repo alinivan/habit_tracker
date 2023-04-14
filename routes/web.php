@@ -67,39 +67,8 @@ $route->post('/categories/{id}', 'CategoryController:update');
 $route->get('/categories/{id}/delete', 'CategoryController:destroy');
 
 
-$route->get('/progress', 'ProgressController:index');
 $route->get('/routine', 'RoutineController:index');
 
-
-// Pages
-$route->get('/pages', 'PageController:index');
-// form for insert
-$route->get('/pages/new', 'PageController:new');
-// insert
-$route->post('/pages', 'PageController:create');
-// show edit form
-$route->get('/pages/{id}/edit', 'PageController:edit');
-// update
-$route->post('/pages/{id}', 'PageController:update');
-// delete a particular habit
-$route->get('/pages/{id}/delete', 'PageController:destroy');
-// view page
-$route->get('/pages/{id}/view', 'PageController:view');
-
-
-
-// Pages Category
-$route->get('/pages-category', 'PageCategoryController:index');
-// form for insert
-$route->get('/pages-category/new', 'PageCategoryController:new');
-// insert
-$route->post('/pages-category', 'PageCategoryController:create');
-// show edit form
-$route->get('/pages-category/{id}/edit', 'PageCategoryController:edit');
-// update
-$route->post('/pages-category/{id}', 'PageCategoryController:update');
-// delete a particular habit
-$route->get('/pages-category/{id}/delete', 'PageCategoryController:destroy');
 
 // Not found
 $route->notFound('PageController:notFound');

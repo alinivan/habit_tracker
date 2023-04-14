@@ -3,11 +3,48 @@
 {% block page_title %} Routine {% endblock %}
 
 {% block content %}
-    {% for routineCategory in routineCategories %}
-        <a class="block text-white">{{ routineCategory.name }}</a>
+    <div style="background: antiquewhite; padding: 20px;" id="calendar"></div>
+{% endblock %}
 
-        {% for routine in routineCategory.routines %}
-            <a class="block text-white ml-4">{{ habits[routine.habit_id]['name'] }} <span> - {{ routine.target_value }}</span></a>
-        {% endfor %}
-    {% endfor %}
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events:
+                    [
+                        {
+                            "title": "Long Event",
+                            "start": "2023-04-07",
+                            "end": "2023-04-10"
+                        },
+                        {
+                            "title": "Repeating Event",
+                            "start": "2023-04-09T16:00:00+00:00",
+                            "groupId": "999",
+                        },
+                        {
+                            "title": "Conference",
+                            "start": "2023-04-13",
+                            "end": "2023-04-15"
+                        },
+                        {
+                            "title": "Meeting",
+                            "start": "2023-04-14T10:30:00+00:00",
+                            "end": "2023-04-14T12:30:00+00:00"
+                        },
+                        {
+                            "title": "Lunch",
+                            "start": "2023-04-14T12:00:00+00:00"
+                        },
+                        {
+                            "title": "Birthday Party",
+                            "start": "2023-04-15T07:00:00+00:00"
+                        }
+                    ]
+            });
+            calendar.render();
+        });
+    </script>
 {% endblock %}
