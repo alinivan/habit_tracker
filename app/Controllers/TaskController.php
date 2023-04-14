@@ -75,14 +75,14 @@ class TaskController extends BaseController
             'type' => 'datetime-local',
             'name' => 'date_start',
             'label' => 'Date start',
-            'value' => date('Y-m-d\TH:i')
+            'value' => $task['date_start'] ?? date('Y-m-d\TH:i')
         ]);
 
         $form->addInput([
             'type' => 'datetime-local',
             'name' => 'date_end',
             'label' => 'Date end',
-            'value' => date('Y-m-d\TH:i')
+            'value' => $task['date_end'] ?? date('Y-m-d\TH:i')
         ]);
 
         $form->addSelect([
