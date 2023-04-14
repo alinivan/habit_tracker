@@ -15,6 +15,7 @@
                 hour12: false,
                 meridiem: false,
                 firstDay: 1,
+                displayEventTime: false,
                 events: JSON.parse('{{ tasks | json_encode | raw }}')
             });
             calendar.render();
