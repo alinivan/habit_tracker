@@ -24,7 +24,7 @@ class Task extends BaseModel
     {
         return static::query()
             ->select()
-            ->orderBy('date_start', 'desc')
+            ->orderBy('id', 'desc')
             ->fetchAll();
     }
 

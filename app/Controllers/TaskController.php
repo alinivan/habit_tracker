@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Models\Category;
 use App\Models\Task;
 use Core\Base\BaseController;
 use Core\Builder\FormBuilder\FormBuilder;
+use Core\Builder\Modal;
 
 class TaskController extends BaseController
 {
@@ -18,9 +18,19 @@ class TaskController extends BaseController
 
     public function new(): void
     {
-        $addEditForm = $this->addEditForm('/tasks');
+        $form = $this->addEditForm("/tasks");
 
-        echo $this->renderView('app/task/new.html.twig', ['form' => $addEditForm->getHtml()]);
+        $modal = new Modal();
+        $modal->setTitle('Add task');
+        $save = "ajax('tasks', '" . $form->getId() . "', 'POST')";
+
+        $modal->addBtn(['onclick' => $save, 'label' => 'Save']);
+        $modal->setContent($form->getHtml());
+
+        echo $this->renderView('app/task/edit.html.twig', [
+            'modal' => $modal->getHtml()
+        ]);
+
     }
 
     public function create(): void
@@ -41,9 +51,17 @@ class TaskController extends BaseController
 
         $form = $this->addEditForm("/tasks/$id", $task);
 
+        $modal = new Modal();
+        $modal->setTitle($task['name']);
+        $url = 'tasks/' . $task['id'];
+        $save = "ajax('$url', '" . $form->getId() . "', 'POST')";
+
+        $modal->addBtn(['onclick' => $save, 'label' => 'Save']);
+        $modal->setContent($form->getHtml());
+
         echo $this->renderView('app/task/edit.html.twig', [
             'task' => $task,
-            'form' => $form->getHtml(),
+            'modal' => $modal->getHtml()
         ]);
     }
 
@@ -68,13 +86,25 @@ class TaskController extends BaseController
             'type' => 'text',
             'name' => 'name',
             'label' => 'Name',
+            'label_class' => 'text-gray-900',
             'value' => $task['name'] ?? '',
         ]);
+
+        $form->addSelect([
+            'name' => 'done',
+            'label' => 'Done',
+            'value' => $task['done'] ?? 0,
+            'label_class' => 'text-gray-900',
+            'options' => [['name' => 'Yes', 'value' => 1], ['name' => 'No', 'value' => 0]]
+        ]);
+
+        $task['date_start'] = $task['date_start'] ?: $_REQUEST['date'] . ' 00:00:00';
 
         $form->addInput([
             'type' => 'datetime-local',
             'name' => 'date_start',
             'label' => 'Date start',
+            'label_class' => 'text-gray-900',
             'value' => $task['date_start'] ?? date('Y-m-d\TH:i')
         ]);
 
@@ -82,17 +112,9 @@ class TaskController extends BaseController
             'type' => 'datetime-local',
             'name' => 'date_end',
             'label' => 'Date end',
+            'label_class' => 'text-gray-900',
             'value' => $task['date_end'] ?? date('Y-m-d\TH:i')
         ]);
-
-        $form->addSelect([
-            'name' => 'done',
-            'label' => 'Done',
-            'value' => $task['done'] ?? 0,
-            'options' => [['name' => 'Yes', 'value' => 1], ['name' => 'No', 'value' => 0]]
-        ]);
-
-        $form->setSubmit(['label' => 'Save']);
 
         return $form;
     }

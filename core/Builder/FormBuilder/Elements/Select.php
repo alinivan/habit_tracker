@@ -14,6 +14,7 @@ class Select
             'class' => $fields['class'] ?? '',
             'value' => $fields['value'] ?? '',
             'span' => $fields['span'] ?? 6,
+            'label_class' => $fields['label_class'] ?? '',
             'options' => $fields['options'] ?? [],
             'options_default_value' => $fields['options_default_value'] ?? false
         ];

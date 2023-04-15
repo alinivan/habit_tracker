@@ -62,6 +62,7 @@ $route->post('/tasks/{id}', 'TaskController:update');
 $route->get('/tasks/{id}/delete', 'TaskController:destroy');
 
 $route->get('/routine', 'RoutineController:index');
+//$route->get('/routine/{id}/edit', 'RoutineController:edit');
 
 /* --- NOT FOUND --- */
 $route->notFound('PageController:notFound');

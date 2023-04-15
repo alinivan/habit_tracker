@@ -15,6 +15,7 @@ class RoutineController extends BaseController
 
         foreach ($tasks as $task) {
             $tasksView[] = [
+                'id' => $task['id'],
                 'title' => $task['name'],
                 'start' => $task['date_start'],
                 'end' => $task['date_end'] ?? 0,

@@ -12,11 +12,38 @@
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth', //dayGridMonth //timeGridWeek //listWeek //timeGridDay
-                hour12: false,
-                meridiem: false,
+                // hour12: false,
+                // meridiem: false,
                 firstDay: 1,
                 displayEventTime: false,
-                events: JSON.parse('{{ tasks | json_encode | raw }}')
+                events: JSON.parse('{{ tasks | json_encode | raw }}'),
+                eventClick: function(info) {
+                    $.ajax({
+                        url: '/task/' + info.event.id + '/edit',
+                        success: function (result) {
+                            $('#modal').html(result);
+                        }
+                    });
+                },
+                dateClick: function(info) {
+                    $.ajax({
+                        url: '/task/new',
+                        data: {
+                            'date': info.dateStr
+                        },
+                        success: function (result) {
+                            $('#modal').html(result);
+                        }
+                    });
+                },
+                dayHeaderClassNames: function(arg) {
+                    //todo
+                    if (arg.date.toJSON() === new Date('2023-04-17').toJSON()) {
+                        $(arg.el).addClass('free-day');
+                        return ['free-day'];
+
+                    }
+                }
             });
             calendar.render();
         });
