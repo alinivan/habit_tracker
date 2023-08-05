@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Habit;
+use App\Models\Task;
 use App\Models\Tracker;
 use App\Services\TrackerService;
 use Core\Base\BaseController;
@@ -83,6 +84,16 @@ class TrackerController extends BaseController
             $_REQUEST['date'] = date('Y-m-d H:i');
         }
         Tracker::create($_REQUEST);
+
+        $habit = Habit::get($_REQUEST['habit_id']);
+
+        $task = [
+            'name' => $habit['name'],
+            'done' => 1,
+            'date_start' => $_REQUEST['date'],
+            'date_end' => null,
+        ];
+        Task::create($task);
         #redirect('/tracker');
     }
 }
