@@ -30,7 +30,7 @@ class RoutineService extends ViewManager
                 $array[] = '?';
             }
 
-            $habits = DB::query("select * from habits where id in (".implode(',', $array).")", array_column($routine[$routineCategory['id']], 'habit_id'))->fetchAll();
+            $habits = DB::query("select * from habits where id in (".implode(',', $array)." order by `order`)", array_column($routine[$routineCategory['id']], 'habit_id'))->fetchAll();
 
             $targetValues = array_column($routine[$routineCategory['id']], 'target_value', 'habit_id');
 
